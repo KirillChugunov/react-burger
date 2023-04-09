@@ -1,34 +1,18 @@
 import React from "react";
 import styles from "./BurgerConstructor.module.css";
+
 // import { } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function BurgerConstructor() {
+export function BurgerConstructor(props) {
   return (
-    <div>
-    <p className="text text_type_main-large">
-  Соберите Бургер
-   </p>
-   <div>
-    <div>
-
+    <div>{props.data.map((element) => {
+      return (
+      <div key = {element.id}>
+      <img src = {element.image}></img>
+      <h1>{element.name}</h1>
+      <h1>{element.price}</h1>
+      </div>)
+    })}
     </div>
-   </div>
-   <p className="text text_type_main-medium">
-  Булки
-   </p>
-   <p className="text text_type_main-medium">
-  Соусы
-   </p>
-   <p className="text text_type_main-medium">
-  Начинки
-   </p>
-
-
-
-
-
-
-
-   </div>
  )
 }
