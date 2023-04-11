@@ -3,14 +3,20 @@
   border:solid #4C4CFF;
   display:flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .header__item {
   display:flex;
   gap:8px;
-}
+  }
 
 .header__navigation {
+  display:flex;
+  gap:8px;
+}
+
+.header__login {
   display:flex;
   gap:8px;
 }

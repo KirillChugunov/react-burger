@@ -9,97 +9,87 @@ export function BurgerConstructor(props) {
   const toggleModal = props.toggleModal;
   const [current, setCurrent] = React.useState("one");
   return (
-    <div><div style={{ display: 'flex' }}>
-    <Tab value="one" active={current === 'one'} onClick={setCurrent}>
-      One
-    </Tab>
-    <Tab value="two" active={current === 'two'} onClick={setCurrent}>
-      Two
-    </Tab>
-    <Tab value="three" active={current === 'three'} onClick={setCurrent}>
-      Three
-    </Tab>
-  </div>
-      <div>
-        <div>
-          <p className="text text_type_main-medium">Булки</p>
-          <div style={{ border: "solid green", display: "flex" }}>
-            {props.data.map((element) => {
+    <section className={styles.bgconstuctor__container}>
+      <h2 className="text text_type_main-medium">Соберите бургер</h2>
+      <div style={{ display: "flex" }}>
+        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+          One
+        </Tab>
+        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+          Two
+        </Tab>
+        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+          Three
+        </Tab>
+      </div>
+      <h3 className="text text_type_main-medium">Булки</h3>
+      <ul className={styles.ingredients__container}>
+         {props.data.map((element) =>  {
               if (element.type === "bun") {
                 return (
-                  <div
-                    style={{ border: "solid blue" }}
-                    key={element._id}
-                    onClick={() => {toggleModal(element)}}
-                  >
-                    <img src={element.image}></img>
-                    <div style={{ border: "solid yellow" }}>
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p className="text text_type_main-default">
-                      {element.name}
-                    </p>
-                  </div>
-                );
-              }
-            })}
+        <li className={`${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"} key={element._id}
+        onClick={() => {
+          toggleModal(element);
+        }}>
+          <div className="ml-4 mr-4 mb-1 mt-0">
+          <img src={element.image}></img>
           </div>
-        </div>
-        <div>
-          <p className="text text_type_main-medium">Соусы</p>
-          {props.data.map((element) => {
-            if (element.type === "sauce") {
-              return (
-                <div key={element._id}>
-                  <div>
-                    <div>
-                      <img src={element.image}></img>
-                      <div>
-                        <CurrencyIcon type="primary" />
-                        <p className="text text_type_digits-default">
-                          {element.price}
-                        </p>
-                      </div>
-                      <p className="text text_type_main-default">
-                        {element.name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-          })}
-        </div>
-        <div>
-          <p className="text text_type_main-medium">Начинки</p>
-          {props.data.map((element) => {
-            if (element.type === "main") {
-              return (
-                <div key={element._id}>
-                  <div>
-                    <div>
-                      <img src={element.image}></img>
-                      <div>
-                        <CurrencyIcon type="primary" />
-                        <p className="text text_type_digits-default">
-                          {element.price}
-                        </p>
-                      </div>
-                      <p className="text text_type_main-default">
-                        {element.name}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-          })}
-        </div>
-      </div>
-      </div>
-    
+          <div className={`${styles.price__container}` + " mb-1 mt-1"}>
+          <CurrencyIcon type="primary" /><p className="text text_type_digits-default">{element.price}</p>
+          </div>
+          <p className="text text_type_main-medium">{element.name}</p>
+        </li>
+        )}})}
+      </ul>
+
+
+      <h3 className="text text_type_main-medium">Соусы</h3>
+      <ul className={styles.ingredients__container}>
+         {props.data.map((element) =>  {
+              if (element.type === "sauce") {
+                return (
+        <li className="ml-4 mr-1 mb-10 mt-0" key={element._id}
+        onClick={() => {
+          toggleModal(element);
+        }}>
+          <div className="ml-4 mr-4 mb-1 mt-0">
+          <img src={element.image}></img>
+          </div>
+          <div className="mb-1 mt-1">
+          <CurrencyIcon type="primary" /><p className="text text_type_digits-default">{element.price}</p>
+          </div>
+          <p className="text text_type_main-medium">{element.name}</p>
+        </li>
+        )}})}
+      </ul>
+
+
+
+      <h3 className="text text_type_main-medium">Начинки</h3>
+      <ul className={styles.ingredients__container}>
+         {props.data.map((element) =>  {
+              if (element.type === "main") {
+                return (
+        <li className="ml-4 mr-1 mb-10 mt-0" key={element._id}
+        onClick={() => {
+          toggleModal(element);
+        }}>
+          <div className="ml-4 mr-4 mb-1 mt-0">
+          <img src={element.image}></img>
+          </div>
+          <div className="mb-1 mt-1">
+          <CurrencyIcon type="primary" /><p className="text text_type_digits-default">{element.price}</p>
+          </div>
+          <p className="text text_type_main-medium">{element.name}</p>
+        </li>
+        )}})}
+      </ul>
+      
+
+
+
+
+
+    </section>
   );
 }
