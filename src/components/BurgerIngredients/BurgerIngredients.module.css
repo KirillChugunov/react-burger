@@ -1,7 +1,7 @@
 .mainandsauce__container {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:10px;
+  gap: 10px;
   overflow-y: scroll;
 }
 .mainandsauce__container::-webkit-scrollbar {
@@ -21,7 +21,8 @@
 }
 
 .flex__container {
-  display:flex;
+  display: flex;
+  align-items: center;
 }
 
 .order__end__container {
@@ -31,7 +32,7 @@
 }
 
 .itemcontainer {
-  display:flex;
+  display: flex;
   align-items: center;
-  gap:13px;
+  gap: 13px;
 }

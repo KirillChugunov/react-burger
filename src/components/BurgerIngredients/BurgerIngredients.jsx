@@ -17,14 +17,14 @@ export function BurgerIngredients(props) {
         {props.data.map((element) => {
           if (element.name === "Краторная булка N-200i") {
             return (
-            <div className="pl-8" >
-              <ConstructorElement
-                type="top"
-                isLocked={true}
-                text={element.name}
-                price={element.price}
-                thumbnail={element.image}
-              />
+              <div className="pl-8">
+                <ConstructorElement
+                  type="top"
+                  isLocked={true}
+                  text={element.name}
+                  price={element.price}
+                  thumbnail={element.image}
+                />
               </div>
             );
           }
@@ -50,13 +50,13 @@ export function BurgerIngredients(props) {
         if (element.name === "Краторная булка N-200i") {
           return (
             <div className="pl-8">
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={element.name}
-              price={element.price}
-              thumbnail={element.image}
-            />
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={element.name}
+                price={element.price}
+                thumbnail={element.image}
+              />
             </div>
           );
         }
@@ -67,7 +67,12 @@ export function BurgerIngredients(props) {
           <CurrencyIcon type="primary" />
         </div>
         <div className={styles.flex__container}>
-          <Button htmlType="button" type="primary" size="large">
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={props.handleClickForOpenOrderPopup}
+          >
             Оформить заказ
           </Button>
         </div>

@@ -8,6 +8,7 @@ import { BurgerIngredients } from "./components/BurgerIngredients/BurgerIngredie
 import { Modal } from "./components/Modal/modal.jsx";
 import { ModalOverlay } from "./components/ModalOverlay/ModalOverlay";
 import { IngredientDetails } from "./components/IngredientDetails/IngredientDetails";
+import { OrderDetails } from "./components/OrderDetails/OrderDetails.jsx"
 
 function App() {
   /////стейт массива с ингредиентами
@@ -15,11 +16,12 @@ function App() {
     data: [],
   });
   ///Получаем данные с сервера:
-  const ingredientsURL = "https://norma.nomoreparties.space/api/ingredients"
+  const ingredientsURL = "https://norma.nomoreparties.space/api/ingredients";
   function getIngredients() {
     fetch(ingredientsURL)
       .then((res) => res.json())
-      .then((res) => setIngredients({ ...ingredients, data: res.data }));
+      .then((res) => setIngredients({ ...ingredients, data: res.data }))
+      .catch((error) => console.log(error))
   }
 
   ///Рендерим через юзэффект
@@ -40,29 +42,30 @@ function App() {
   }
   ///Меняем стейт открытия попапа + заполняем
   const handleClickForOpeningredientPopup = (element, event) => {
-    getElementData(element);
-    setIngredientPopupisOpen(
-      ingredientPopupisOpen === "false" ? "true" : "false"
+    getElementData(element)
+    setIngredientPopupisOpen(ingredientPopupisOpen === "false" ? "true" : "false"
     );
   };
   //////////////////////////////////////////////////Попап с заказом///////////////////////////////////////////////////////
   ////Стей попапа с заказом:
   const [orderPopupisOpen, setOrderPopupisOpen] = React.useState("false");
+
   const handleClickForOpenOrderPopup = (event) => {
-    setIngredientPopupisOpen(ingredientPopupisOpen === "false" ? "true" : "false"
+      setOrderPopupisOpen(orderPopupisOpen === "false" ? "true" : "false"
     );
   };
 
   ////////////////////////////////////////////////Закрытие попапов
   const closePopup = (event) => {
-    {
-      console.log(event.target);
-    }
-    setIngredientPopupisOpen(
-      ingredientPopupisOpen === "true" ? "false" : "false"
-    );
-    // if (orderPopupisOpen === "true") {orderPopupisOpen = false}
+    setIngredientPopupisOpen(ingredientPopupisOpen === "true" ? "false" : "false");
+    setOrderPopupisOpen(orderPopupisOpen === "true" ? "false" : "false");
   };
+   /////////////////////////////////////////////Обработчик закрытия
+  const handdleCloseByEscape = (event) => {
+    if (event.key === "Escape") {
+      closePopup(event)
+    }
+  }
 
   return (
     <div className={styles.page}>
@@ -74,17 +77,21 @@ function App() {
           handleClickForOpeningredientPopup={handleClickForOpeningredientPopup}
           data={ingredients.data}
         />
-        <BurgerIngredients data={ingredients.data} />
+        <BurgerIngredients
+          data={ingredients.data}
+          handleClickForOpenOrderPopup={handleClickForOpenOrderPopup}
+          ingredientPopupisOpen={ingredientPopupisOpen}
+        />
       </main>
       <ModalOverlay>
-        <Modal
-          ingredientPopupisOpen={ingredientPopupisOpen}
-          closePopup={closePopup}>
-         <IngredientDetails elementData={elementData} />
-        </Modal>
-      </ModalOverlay>
-    </div>
-  );
+        <Modal ingredientPopupisOpen={ingredientPopupisOpen} orderPopupisOpen={orderPopupisOpen}
+          closePopup={closePopup} handdleCloseByEscape={handdleCloseByEscape}>
+          {ingredientPopupisOpen === "true" && <IngredientDetails elementData={elementData}/>}
+          {orderPopupisOpen === "true" && <OrderDetails />}
+                   </Modal>
+    </ModalOverlay>
+       </div>
+   );
 }
 
 export default App;

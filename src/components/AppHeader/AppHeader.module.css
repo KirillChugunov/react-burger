@@ -1,23 +1,27 @@
 .header {
   background-color: #1c1c21;
   border: solid #4c4cff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .header__item {
   display: flex;
   gap: 8px;
+  justify-content: center;
 }
 
 .header__navigation {
   display: flex;
   gap: 8px;
-  align-self: center;
 }
 
 .header__login {
   display: flex;
   gap: 8px;
+  justify-self: end;
+}
+
+.logo__container {
+  justify-self: center;
 }

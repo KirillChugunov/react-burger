@@ -12,17 +12,17 @@ export function AppHeader() {
     <header className={styles.header}>
       <nav className={styles.header__navigation}>
         <div className={`${styles.header__item}` + " ml-5 mr-2 mb-4 mt-4"}>
-                  <BurgerIcon type="primary" />
+          <BurgerIcon type="primary" />
           <h2 className="text text_type_main-default">Конструктор</h2>
         </div>
         <div className={`${styles.header__item}` + " ml-5 mr-2 mb-4 mt-4"}>
-                  <ListIcon type="primary" />
+          <ListIcon type="primary" />
           <h2 className="text text_type_main-default">Лента заказов</h2>
         </div>
       </nav>
-      <Logo />
+      <div className={styles.logo__container}><Logo /></div>
       <div className={`${styles.header__login}` + " ml-5 mr-2 mb-4 mt-4"}>
-              <ProfileIcon type="primary" />
+        <ProfileIcon type="primary" />
         <h2 className="text text_type_main-default">Личный кабинет</h2>
       </div>
     </header>
