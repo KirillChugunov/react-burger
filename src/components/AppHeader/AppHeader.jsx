@@ -7,7 +7,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-export function AppHeader() {
+export function AppHeader(props) {
   return (
     <header className={styles.header}>
       <nav className={styles.header__navigation}>

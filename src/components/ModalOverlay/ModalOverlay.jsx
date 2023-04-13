@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./ModalOverlay.module.css";
+import PropTypes from 'prop-types';
 
 export function ModalOverlay(props) {
   if (
@@ -18,3 +19,8 @@ export function ModalOverlay(props) {
       </div>
     );
 }
+
+ModalOverlay.propTypes = {
+  closePopup: PropTypes.func,
+  handdleCloseByEscape: PropTypes.func
+};

@@ -1,4 +1,5 @@
 import styles from "./IngredientDetails.module.css";
+import PropTypes from 'prop-types';
 
 export function IngredientDetails(props) {
   return (
@@ -57,3 +58,7 @@ export function IngredientDetails(props) {
     </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  elementData: PropTypes.object
+};

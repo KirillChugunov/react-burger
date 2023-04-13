@@ -1,6 +1,6 @@
 import styles from "./OrderDetails.module.css";
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-
+import PropTypes from 'prop-types';
 import { done111 } from "./../../images/order accpeted/popup/done111.png";
 
 export function OrderDetails(props) {

@@ -4,10 +4,9 @@ import {
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types';
 
 export function BurgerConstructor(props) {
-  const handleClickForOpeningredientPopup =
-    props.handleClickForOpeningredientPopup;
   const [current, setCurrent] = React.useState("one");
   return (
     <section className={styles.bgconstuctor__container}>
@@ -39,7 +38,7 @@ export function BurgerConstructor(props) {
                   }
                   key={element._id}
                   onClick={() => {
-                    handleClickForOpeningredientPopup(element);
+                    props.handleClickForOpeningredientPopup(element);
                   }}
                 >
                   <div className="ml-4 mr-4 mb-1 mt-0">
@@ -75,7 +74,7 @@ export function BurgerConstructor(props) {
                   className="ml-4 mr-1 mb-10 mt-0"
                   key={element._id}
                   onClick={() => {
-                    handleClickForOpeningredientPopup(element);
+                    props.handleClickForOpeningredientPopup(element);
                   }}
                 >
                   <div className="ml-4 mr-4 mb-1 mt-0">
@@ -111,7 +110,7 @@ export function BurgerConstructor(props) {
                   className="ml-4 mr-1 mb-10 mt-0"
                   key={element._id}
                   onClick={() => {
-                    handleClickForOpeningredientPopup(element);
+                    props.handleClickForOpeningredientPopup(element);
                   }}
                 >
                   <div className="ml-4 mr-4 mb-1 mt-0">
@@ -139,3 +138,8 @@ export function BurgerConstructor(props) {
     </section>
   );
 }
+
+BurgerConstructor.propTypes = {
+  data: PropTypes.array,
+  handleClickForOpeningredientPopup: PropTypes.func
+};

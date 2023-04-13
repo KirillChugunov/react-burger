@@ -6,6 +6,7 @@ import {
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from 'prop-types';
 
 export function BurgerIngredients(props) {
   return (
@@ -80,3 +81,7 @@ export function BurgerIngredients(props) {
     </div>
   );
 }
+
+BurgerIngredients.propTypes = {
+  data: PropTypes.array,
+};
