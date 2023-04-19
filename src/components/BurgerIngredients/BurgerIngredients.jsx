@@ -7,15 +7,17 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 export function BurgerIngredients(props) {
+  const Ingredients = useSelector(store => store.ingredientList.feed)
   return (
     <div
       style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       className={`${styles.BurgerIngredients__container}`}
     >
       <div className="pt-25">
-        {props.data.map((element) => {
+        {Ingredients.map((element) => {
           if (element.name === "Краторная булка N-200i") {
             return (
               <div className="pl-8">
@@ -32,7 +34,7 @@ export function BurgerIngredients(props) {
         })}
       </div>
       <div className={styles.mainandsauce__container}>
-        {props.data.map((element) => {
+        {Ingredients.map((element) => {
           if (element.type === "main" || element.type === "sauce") {
             return (
               <div className={styles.itemcontainer}>
@@ -47,7 +49,7 @@ export function BurgerIngredients(props) {
           }
         })}
       </div>
-      {props.data.map((element) => {
+      {Ingredients.map((element) => {
         if (element.name === "Краторная булка N-200i") {
           return (
             <div className="pl-8">

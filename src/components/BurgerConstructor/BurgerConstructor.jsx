@@ -5,9 +5,12 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+// import { ADD_ELEM } from "../../services/actions/currentingredient";
 
 export function BurgerConstructor(props) {
-  const [current, setCurrent] = React.useState("one");
+  const Ingredients = useSelector(store => store.ingredientList.feed)
+    const [current, setCurrent] = React.useState("one");
   return (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
@@ -29,7 +32,7 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Булки</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {props.data.map((element) => {
+          {Ingredients.map((element) => {
             if (element.type === "bun") {
               return (
                 <li
@@ -38,7 +41,7 @@ export function BurgerConstructor(props) {
                   }
                   key={element._id}
                   onClick={() => {
-                    props.handleClickForOpeningredientPopup(element);
+                      props.handleClickForOpeningredientPopup(element);
                   }}
                 >
                   <div className="ml-4 mr-4 mb-1 mt-0">
@@ -67,7 +70,7 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Соусы</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {props.data.map((element) => {
+          {Ingredients.map((element) => {
             if (element.type === "sauce") {
               return (
                 <li
@@ -103,7 +106,7 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Начинки</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {props.data.map((element) => {
+          {Ingredients.map((element) => {
             if (element.type === "main") {
               return (
                 <li
