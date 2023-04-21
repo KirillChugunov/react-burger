@@ -4,8 +4,7 @@ import { useSelector } from 'react-redux';
 
 export function IngredientDetails(props) {
   const info = useSelector(store => store.currentIngredient.state)
-  console.log(info)
-  
+   
   return (
     <div className={styles.ingredientDetails__container}>
       <div className={"ml-4 mr-4 mb-4"}>

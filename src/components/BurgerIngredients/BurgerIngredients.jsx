@@ -1,4 +1,6 @@
 import React from "react";
+import { useDrop } from "react-dnd";
+import { useCallback } from "react";
 import styles from "./BurgerIngredients.module.css";
 import {
   ConstructorElement,
@@ -6,18 +8,49 @@ import {
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
+import { v4 as uuidv4 } from "uuid";
+import { sortIngredientConstructor } from "../../services/actions/currentburgeringredients";
+import update from 'immutability-helper';
+export function BurgerIngredients({onDropHandler,
+  handleClickForOpenOrderPopup,
+}) 
 
-export function BurgerIngredients(props) {
-  const Ingredients = useSelector(store => store.ingredientList.feed)
+{
+
+  const dispatch = useDispatch()
+  const DraggedElements = useSelector(
+    (store) => store.currentBurgerIngredients.ingredientsadded
+  );
+  const [, dropRef] = useDrop({
+    accept: ["main", "sauce", "bun"],
+    drop(item) {
+      onDropHandler(item);
+    },
+  });
+ 
+  const moveDraggedElements = (dragIndex, hoverIndex) => {
+    const dragIngredient = DraggedElements[dragIndex];
+    const updateddraggedElements = [...DraggedElements];
+    updateddraggedElements.splice(dragIndex, 1);
+    updateddraggedElements.splice(hoverIndex, 0, dragIngredient);
+    dispatch(sortIngredientConstructor(updateddraggedElements))
+     console.log(DraggedElements)
+  };
+
+
   return (
     <div
+      ref={dropRef}
       style={{ display: "flex", flexDirection: "column", gap: "10px" }}
       className={`${styles.BurgerIngredients__container}`}
     >
       <div className="pt-25">
-        {Ingredients.map((element) => {
+        {DraggedElements.map((element) => {
+          {
+          }
           if (element.name === "Краторная булка N-200i") {
             return (
               <div className="pl-8">
@@ -34,22 +67,32 @@ export function BurgerIngredients(props) {
         })}
       </div>
       <div className={styles.mainandsauce__container}>
-        {Ingredients.map((element) => {
+        {DraggedElements.map((element, index) => {
           if (element.type === "main" || element.type === "sauce") {
-            return (
-              <div className={styles.itemcontainer}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  text={element.name}
-                  price={element.price}
-                  thumbnail={element.image}
-                />
-              </div>
+            console.log(DraggedElements)
+                console.log(element)
+              return (
+                 <DragnDropElement
+                 type="dragged"
+                key={element.unicID}
+                element={element}
+                index={index}
+                moveDraggedElements={moveDraggedElements}
+              >
+                <div className={styles.itemcontainer}>
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    text={element.name}
+                    price={element.price}
+                    thumbnail={element.image}
+                  />
+                </div>
+              </DragnDropElement>
             );
           }
         })}
       </div>
-      {Ingredients.map((element) => {
+      {DraggedElements.map((element) => {
         if (element.name === "Краторная булка N-200i") {
           return (
             <div className="pl-8">
@@ -59,6 +102,7 @@ export function BurgerIngredients(props) {
                 text={element.name}
                 price={element.price}
                 thumbnail={element.image}
+                
               />
             </div>
           );
@@ -74,7 +118,7 @@ export function BurgerIngredients(props) {
             htmlType="button"
             type="primary"
             size="large"
-            onClick={props.handleClickForOpenOrderPopup}
+            onClick={handleClickForOpenOrderPopup}
           >
             Оформить заказ
           </Button>

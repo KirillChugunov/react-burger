@@ -4,13 +4,16 @@ import {
   Tab,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 // import { ADD_ELEM } from "../../services/actions/currentingredient";
+import { DraggableElement } from "./../draggableElement/DragabbleElement";
 
 export function BurgerConstructor(props) {
-  const Ingredients = useSelector(store => store.ingredientList.feed)
-    const [current, setCurrent] = React.useState("one");
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
+  const [current, setCurrent] = React.useState("one");
+   
+
   return (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
@@ -32,35 +35,38 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Булки</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element, index) => {
             if (element.type === "bun") {
-              return (
-                <li
-                  className={
-                    `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
-                  }
-                  key={element._id}
-                  onClick={() => {
-                      props.handleClickForOpeningredientPopup(element);
-                  }}
-                >
-                  <div className="ml-4 mr-4 mb-1 mt-0">
-                    <img src={element.image}></img>
-                  </div>
-                  <div className={`${styles.price__container}` + " mb-1 mt-1"}>
-                    <CurrencyIcon type="primary" />
-                    <p className="text text_type_digits-default">
-                      {element.price}
-                    </p>
-                  </div>
-                  <p
+               return (
+                <DraggableElement element={element} key={element._id} index={index}>
+                  <li
                     className={
-                      `${styles.name__text}` + " text text_type_main-default"
+                      `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
+                                   onClick={() => {
+                      props.handleClickForOpeningredientPopup(element);
+                    }}
                   >
-                    {element.name}
-                  </p>
-                </li>
+                    <div className="ml-4 mr-4 mb-1 mt-0">
+                      <img src={element.image}></img>
+                    </div>
+                    <div
+                      className={`${styles.price__container}` + " mb-1 mt-1"}
+                    >
+                      <CurrencyIcon type="primary" />
+                      <p className="text text_type_digits-default">
+                        {element.price}
+                      </p>
+                    </div>
+                    <p
+                      className={
+                        `${styles.name__text}` + " text text_type_main-default"
+                      }
+                    >
+                      {element.name}
+                    </p>
+                  </li>
+                </DraggableElement>
               );
             }
           })}
@@ -70,33 +76,37 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Соусы</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element, index) => {
             if (element.type === "sauce") {
               return (
-                <li
-                  className="ml-4 mr-1 mb-10 mt-0"
-                  key={element._id}
-                  onClick={() => {
-                    props.handleClickForOpeningredientPopup(element);
-                  }}
-                >
-                  <div className="ml-4 mr-4 mb-1 mt-0">
-                    <img src={element.image}></img>
-                  </div>
-                  <div className={`${styles.price__container}` + " mb-1 mt-1"}>
-                    <CurrencyIcon type="primary" />
-                    <p className="text text_type_digits-default">
-                      {element.price}
-                    </p>
-                  </div>
-                  <p
-                    className={
-                      `${styles.name__text}` + " text text_type_main-default"
-                    }
+                <DraggableElement element={element} key={element._id} index={index}>
+                  <li
+                    className="ml-4 mr-1 mb-10 mt-0"
+                   
+                    onClick={() => {
+                      props.handleClickForOpeningredientPopup(element);
+                    }}
                   >
-                    {element.name}
-                  </p>
-                </li>
+                    <div className="ml-4 mr-4 mb-1 mt-0">
+                      <img src={element.image}></img>
+                    </div>
+                    <div
+                      className={`${styles.price__container}` + " mb-1 mt-1"}
+                    >
+                      <CurrencyIcon type="primary" />
+                      <p className="text text_type_digits-default">
+                        {element.price}
+                      </p>
+                    </div>
+                    <p
+                      className={
+                        `${styles.name__text}` + " text text_type_main-default"
+                      }
+                    >
+                      {element.name}
+                    </p>
+                  </li>
+                </DraggableElement>
               );
             }
           })}
@@ -106,33 +116,36 @@ export function BurgerConstructor(props) {
           <h3 className="text text_type_main-medium">Начинки</h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element, index) => {
             if (element.type === "main") {
               return (
-                <li
-                  className="ml-4 mr-1 mb-10 mt-0"
-                  key={element._id}
-                  onClick={() => {
-                    props.handleClickForOpeningredientPopup(element);
-                  }}
-                >
-                  <div className="ml-4 mr-4 mb-1 mt-0">
-                    <img src={element.image}></img>
-                  </div>
-                  <div className={`${styles.price__container}` + " mb-1 mt-1"}>
-                    <CurrencyIcon type="primary" />
-                    <p className="text text_type_digits-default">
-                      {element.price}
-                    </p>
-                  </div>
-                  <p
-                    className={
-                      `${styles.name__text}` + " text text_type_main-default"
-                    }
+                <DraggableElement element={element} key={element._id} index={index}>
+                  <li
+                    className="ml-4 mr-1 mb-10 mt-0"
+                    onClick={() => {
+                      props.handleClickForOpeningredientPopup(element);
+                    }}
                   >
-                    {element.name}
-                  </p>
-                </li>
+                    <div className="ml-4 mr-4 mb-1 mt-0">
+                      <img src={element.image}></img>
+                    </div>
+                    <div
+                      className={`${styles.price__container}` + " mb-1 mt-1"}
+                    >
+                      <CurrencyIcon type="primary" />
+                      <p className="text text_type_digits-default">
+                        {element.price}
+                      </p>
+                    </div>
+                    <p
+                      className={
+                        `${styles.name__text}` + " text text_type_main-default"
+                      }
+                    >
+                      {element.name}
+                    </p>
+                  </li>
+                </DraggableElement>
               );
             }
           })}
@@ -144,5 +157,5 @@ export function BurgerConstructor(props) {
 
 BurgerConstructor.propTypes = {
   data: PropTypes.array,
-  handleClickForOpeningredientPopup: PropTypes.func
+  handleClickForOpeningredientPopup: PropTypes.func,
 };
