@@ -13,3 +13,9 @@ export const addItem = (ingredient) => ({
 	ingredientsadded: ingredient
 });
 
+export const deleteItem = (unicID) => ({
+	type: DELETE_INGREDIENT,
+	unicID: unicID
+}
+)
+

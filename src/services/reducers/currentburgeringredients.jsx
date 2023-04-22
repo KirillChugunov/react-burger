@@ -24,7 +24,10 @@ export const currentBurgerIngredients = (state = initialState, action) => {
       };
 
     case DELETE_INGREDIENT:
-      return { ...state, state: action.item };
+      return {  ...state,
+        ingredientsadded: state.ingredientsadded.filter((element)=> element.unicID !== action.unicID)};
+
+
     default:
       return state;
   }

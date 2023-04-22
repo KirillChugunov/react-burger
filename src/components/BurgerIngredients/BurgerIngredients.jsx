@@ -12,8 +12,10 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
 import { v4 as uuidv4 } from "uuid";
-import { sortIngredientConstructor } from "../../services/actions/currentburgeringredients";
-import update from 'immutability-helper';
+import { sortIngredientConstructor, deleteItem } from "../../services/actions/currentburgeringredients";
+
+
+
 export function BurgerIngredients({onDropHandler,
   handleClickForOpenOrderPopup,
 }) 
@@ -39,6 +41,10 @@ export function BurgerIngredients({onDropHandler,
     dispatch(sortIngredientConstructor(updateddraggedElements))
      console.log(DraggedElements)
   };
+
+  function handleItemDelete(element) {
+    dispatch(deleteItem(element.unicID))
+  }
 
 
   return (
@@ -85,6 +91,7 @@ export function BurgerIngredients({onDropHandler,
                     text={element.name}
                     price={element.price}
                     thumbnail={element.image}
+                    handleClose={() => handleItemDelete(element)}
                   />
                 </div>
               </DragnDropElement>
@@ -131,3 +138,4 @@ export function BurgerIngredients({onDropHandler,
 BurgerIngredients.propTypes = {
   data: PropTypes.array,
 };
+

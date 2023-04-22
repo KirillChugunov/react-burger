@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 // import { ADD_ELEM } from "../../services/actions/currentingredient";
 import { DraggableElement } from "./../draggableElement/DragabbleElement";
-import { getBoundingClientRect, useRef } from "react"
+import { getBoundingClientRect, useRef, useEffect } from "react"
 
 export function BurgerConstructor(props) {
   const Ingredients = useSelector((store) => store.ingredientList.feed);
@@ -18,11 +18,31 @@ export function BurgerConstructor(props) {
   const sauseRef=useRef()
   const mainRef = useRef();
   const scrollContainer = useRef();
-  console.log(mainRef)
+  const tabsRef = useRef();
+ 
+function onScrollHandler () {
+  // console.log(`стейты: ${current}`)
+  const BunTopCoord = bunRef.current.getBoundingClientRect();
+  const SauseTopCoord = sauseRef.current.getBoundingClientRect();
+  const MainTopCoord = mainRef.current.getBoundingClientRect();
+  // console.log(`булка: ${BunTopCoord.top} ${SauseTopCoord.top} ${MainTopCoord.top}`)
+  if (BunTopCoord.top > 0 && BunTopCoord.top < SauseTopCoord.top && current ) {setCurrent("one")}
+  else if (SauseTopCoord.top > 0 && SauseTopCoord.top < MainTopCoord.top && BunTopCoord.top < 0) {setCurrent("two")}
+  else if (MainTopCoord.top > 0 && SauseTopCoord.top < 0 && BunTopCoord.top < 0) {setCurrent("three")}
+}
+useEffect(() => {
+  scrollContainer.current.addEventListener("scroll", onScrollHandler);
+  
+return () => {
+  scrollContainer.current.removeEventListener("scroll", onScrollHandler);
+};
+});
 
+
+  useEffect(() => {
   current === "one" && bunRef.current.scrollIntoView()
   current === "two" && sauseRef.current.scrollIntoView()
-  current === "three" && mainRef.current.scrollIntoView()
+  current === "three" && mainRef.current.scrollIntoView()})
   
 
  
@@ -172,3 +192,4 @@ BurgerConstructor.propTypes = {
   data: PropTypes.array,
   handleClickForOpeningredientPopup: PropTypes.func,
 };
+
