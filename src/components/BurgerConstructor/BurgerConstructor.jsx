@@ -8,18 +8,31 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 // import { ADD_ELEM } from "../../services/actions/currentingredient";
 import { DraggableElement } from "./../draggableElement/DragabbleElement";
+import { getBoundingClientRect, useRef } from "react"
 
 export function BurgerConstructor(props) {
   const Ingredients = useSelector((store) => store.ingredientList.feed);
   const [current, setCurrent] = React.useState("one");
-   
+  
+  const bunRef=useRef()
+  const sauseRef=useRef()
+  const mainRef = useRef();
+  const scrollContainer = useRef();
+  console.log(mainRef)
+
+  current === "one" && bunRef.current.scrollIntoView()
+  current === "two" && sauseRef.current.scrollIntoView()
+  current === "three" && mainRef.current.scrollIntoView()
+  
+
+ 
 
   return (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
         <h2 className={"text text_type_main-large"}>Соберите бургер</h2>
       </div>
-      <div style={{ display: "flex" }}>
+      <div className="tabs" style={{ display: "flex" }}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -30,8 +43,8 @@ export function BurgerConstructor(props) {
           Начинки
         </Tab>
       </div>
-      <div className={styles.menu__container}>
-        <div className="mt-10">
+      <div ref={scrollContainer} className={styles.menu__container}>
+        <div ref={bunRef} className="mt-10">
           <h3 className="text text_type_main-medium">Булки</h3>
         </div>
         <ul className={styles.ingredients__container}>
@@ -72,7 +85,7 @@ export function BurgerConstructor(props) {
           })}
         </ul>
 
-        <div className="mt-10">
+        <div ref={sauseRef}className="mt-10">
           <h3 className="text text_type_main-medium">Соусы</h3>
         </div>
         <ul className={styles.ingredients__container}>
@@ -112,7 +125,7 @@ export function BurgerConstructor(props) {
           })}
         </ul>
 
-        <div className="mt-10">
+        <div ref={mainRef} className="mt-10">
           <h3 className="text text_type_main-medium">Начинки</h3>
         </div>
         <ul className={styles.ingredients__container}>

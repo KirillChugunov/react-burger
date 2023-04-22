@@ -18,8 +18,7 @@ export const currentBurgerIngredients = (state = initialState, action) => {
         ingredientsadded: [...state.ingredientsadded, action.ingredientsadded],
       };
     case SORT_ITEMS:
-      console.log("sortitems")
-      return {
+       return {
         ...state,
         ingredientsadded: action.indredients,
       };
