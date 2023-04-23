@@ -23,12 +23,14 @@ function App() {
   const dispatch = useDispatch();
   const Ingredients = useSelector((store) => store.ingredientList.feed);
   const [draggedElements, setDraggedElements] = React.useState([]);
-  const jaja = useSelector((store) => store.currentBurgerIngredients);
+  const jaja = useSelector((store) => store.currentBurgerIngredients.ingredientsadded);
   
   const handleDrop = (itemId) => {
     itemId.unicID = uuidv4();
     dispatch(addItem(itemId))
   };
+
+
 
 
   

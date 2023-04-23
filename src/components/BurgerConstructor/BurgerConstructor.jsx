@@ -25,7 +25,6 @@ function onScrollHandler () {
   const BunTopCoord = bunRef.current.getBoundingClientRect();
   const SauseTopCoord = sauseRef.current.getBoundingClientRect();
   const MainTopCoord = mainRef.current.getBoundingClientRect();
-  // console.log(`булка: ${BunTopCoord.top} ${SauseTopCoord.top} ${MainTopCoord.top}`)
   if (BunTopCoord.top > 0 && BunTopCoord.top < SauseTopCoord.top && current ) {setCurrent("one")}
   else if (SauseTopCoord.top > 0 && SauseTopCoord.top < MainTopCoord.top && BunTopCoord.top < 0) {setCurrent("two")}
   else if (MainTopCoord.top > 0 && SauseTopCoord.top < 0 && BunTopCoord.top < 0) {setCurrent("three")}

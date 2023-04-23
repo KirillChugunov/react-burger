@@ -26,21 +26,22 @@ export function BurgerIngredients({onDropHandler,
   const DraggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
   );
+  const total = DraggedElements.reduce(function (acc, obj) { return acc + obj.price; }, 0);
   const [, dropRef] = useDrop({
     accept: ["main", "sauce", "bun"],
     drop(item) {
       onDropHandler(item);
     },
   });
+
  
-  const moveDraggedElements = (dragIndex, hoverIndex) => {
+const moveDraggedElements = (dragIndex, hoverIndex) => {
     const dragIngredient = DraggedElements[dragIndex];
     const updateddraggedElements = [...DraggedElements];
     updateddraggedElements.splice(dragIndex, 1);
     updateddraggedElements.splice(hoverIndex, 0, dragIngredient);
     dispatch(sortIngredientConstructor(updateddraggedElements))
-     console.log(DraggedElements)
-  };
+ };
 
   function handleItemDelete(element) {
     dispatch(deleteItem(element.unicID))
@@ -76,8 +77,7 @@ export function BurgerIngredients({onDropHandler,
         {DraggedElements.map((element, index) => {
           if (element.type === "main" || element.type === "sauce") {
             console.log(DraggedElements)
-                console.log(element)
-              return (
+                      return (
                  <DragnDropElement
                  type="dragged"
                 key={element.unicID}
@@ -117,7 +117,7 @@ export function BurgerIngredients({onDropHandler,
       })}
       <div className={`${styles.order__end__container}` + " mt-10 mr-4"}>
         <div className={`${styles.flex__container}` + " mr-4"}>
-          <p className="text text_type_digits-medium">610</p>{" "}
+          <p className="text text_type_digits-medium">{total}</p>
           <CurrencyIcon type="primary" />
         </div>
         <div className={styles.flex__container}>
