@@ -1,194 +1,169 @@
 import React from "react";
+import { useDrop } from "react-dnd";
 import styles from "./BurgerConstructor.module.css";
 import {
-  Tab,
+  ConstructorElement,
   CurrencyIcon,
+  Button,
+  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-// import { ADD_ELEM } from "../../services/actions/currentingredient";
-import { DraggableElement } from "./../draggableElement/DragabbleElement";
-import { getBoundingClientRect, useRef, useEffect } from "react"
+import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
+import { v4 as uuidv4 } from "uuid";
+import {
+  sortIngredientConstructor,
+  deleteItem,
+} from "../../services/actions/currentburgeringredients";
 
-export function BurgerConstructor(props) {
-  const Ingredients = useSelector((store) => store.ingredientList.feed);
-  const [current, setCurrent] = React.useState("one");
-  
-  const bunRef=useRef()
-  const sauseRef=useRef()
-  const mainRef = useRef();
-  const scrollContainer = useRef();
-  const tabsRef = useRef();
- 
-function onScrollHandler () {
-  // console.log(`стейты: ${current}`)
-  const BunTopCoord = bunRef.current.getBoundingClientRect();
-  const SauseTopCoord = sauseRef.current.getBoundingClientRect();
-  const MainTopCoord = mainRef.current.getBoundingClientRect();
-  if (BunTopCoord.top > 0 && BunTopCoord.top < SauseTopCoord.top && current ) {setCurrent("one")}
-  else if (SauseTopCoord.top > 0 && SauseTopCoord.top < MainTopCoord.top && BunTopCoord.top < 0) {setCurrent("two")}
-  else if (MainTopCoord.top > 0 && SauseTopCoord.top < 0 && BunTopCoord.top < 0) {setCurrent("three")}
-}
-useEffect(() => {
-  scrollContainer.current.addEventListener("scroll", onScrollHandler);
-  
-return () => {
-  scrollContainer.current.removeEventListener("scroll", onScrollHandler);
-};
-});
+export function BurgerConstructor ({
+  onDropHandler,
+  handleOrderButton,
+  handleClickForOpeningredientPopup,
+}) {
+  const dispatch = useDispatch();
 
+////////////////////////////////////////////////////////Хуки-селекторы:
+  ///Список ингредиентов, перетянутых в конструктор без булок(массив)
+  const DraggedElements = useSelector(
+    (store) => store.currentBurgerIngredients.ingredientsadded
+  );
+  ///Список ингредиентов, перетянутых в конструктор без булок(объект)
+  const DraggedElementsAndBuns = useSelector(
+    (store) => store.currentBurgerIngredients
+  );
 
-  useEffect(() => {
-  current === "one" && bunRef.current.scrollIntoView()
-  current === "two" && sauseRef.current.scrollIntoView()
-  current === "three" && mainRef.current.scrollIntoView()})
-  
+/////Калькулятор цены заказа для отображения 
+  function calculatePrice() {
+    let IngredientsPriceArray = [];
+    let total = 0;
+    if (DraggedElementsAndBuns.bun != null) {
+      IngredientsPriceArray = [
+        DraggedElementsAndBuns.bun.price,
+        ...DraggedElements.map((item) => item.price),
+        DraggedElementsAndBuns.bun.price,
+      ];
+      return IngredientsPriceArray.reduce((partialSum, a) => partialSum + a, 0);
+    } else {
+      return 0;
+    }
+  }
+//////////Обработчик дроптаргета 
+  const [, dropRef] = useDrop({
+    accept: ["main", "sauce", "bun"],
+    drop(item) {
+      onDropHandler(item);
+    },
+  });
 
- 
+  /////////Сотируем элементы и диспатчим массив в хранилище
+  const moveDraggedElements = (dragIndex, hoverIndex) => {
+    const dragIngredient = DraggedElements[dragIndex];
+    const updateddraggedElements = [...DraggedElements];
+    updateddraggedElements.splice(dragIndex, 1);
+    updateddraggedElements.splice(hoverIndex, 0, dragIngredient);
+    dispatch(sortIngredientConstructor(updateddraggedElements));
+  };
+
+  //////Обработчик удаления
+  function handleItemDelete(element) {
+    dispatch(deleteItem(element.unicID));
+  }
 
   return (
-    <section className={styles.bgconstuctor__container}>
-      <div className="mt-10 mb-5">
-        <h2 className={"text text_type_main-large"}>Соберите бургер</h2>
-      </div>
-      <div className="tabs" style={{ display: "flex" }}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
-          Булки
-        </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
-          Соусы
-        </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
-          Начинки
-        </Tab>
-      </div>
-      <div ref={scrollContainer} className={styles.menu__container}>
-        <div ref={bunRef} className="mt-10">
-          <h3 className="text text_type_main-medium">Булки</h3>
+    <div
+      ref={dropRef}
+      style={{ display: "flex", flexDirection: "column", gap: "10px" }}
+      className={`${styles.BurgerIngredients__container}`}
+    >
+      {DraggedElementsAndBuns.bun != null && (
+        <div
+          className="pl-8"
+          onClick={() =>
+            handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun)
+          }
+        >
+          <ConstructorElement
+            type="top"
+            isLocked={true}
+            text={DraggedElementsAndBuns.bun.name}
+            price={DraggedElementsAndBuns.bun.price}
+            thumbnail={DraggedElementsAndBuns.bun.image}
+            handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
+            key={DraggedElementsAndBuns.bun.unicID}
+          />
         </div>
-        <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
-            if (element.type === "bun") {
-               return (
-                <DraggableElement element={element} key={element._id} index={index}>
-                  <li
-                    className={
-                      `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
-                    }
-                                   onClick={() => {
-                      props.handleClickForOpeningredientPopup(element);
-                    }}
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <img src={element.image}></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
-                      className={
-                        `${styles.name__text}` + " text text_type_main-default"
-                      }
-                    >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
-              );
-            }
-          })}
-        </ul>
+      )}
+      <div className={styles.mainandsauce__container}>
+        {DraggedElements.map((element, index) => {
+          if (element.type === "main" || element.type === "sauce") {
+            return (
+              <DragnDropElement
+                type="dragged"
+                key={element.unicID}
+                element={element}
+                index={index}
+                moveDraggedElements={moveDraggedElements}
+              >
+                <div
+                  className={styles.itemcontainer}
+                  onClick={() => handleClickForOpeningredientPopup(element)}
+                >
+                  <DragIcon type="primary" />
+                  <ConstructorElement
+                    text={element.name}
+                    price={element.price}
+                    thumbnail={element.image}
+                    handleClose={() => handleItemDelete(element)}
+                  />
+                </div>
+              </DragnDropElement>
+            );
+          }
+        })}
+      </div>
 
-        <div ref={sauseRef}className="mt-10">
-          <h3 className="text text_type_main-medium">Соусы</h3>
+      {DraggedElementsAndBuns.bun != null && (
+        <div
+          className="pl-8"
+          onClick={() =>
+            handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun)
+          }
+        >
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={DraggedElementsAndBuns.bun.name}
+            price={DraggedElementsAndBuns.bun.price}
+            thumbnail={DraggedElementsAndBuns.bun.image}
+            handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
+            key={DraggedElementsAndBuns.bun.unicID}
+          />
         </div>
-        <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
-            if (element.type === "sauce") {
-              return (
-                <DraggableElement element={element} key={element._id} index={index}>
-                  <li
-                    className="ml-4 mr-1 mb-10 mt-0"
-                   
-                    onClick={() => {
-                      props.handleClickForOpeningredientPopup(element);
-                    }}
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <img src={element.image}></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
-                      className={
-                        `${styles.name__text}` + " text text_type_main-default"
-                      }
-                    >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
-              );
-            }
-          })}
-        </ul>
+      )}
 
-        <div ref={mainRef} className="mt-10">
-          <h3 className="text text_type_main-medium">Начинки</h3>
+      <div className={`${styles.order__end__container}` + " mt-10 mr-4"}>
+        <div className={`${styles.flex__container}` + " mr-4"}>
+          <p className="text text_type_digits-medium">{calculatePrice()}</p>
+          <CurrencyIcon type="primary" />
         </div>
-        <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
-            if (element.type === "main") {
-              return (
-                <DraggableElement element={element} key={element._id} index={index}>
-                  <li
-                    className="ml-4 mr-1 mb-10 mt-0"
-                    onClick={() => {
-                      props.handleClickForOpeningredientPopup(element);
-                    }}
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <img src={element.image}></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
-                      className={
-                        `${styles.name__text}` + " text text_type_main-default"
-                      }
-                    >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
-              );
-            }
-          })}
-        </ul>
+        <div className={styles.flex__container}>
+          {DraggedElements.length != 0 && (
+            <Button
+              htmlType="button"
+              type="primary"
+              size="large"
+              onClick={handleOrderButton}
+            >
+              Оформить заказ
+            </Button>
+          )}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
 BurgerConstructor.propTypes = {
   data: PropTypes.array,
-  handleClickForOpeningredientPopup: PropTypes.func,
 };
-

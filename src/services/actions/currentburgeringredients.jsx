@@ -1,6 +1,7 @@
-export const ADD_INGREDIENT = "ADD_ELEM"
+export const ADD_INGREDIENT = "ADD_INGREDIENT"
 export const DELETE_INGREDIENT = "DELETE_ELEM"
 export const SORT_ITEMS = "SORT_ITEMS"
+export const RESET_INGREDIENT = "RESET_INGREDIENT"
  
 
 export const sortIngredientConstructor = (indredients) => ({

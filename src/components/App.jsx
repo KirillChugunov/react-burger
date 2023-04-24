@@ -1,120 +1,135 @@
 import React, { useState, useEffect } from "react";
 import { AppHeader } from "./AppHeader/AppHeader.jsx";
 import styles from "./App.module.css";
-import { BurgerConstructor } from "./BurgerConstructor/BurgerConstructor.jsx";
 import { BurgerIngredients } from "./BurgerIngredients/BurgerIngredients.jsx";
+import { BurgerConstructor } from "./BurgerConstructor/BurgerConstructor.jsx";
 import { Modal } from "./Modal/modal.jsx";
 import { IngredientDetails } from "./IngredientDetails/IngredientDetails";
 import { OrderDetails } from "./OrderDetails/OrderDetails.jsx";
+
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addItem
+  addItem,
+  RESET_INGREDIENT,
 } from "../services/actions/currentburgeringredients.jsx";
+import { addCurrentIngredient } from "../services/actions/currentingredient.jsx";
 import {
-  GET_FEED,
-  GET_FEED_FAILED,
-  GET_FEED_SUCCESS,
-} from "../services/actions/ingredientList.jsx";
+  getIDsArray,
+  GET_IDS,
+  GET_ORDER,
+  GET_ORDER_FAILED,
+  GET_ORDER_SUCCESS,
+} from "../services/actions/order.jsx";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
+import { getFeed } from "./Api/api.jsx";
 
 function App() {
   const dispatch = useDispatch();
-  const Ingredients = useSelector((store) => store.ingredientList.feed);
-  const [draggedElements, setDraggedElements] = React.useState([]);
-  const jaja = useSelector((store) => store.currentBurgerIngredients.ingredientsadded);
-  
-  const handleDrop = (itemId) => {
-    itemId.unicID = uuidv4();
-    dispatch(addItem(itemId))
+  /////////////////////////////////////////////////////////////Стейты:
+  ///Поап заказа
+  const [orderPopupisOpen, setOrderPopupisOpen] = React.useState(false);
+  ///Поап выбранного ингредиента
+  const [ingredientPopupisOpen, setIngredientPopupisOpen] =
+    React.useState(false);
+  ////////////////////////////////////////////////////////Хуки-селекторы:
+  ///Список ингредиентов, перетянутых в конструктор без булок(массив)
+  const DraggedElements = useSelector(
+    (store) => store.currentBurgerIngredients.ingredientsadded
+  );
+  ///Список ингредиентов, перетянутых в конструктор без булок(объект)
+  const DraggedElementsAndBuns = useSelector(
+    (store) => store.currentBurgerIngredients
+  );
+////////////////////Конфиги для API:
+  const OrderURL = "https://norma.nomoreparties.space/api/orders";
+  const config = {
+    baseUrl: "https://mesto.nomoreparties.co/v1/wbf-cohort-6",
+    headers: {
+      authorization: "d1f78d2c-b56d-404a-8b1d-91f3bcf47ed4",
+      "Content-Type": "application/json",
+    },
   };
 
-
-
-
-  
-    
-
-  
-  ///Получаем данные с сервера:
-  const ingredientsURL = "https://norma.nomoreparties.space/api/ingredients";
-
-  function getFeed() {
-    // Воспользуемся первым аргументом из усилителя redux-thunk - dispatch
+  ///////////////Функция работы с API при отправке заказа
+  function sentOrder(IDsArray) {
+    const newObj = {};
+    newObj.ingredients = IDsArray;
     return function (dispatch) {
-      // Проставим флаг в хранилище о том, что мы начали выполнять запрос
-      // Это нужно, чтоб отрисовать в интерфейсе лоудер или заблокировать
-      // ввод на время выполнения запроса
       dispatch({
-        type: GET_FEED,
+        type: GET_ORDER,
       });
-      // Запрашиваем данные у сервера
-      fetch(ingredientsURL)
+      fetch(OrderURL, {
+        method: "POST",
+        headers: config.headers,
+        body: JSON.stringify(newObj),
+      })
         .then((res) => {
           if (res.ok) {
             return res.json();
           }
           return Promise.reject(`Ошибка ${res.status}`);
         })
-        .then((res) =>
-          dispatch({
-            type: GET_FEED_SUCCESS,
-            feed: res.data,
-          })
+        .then(
+          (res) => (
+            setOrderPopupisOpen(orderPopupisOpen === false ? true : false),
+            dispatch({
+              type: GET_ORDER_SUCCESS,
+              ordernumber: res.order.number,
+            }),
+            dispatch({
+              type: RESET_INGREDIENT,
+            })
+          )
         )
         .catch((err) => {
-          // Если сервер не вернул данных, также отправляем экшен об ошибке
+          console.log(err);
           dispatch({
-            type: GET_FEED_FAILED,
+            type: GET_ORDER_FAILED,
           });
         });
     };
   }
-  ///Рендерим через юзэффект
+////////////////Обработчик кнопки заказа 
+  function handleOrderButton() {
+    const idsForOrder = [
+      DraggedElementsAndBuns.bun._id,
+      ...DraggedElements.map((item) => item._id),
+      DraggedElementsAndBuns.bun._id,
+    ];
+    dispatch(getIDsArray(idsForOrder));
+    dispatch(sentOrder(idsForOrder));
+  }
+/////Обработчик дропа в конструктор (добавляет уникальный айди и диспатчит его в массив)
+  const handleDrop = (itemId) => {
+    itemId.unicID = uuidv4();
+    dispatch(addItem(itemId));
+  };
+
   React.useEffect(() => {
     dispatch(getFeed());
   }, []);
-
-  ///Поапы:
-  ////////////////////////////////////////////////////Попап с ингредиентом://////////////////////////////////////////////////
-  ///Стейт статуса попапа:
-  const [ingredientPopupisOpen, setIngredientPopupisOpen] =
-    React.useState(false);
-
-  const getElement = (element) => {
-    dispatch({
-      type: "ADD_ELEM",
-      item: element,
-    });
-  };
-
+/////Удаление элемента из массива
   const deleteElement = () => {
     dispatch({
       type: "DELETE_ELEM",
       item: "",
     });
   };
-
-  ///Меняем стейт открытия попапа + заполняем
-  const handleClickForOpeningredientPopup = (element, event) => {
-    getElement(element);
+////////////Обработчик попапа с игредиентом
+  const handleClickForOpeningredientPopup = (element) => {
+    dispatch(addCurrentIngredient(element));
     setIngredientPopupisOpen(ingredientPopupisOpen === false ? true : false);
   };
-  //////////////////////////////////////////////////Попап с заказом///////////////////////////////////////////////////////
-  ////Стей попапа с заказом:
-  const [orderPopupisOpen, setOrderPopupisOpen] = React.useState(false);
-
-  const handleClickForOpenOrderPopup = (event) => {
-    setOrderPopupisOpen(orderPopupisOpen === false ? true : false);
-  };
-
-  ////////////////////////////////////////////////Закрытие попапов
+////////Закрытие попапа
   const closePopup = (event) => {
     setIngredientPopupisOpen(ingredientPopupisOpen === true ? false : false);
     setOrderPopupisOpen(orderPopupisOpen === true ? false : false);
     deleteElement();
   };
+
+////////ЗАкрытие попапов на Esc
 
   useEffect(() => {
     function closeByEscape(evt) {
@@ -128,30 +143,33 @@ function App() {
     };
   }, []);
 
+  ////////Рендер приложения
+
   return (
     <div className={styles.page}>
       <AppHeader />
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
-          <BurgerConstructor
+          <BurgerIngredients
             ingredientPopupisOpen={ingredientPopupisOpen}
             handleClickForOpeningredientPopup={
               handleClickForOpeningredientPopup
             }
           />
-
-          <BurgerIngredients
-            draggedElements={draggedElements}
-            setDraggedElements={setDraggedElements}
+          <BurgerConstructor
+            handleClickForOpeningredientPopup={
+              handleClickForOpeningredientPopup
+            }
             onDropHandler={handleDrop}
-            handleClickForOpenOrderPopup={handleClickForOpenOrderPopup}
             ingredientPopupisOpen={ingredientPopupisOpen}
+            handleOrderButton={handleOrderButton}
           />
         </main>
       </DndProvider>
       {ingredientPopupisOpen | orderPopupisOpen ? (
         <Modal closePopup={closePopup}>
           {ingredientPopupisOpen === true && <IngredientDetails />}
+
           {orderPopupisOpen === true && <OrderDetails />}
         </Modal>
       ) : null}

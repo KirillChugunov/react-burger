@@ -1,38 +1,48 @@
-.mainandsauce__container {
+.bgconstuctor__container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  overflow-y: scroll;
+  border: 2px solid #4c4cff;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  height: 912px;
 }
-.mainandsauce__container::-webkit-scrollbar {
+
+.menu__container::-webkit-scrollbar {
   width: 12px;
 }
-.mainandsauce__container::-webkit-scrollbar-track {
+.menu__container::-webkit-scrollbar-track {
   background: #2f2f37;
 }
-.mainandsauce__container::-webkit-scrollbar-thumb {
+.menu__container::-webkit-scrollbar-thumb {
   background: #8585ad;
   border: 3px solid #2f2f37;
   border-radius: 6px;
 }
 
-.BurgerIngredients__container {
-  height: 912px;
+.menu__container {
+  overflow-y: scroll;
 }
 
-.flex__container {
-  display: flex;
-  align-items: center;
+.ingredients__container {
+  list-style: none;
+  display: grid;
+  padding: 0;
+  grid-template-columns: 1fr 1fr;
 }
 
-.order__end__container {
+.inglist__container {
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
 }
 
-.itemcontainer {
+.price__container {
   display: flex;
-  align-items: center;
-  gap: 13px;
+  justify-content: center;
+}
+
+.name__text {
+  text-align: center;
 }

@@ -20,7 +20,9 @@ export function AppHeader(props) {
           <h2 className="text text_type_main-default">Лента заказов</h2>
         </div>
       </nav>
-      <div className={styles.logo__container}><Logo /></div>
+      <div className={styles.logo__container}>
+        <Logo />
+      </div>
       <div className={`${styles.header__login}` + " ml-5 mr-2 mb-4 mt-4"}>
         <ProfileIcon type="primary" />
         <h2 className="text text_type_main-default">Личный кабинет</h2>
