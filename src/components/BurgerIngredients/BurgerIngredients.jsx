@@ -11,26 +11,26 @@ import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { getBoundingClientRect, useRef, useEffect } from "react";
 
 export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
- ////////////////////////////////////////////////////////Хуки-селекторы:
+  ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
   );
-///Список ингредиентов, перетянутых в конструктор без булок(объект)
+  ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const DraggedElementsAndBuns = useSelector(
     (store) => store.currentBurgerIngredients
   );
-///Список ингредиентов с API
+  ///Список ингредиентов с API
   const Ingredients = useSelector((store) => store.ingredientList.feed);
-////Стейт из библиотеки для табов
+  ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
-////Рефы разметки для скролла
+  ////Рефы разметки для скролла
   const bunRef = useRef();
   const sauseRef = useRef();
   const mainRef = useRef();
   const scrollContainer = useRef();
   const tabsRef = useRef();
-////Обрабочик скролла
+  ////Обрабочик скролла
   function onScrollHandler() {
     const BunTopCoord = bunRef.current.getBoundingClientRect();
     const SauseTopCoord = sauseRef.current.getBoundingClientRect();
@@ -69,7 +69,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
     ).length);
   }
 
-//////Отдельно для булок с учетом структуры хранилища
+  //////Отдельно для булок с учетом структуры хранилища
   function BunCount(bun) {
     let currentBun = "";
     return DraggedElementsAndBuns.bun != null &&
@@ -78,19 +78,19 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
       : 0;
   }
 
-///////Функция скролла к конкретному блоку в зависимости от стейта.
+  ///////Функция скролла к конкретному блоку в зависимости от стейта.
   useEffect(() => {
     current === "one" && bunRef.current.scrollIntoView();
     current === "two" && sauseRef.current.scrollIntoView();
     current === "three" && mainRef.current.scrollIntoView();
   });
-//////Рендер
+  //////Рендер
   return (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
         <h2 className={"text text_type_main-large"}>Соберите бургер</h2>
       </div>
-      <div className="tabs" style={{ display: "flex" }}>
+      <div className={`${styles.tabs_container}` + " tabs"}>
         <Tab value="one" active={current === "one"} onClick={setCurrent}>
           Булки
         </Tab>
@@ -126,7 +126,10 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                         size="default"
                         extraClass="m-1"
                       />
-                      <img src={element.image}></img>
+                      <img
+                        src={element.image}
+                        alt={`изображение ${element.name}`}
+                      ></img>
                     </div>
                     <div
                       className={`${styles.price__container}` + " mb-1 mt-1"}
@@ -174,7 +177,10 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                         size="default"
                         extraClass="m-1"
                       />
-                      <img src={element.image}></img>
+                      <img
+                        src={element.image}
+                        alt={`изображение ${element.name}`}
+                      ></img>
                     </div>
                     <div
                       className={`${styles.price__container}` + " mb-1 mt-1"}
@@ -222,7 +228,10 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                         size="default"
                         extraClass="m-1"
                       />
-                      <img src={element.image}></img>
+                      <img
+                        src={element.image}
+                        alt={`изображение ${element.name}`}
+                      ></img>
                     </div>
                     <div
                       className={`${styles.price__container}` + " mb-1 mt-1"}
@@ -251,6 +260,5 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.array,
   handleClickForOpeningredientPopup: PropTypes.func,
 };

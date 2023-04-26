@@ -8,7 +8,11 @@ export function IngredientDetails(props) {
   return (
     <div className={styles.ingredientDetails__container}>
       <div className={"ml-4 mr-4 mb-4"}>
-        <img className={styles.img__container} src={info.image}></img>
+        <img
+          className={styles.img__container}
+          src={info.image}
+          alt={`изображение ${info.name}`}
+        ></img>
       </div>
       <div className="ml-4 mr-4 mb-4">
         <p className="text text_type_main-medium">{info.name}</p>
@@ -52,7 +56,3 @@ export function IngredientDetails(props) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  elementData: PropTypes.object,
-};

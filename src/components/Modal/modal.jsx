@@ -9,7 +9,19 @@ import { useModal } from "../../hooks/useModal.js";
 const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
-  const { isModalOpen, openModal, closeModal } = useModal();
+  ////////ЗАкрытие попапов на Esc
+
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.key === "Escape") {
+        props.closePopup();
+      }
+    }
+    document.addEventListener("keydown", closeByEscape);
+    return () => {
+      document.removeEventListener("keydown", closeByEscape);
+    };
+  }, []);
 
   return ReactDOM.createPortal(
     <ModalOverlay closePopup={props.closePopup}>
@@ -18,9 +30,7 @@ export function Modal(props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
-          {props.ingredientPopupisOpen === true && (
-            <p className="text text_type_main-large">Детали ингредиента</p>
-          )}
+          {props.title}
           <div className={styles.closeIconContainer}>
             <CloseIcon
               type="primary"
@@ -36,38 +46,3 @@ export function Modal(props) {
     modalRoot
   );
 }
-
-// {props.ingredientPopupisOpen === "true" && (
-//   <p className="text text_type_main-large">Детали ингредиента</p>
-// )}
-
-// export function Modal(props) {
-//   return (
-//     <div
-//       className={styles.modal__container}
-//       onClick={(e) => e.stopPropagation()}
-//     >
-//       <div
-//         style={{ backgroundColor: "#1C1C21", color: "white" }}
-//         className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}
-//       >
-//         {props.ingredientPopupisOpen === "true" && (
-//           <p className="text text_type_main-large">Детали ингредиента</p>
-//         )}
-//         <div className={styles.closeIconContainer}>
-//           <CloseIcon
-//             type="primary"
-//             onClick={(event) => {
-//               props.closePopup(event);
-//             }}
-//           />
-//         </div>
-//       </div>
-//       {props.children}
-//     </div>
-//   );
-// }
-
-// // Modal.propTypes = {
-// //   closePopup: PropTypes.func
-// // };

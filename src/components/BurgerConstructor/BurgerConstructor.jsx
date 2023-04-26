@@ -16,14 +16,14 @@ import {
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
 
-export function BurgerConstructor ({
+export function BurgerConstructor({
   onDropHandler,
   handleOrderButton,
   handleClickForOpeningredientPopup,
 }) {
   const dispatch = useDispatch();
 
-////////////////////////////////////////////////////////Хуки-селекторы:
+  ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
@@ -33,7 +33,7 @@ export function BurgerConstructor ({
     (store) => store.currentBurgerIngredients
   );
 
-/////Калькулятор цены заказа для отображения 
+  /////Калькулятор цены заказа для отображения
   function calculatePrice() {
     let IngredientsPriceArray = [];
     let total = 0;
@@ -48,7 +48,7 @@ export function BurgerConstructor ({
       return 0;
     }
   }
-//////////Обработчик дроптаргета 
+  //////////Обработчик дроптаргета
   const [, dropRef] = useDrop({
     accept: ["main", "sauce", "bun"],
     drop(item) {
@@ -71,96 +71,97 @@ export function BurgerConstructor ({
   }
 
   return (
-    <div
-      ref={dropRef}
-      style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-      className={`${styles.BurgerIngredients__container}`}
-    >
-      {DraggedElementsAndBuns.bun != null && (
-        <div
-          className="pl-8"
-          onClick={() =>
-            handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun)
-          }
-        >
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text={DraggedElementsAndBuns.bun.name}
-            price={DraggedElementsAndBuns.bun.price}
-            thumbnail={DraggedElementsAndBuns.bun.image}
-            handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
-            key={DraggedElementsAndBuns.bun.unicID}
-          />
-        </div>
-      )}
-      <div className={styles.mainandsauce__container}>
-        {DraggedElements.map((element, index) => {
-          if (element.type === "main" || element.type === "sauce") {
-            return (
-              <DragnDropElement
-                type="dragged"
-                key={element.unicID}
-                element={element}
-                index={index}
-                moveDraggedElements={moveDraggedElements}
-              >
-                <div
-                  className={styles.itemcontainer}
-                  onClick={() => handleClickForOpeningredientPopup(element)}
+    <section>
+      <div
+        className={`${styles.BurgerIngredients__container}` + " mt-25"}
+        ref={dropRef}
+      >
+        {DraggedElementsAndBuns.bun != null && (
+          <div
+            className="pl-8"
+            // onClick={(event) =>
+            //   handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun, event)
+            // }
+          >
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={`${DraggedElementsAndBuns.bun.name}(верх)`}
+              price={DraggedElementsAndBuns.bun.price}
+              thumbnail={DraggedElementsAndBuns.bun.image}
+              handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
+              key={DraggedElementsAndBuns.bun.unicID}
+            />
+          </div>
+        )}
+        <div className={styles.mainandsauce__container}>
+          {DraggedElements.map((element, index) => {
+            if (element.type === "main" || element.type === "sauce") {
+              return (
+                <DragnDropElement
+                  type="dragged"
+                  key={element.unicID}
+                  element={element}
+                  index={index}
+                  moveDraggedElements={moveDraggedElements}
                 >
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={element.name}
-                    price={element.price}
-                    thumbnail={element.image}
-                    handleClose={() => handleItemDelete(element)}
-                  />
-                </div>
-              </DragnDropElement>
-            );
-          }
-        })}
-      </div>
+                  <div
+                    className={styles.itemcontainer}
+                    // onClick={(event) => handleClickForOpeningredientPopup(element,event)}
+                  >
+                    <DragIcon type="primary" />
+                    <ConstructorElement
+                      text={element.name}
+                      price={element.price}
+                      thumbnail={element.image}
+                      handleClose={() => handleItemDelete(element)}
+                    />
+                  </div>
+                </DragnDropElement>
+              );
+            }
+          })}
+        </div>
 
-      {DraggedElementsAndBuns.bun != null && (
-        <div
-          className="pl-8"
-          onClick={() =>
-            handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun)
-          }
-        >
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={DraggedElementsAndBuns.bun.name}
-            price={DraggedElementsAndBuns.bun.price}
-            thumbnail={DraggedElementsAndBuns.bun.image}
-            handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
-            key={DraggedElementsAndBuns.bun.unicID}
-          />
-        </div>
-      )}
+        {DraggedElementsAndBuns.bun != null && (
+          <div
+            className="pl-8"
+            // onClick={(event) =>
+            //   handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun, event)
+            // }
+          >
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={`${DraggedElementsAndBuns.bun.name}(низ)`}
+              price={DraggedElementsAndBuns.bun.price}
+              thumbnail={DraggedElementsAndBuns.bun.image}
+              handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
+              key={DraggedElementsAndBuns.bun.unicID}
+            />
+          </div>
+        )}
 
-      <div className={`${styles.order__end__container}` + " mt-10 mr-4"}>
-        <div className={`${styles.flex__container}` + " mr-4"}>
-          <p className="text text_type_digits-medium">{calculatePrice()}</p>
-          <CurrencyIcon type="primary" />
-        </div>
-        <div className={styles.flex__container}>
-          {DraggedElements.length != 0 && (
-            <Button
-              htmlType="button"
-              type="primary"
-              size="large"
-              onClick={handleOrderButton}
-            >
-              Оформить заказ
-            </Button>
-          )}
+        <div className={`${styles.order__end__container}` + " mt-10 mr-4"}>
+          <div className={`${styles.flex__container}` + " mr-4"}>
+            <p className="text text_type_digits-medium">{calculatePrice()}</p>
+            <CurrencyIcon type="primary" />
+          </div>
+          <div className={styles.flex__container}>
+            {DraggedElements.length != 0 && (
+              <Button
+                htmlType="button"
+                type="primary"
+                size="large"
+                onClick={handleOrderButton}
+              >
+                Оформить заказ
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

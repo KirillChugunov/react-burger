@@ -1,7 +1,6 @@
 .bgconstuctor__container {
   display: flex;
   flex-direction: column;
-  border: 2px solid #4c4cff;
   max-width: 600px;
   display: flex;
   flex-direction: column;
@@ -45,4 +44,8 @@
 
 .name__text {
   text-align: center;
+}
+
+.tabs_container {
+  display: flex;
 }

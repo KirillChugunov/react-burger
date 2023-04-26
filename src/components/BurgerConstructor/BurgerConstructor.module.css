@@ -18,6 +18,9 @@
 
 .BurgerIngredients__container {
   height: 912px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .flex__container {

@@ -3,6 +3,7 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 import PropTypes from "prop-types";
 import { done111 } from "./../../images/order accpeted/popup/done111.png";
 import { useSelector } from "react-redux";
+import { logo } from "./../../images/order accpeted/popup/done111.png";
 
 export function OrderDetails(props) {
   const OrderNunber = useSelector((store) => store.order.orderNumber);
@@ -18,7 +19,7 @@ export function OrderDetails(props) {
       </div>
 
       <div className={`${styles.img__container}` + " mb-15"}>
-        <img src={logo}></img>
+        <img src={logo} alt="изображение логотипа"></img>
       </div>
 
       <div className="mb-2">

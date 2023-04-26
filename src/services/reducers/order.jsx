@@ -10,7 +10,7 @@ const initialState = {
   orderNumber: "",
   orderSent: false,
   orderConfirmed: false,
-  orderFailed:false
+  orderFailed: false,
 };
 
 export const order = (state = initialState, action) => {
@@ -34,13 +34,13 @@ export const order = (state = initialState, action) => {
       };
     }
     case GET_ORDER_SUCCESS: {
-        return {
+      return {
         ...state,
         // Запрос выполнился успешно, помещаем полученные данные в хранилище
         orderNumber: action.ordernumber,
         // Запрос закончил своё выполнение
         orderSent: false,
-        orderConfirmed: true
+        orderConfirmed: true,
       };
     }
     case GET_ORDER_FAILED: {
