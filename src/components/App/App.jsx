@@ -106,7 +106,7 @@ function App() {
         <Modal
           ingredientPopupisOpen
           title={
-            <p className="text text_type_main-medium">Детали ингредиента</p>
+            ingredientPopupisOpen && <p className="text text_type_main-medium">Детали ингредиента</p>
           }
           closePopup={closePopup}
         >

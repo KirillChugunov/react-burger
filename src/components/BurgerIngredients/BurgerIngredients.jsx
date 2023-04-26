@@ -118,7 +118,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={() => handleClickForOpeningredientPopup(element)}
+                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -169,7 +169,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={() => handleClickForOpeningredientPopup(element)}
+                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -220,7 +220,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={() => handleClickForOpeningredientPopup(element)}
+                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
