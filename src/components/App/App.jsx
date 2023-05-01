@@ -34,20 +34,20 @@ function App() {
     openModal: openOrderModal,
   } = useModal();
 
-  const DraggedElements = useSelector(
+  const draggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
-  const DraggedElementsAndBuns = useSelector(
+  const draggedElementsAndBuns = useSelector(
     (store) => store.currentBurgerIngredients
   );
 
   ////////////////Обработчик кнопки заказа
   function handleOrderButton() {
     const idsForOrder = [
-      DraggedElementsAndBuns.bun._id,
-      ...DraggedElements.map((item) => item._id),
-      DraggedElementsAndBuns.bun._id,
+      draggedElementsAndBuns.bun._id,
+      ...draggedElements.map((item) => item._id),
+      draggedElementsAndBuns.bun._id,
     ];
     dispatch(getIDsArray(idsForOrder));
     const newObj = {};

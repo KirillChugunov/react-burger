@@ -19,11 +19,11 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
-  const DraggedElements = useSelector(
+  const draggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
-  const DraggedElementsAndBuns = useSelector(
+  const draggedElementsAndBuns = useSelector(
     (store) => store.currentBurgerIngredients
   );
 
@@ -31,11 +31,11 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   function calculatePrice() {
     let IngredientsPriceArray = [];
     let total = 0;
-    if (DraggedElementsAndBuns.bun != null) {
+    if (draggedElementsAndBuns.bun != null) {
       IngredientsPriceArray = [
-        DraggedElementsAndBuns.bun.price,
-        ...DraggedElements.map((item) => item.price),
-        DraggedElementsAndBuns.bun.price,
+        draggedElementsAndBuns.bun.price,
+        ...draggedElements.map((item) => item.price),
+        draggedElementsAndBuns.bun.price,
       ];
       return IngredientsPriceArray.reduce((partialSum, a) => partialSum + a, 0);
     } else {
@@ -52,8 +52,8 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
 
   /////////Сотируем элементы и диспатчим массив в хранилище
   const moveDraggedElements = (dragIndex, hoverIndex) => {
-    const dragIngredient = DraggedElements[dragIndex];
-    const updateddraggedElements = [...DraggedElements];
+    const dragIngredient = draggedElements[dragIndex];
+    const updateddraggedElements = [...draggedElements];
     updateddraggedElements.splice(dragIndex, 1);
     updateddraggedElements.splice(hoverIndex, 0, dragIngredient);
     dispatch(sortIngredientConstructor(updateddraggedElements));
@@ -70,21 +70,21 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
         className={`${styles.BurgerIngredients__container}` + " mt-25"}
         ref={dropRef}
       >
-        {DraggedElementsAndBuns.bun != null && (
+        {draggedElementsAndBuns.bun != null && (
           <div className="pl-8">
             <ConstructorElement
               type="top"
               isLocked={true}
-              text={`${DraggedElementsAndBuns.bun.name}(верх)`}
-              price={DraggedElementsAndBuns.bun.price}
-              thumbnail={DraggedElementsAndBuns.bun.image}
-              handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
-              key={DraggedElementsAndBuns.bun.unicID}
+              text={`${draggedElementsAndBuns.bun.name}(верх)`}
+              price={draggedElementsAndBuns.bun.price}
+              thumbnail={draggedElementsAndBuns.bun.image}
+              handleClose={() => handleItemDelete(draggedElementsAndBuns.bun)}
+              key={draggedElementsAndBuns.bun.unicID}
             />
           </div>
         )}
         <div className={styles.mainandsauce__container}>
-          {DraggedElements.map((element, index) => {
+          {draggedElements.map((element, index) => {
             if (element.type === "main" || element.type === "sauce") {
               return (
                 <DragnDropElement
@@ -109,16 +109,16 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
           })}
         </div>
 
-        {DraggedElementsAndBuns.bun != null && (
+        {draggedElementsAndBuns.bun != null && (
           <div className="pl-8">
             <ConstructorElement
               type="bottom"
               isLocked={true}
-              text={`${DraggedElementsAndBuns.bun.name}(низ)`}
-              price={DraggedElementsAndBuns.bun.price}
-              thumbnail={DraggedElementsAndBuns.bun.image}
-              handleClose={() => handleItemDelete(DraggedElementsAndBuns.bun)}
-              key={DraggedElementsAndBuns.bun.unicID}
+              text={`${draggedElementsAndBuns.bun.name}(низ)`}
+              price={draggedElementsAndBuns.bun.price}
+              thumbnail={draggedElementsAndBuns.bun.image}
+              handleClose={() => handleItemDelete(draggedElementsAndBuns.bun)}
+              key={draggedElementsAndBuns.bun.unicID}
             />
           </div>
         )}
@@ -129,7 +129,7 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
             <CurrencyIcon type="primary" />
           </div>
           <div className={styles.flex__container}>
-            {DraggedElements.length != 0 && (
+            {draggedElements.length != 0 && (
               <Button
                 htmlType="button"
                 type="primary"

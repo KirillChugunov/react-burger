@@ -26,16 +26,16 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
   ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
   ////Рефы разметки для скролла
-  const BunRef = useRef();
-  const SauseRef = useRef();
-  const MainRef = useRef();
-  const ScrollContainer = useRef();
+  const bunRef = useRef();
+  const sauseRef = useRef();
+  const mainRef = useRef();
+  const scrollContainer = useRef();
   const tabsRef = useRef();
 
   ////// Хуки обсервера
-  const [BunHeadingRef, inViewBun] = useInView({ threshold: 0 });
-  const [SauseHeadingRef, inViewSause] = useInView({ threshold: 0 });
-  const [MainHeadingRef, inViewMain] = useInView({ threshold: 0 });
+  const [bunHeadingRef, inViewBun] = useInView({ threshold: 0 });
+  const [sauseHeadingRef, inViewSause] = useInView({ threshold: 0 });
+  const [mainHeadingRef, inViewMain] = useInView({ threshold: 0 });
 
   //////Подсветка в зависимости от inView хука. 
   useEffect(() => {
@@ -81,39 +81,39 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
         <Tab
           value="one"
           active={current === "one"}
-          onClick={() => handleTabClick(BunRef, "one")}
+          onClick={() => handleTabClick(bunRef, "one")}
         >
           Булки
         </Tab>
         <Tab
           value="two"
           active={current === "two"}
-          onClick={() => handleTabClick(SauseRef, "two")}
+          onClick={() => handleTabClick(sauseRef, "two")}
         >
           Соусы
         </Tab>
         <Tab
           value="three"
           active={current === "three"}
-          onClick={() => handleTabClick(MainRef, "three")}
+          onClick={() => handleTabClick(mainRef, "three")}
         >
           Начинки
         </Tab>
       </div>
-      <div ref={ScrollContainer} className={styles.menu__container}>
-        <div ref={BunRef} className="mt-10">
-          <h3 ref={BunHeadingRef} className="text text_type_main-medium">
+      <div ref={scrollContainer} className={styles.menu__container}>
+        <div ref={bunRef} className="mt-10">
+          <h3 ref={bunHeadingRef} className="text text_type_main-medium">
             Булки
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
+          {Ingredients.map((element) => {
             if (element.type === "bun") {
               return (
                 <DraggableElement
                   element={element}
                   key={element._id}
-                  index={index}
+                  
                 >
                   <li
                     className={
@@ -156,20 +156,19 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           })}
         </ul>
 
-        <div ref={SauseRef} className="mt-10">
-          <h3 ref={SauseHeadingRef} className="text text_type_main-medium">
+        <div ref={sauseRef} className="mt-10">
+          <h3 ref={sauseHeadingRef} className="text text_type_main-medium">
             Соусы
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
+          {Ingredients.map((element) => {
             if (element.type === "sauce") {
               return (
                 <DraggableElement
                   element={element}
                   key={element._id}
-                  index={index}
-                >
+                                  >
                   <li
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
@@ -211,13 +210,13 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           })}
         </ul>
 
-        <div ref={MainRef} className="mt-10">
-          <h3 ref={MainHeadingRef} className="text text_type_main-medium">
+        <div ref={mainRef} className="mt-10">
+          <h3 ref={mainHeadingRef} className="text text_type_main-medium">
             Начинки
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element, index) => {
+          {Ingredients.map((element) => {
             if (element.type === "main") {
               return (
                 <DraggableElement element={element} key={element._id}>

@@ -12,8 +12,7 @@ export const getIDsArray = (IDs) => ({
 });
 
 export function sentOrder(newObj) {
-  console.log("zzzzzzzzzzzzzzzz");
-  return function (dispatch) {
+   return function (dispatch) {
     dispatch({
       type: GET_ORDER,
     });
