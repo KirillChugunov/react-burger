@@ -1,5 +1,6 @@
 import React from "react";
 import { useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 
 export const DropTarget = (props) => {
   const [, dropRef] = useDrop({
@@ -17,3 +18,7 @@ export const DropTarget = (props) => {
 };
 
 export default DropTarget;
+
+DropTarget.propTypes = {
+  onDropHandler: PropTypes.func,
+};

@@ -30,14 +30,11 @@ export function Modal(props) {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
-          {props.title}
+          {props.title && (
+            <p className="text text_type_main-medium">{props.title}</p>
+          )}
           <div className={styles.closeIconContainer}>
-            <CloseIcon
-              type="primary"
-              onClick={(event) => {
-                props.closePopup(event);
-              }}
-            />
+            <CloseIcon type="primary" onClick={props.closePopup} />
           </div>
         </div>
         {props.children}
@@ -46,3 +43,8 @@ export function Modal(props) {
     modalRoot
   );
 }
+
+Modal.propTypes = {
+  closePopup: PropTypes.func,
+  title: PropTypes.string,
+};

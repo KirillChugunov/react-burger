@@ -1,4 +1,3 @@
-import React from "react";
 import { useDrop } from "react-dnd";
 import styles from "./BurgerConstructor.module.css";
 import {
@@ -10,17 +9,12 @@ import {
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
-import { v4 as uuidv4 } from "uuid";
 import {
   sortIngredientConstructor,
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
 
-export function BurgerConstructor({
-  onDropHandler,
-  handleOrderButton,
-  handleClickForOpeningredientPopup,
-}) {
+export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   const dispatch = useDispatch();
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
@@ -77,12 +71,7 @@ export function BurgerConstructor({
         ref={dropRef}
       >
         {DraggedElementsAndBuns.bun != null && (
-          <div
-            className="pl-8"
-            // onClick={(event) =>
-            //   handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun, event)
-            // }
-          >
+          <div className="pl-8">
             <ConstructorElement
               type="top"
               isLocked={true}
@@ -105,10 +94,7 @@ export function BurgerConstructor({
                   index={index}
                   moveDraggedElements={moveDraggedElements}
                 >
-                  <div
-                    className={styles.itemcontainer}
-                    // onClick={(event) => handleClickForOpeningredientPopup(element,event)}
-                  >
+                  <div className={styles.itemcontainer}>
                     <DragIcon type="primary" />
                     <ConstructorElement
                       text={element.name}
@@ -124,12 +110,7 @@ export function BurgerConstructor({
         </div>
 
         {DraggedElementsAndBuns.bun != null && (
-          <div
-            className="pl-8"
-            // onClick={(event) =>
-            //   handleClickForOpeningredientPopup(DraggedElementsAndBuns.bun, event)
-            // }
-          >
+          <div className="pl-8">
             <ConstructorElement
               type="bottom"
               isLocked={true}
@@ -166,5 +147,6 @@ export function BurgerConstructor({
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.array,
+  onDropHandler: PropTypes.func,
+  handleOrderButton: PropTypes.func,
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { useDrag } from "react-dnd";
+import PropTypes from "prop-types";
 
 export const DraggableElement = ({ element, children }) => {
   const { _id, type } = element;
@@ -12,4 +13,8 @@ export const DraggableElement = ({ element, children }) => {
   });
 
   return <div ref={dragRef}>{children}</div>;
+};
+
+DraggableElement.propTypes = {
+  element: PropTypes.object,
 };

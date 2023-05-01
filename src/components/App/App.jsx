@@ -17,17 +17,23 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { getFeed } from "./../../services/actions/ingredientList.jsx";
+import { useModal } from "../../hooks/useModal.js";
 
 function App() {
   const dispatch = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
-  ///Поап заказа
-  const [orderPopupisOpen, setOrderPopupisOpen] = React.useState(false);
-  ///Поап выбранного ингредиента
-  const [ingredientPopupisOpen, setIngredientPopupisOpen] =
-    React.useState(false);
-  ////////////////////////////////////////////////////////Хуки-селекторы:
-  ///Список ингредиентов, перетянутых в конструктор без булок(массив)
+  ///Берем кастомный хук
+  const {
+    closeModal: closeIngrModal,
+    isModalOpen: isIngrModalOpened,
+    openModal: openIngrModal,
+  } = useModal();
+  const {
+    closeModal: closeOrderrModal,
+    isModalOpen: isOrderModalOpened,
+    openModal: openOrderModal,
+  } = useModal();
+
   const DraggedElements = useSelector(
     (store) => store.currentBurgerIngredients.ingredientsadded
   );
@@ -47,7 +53,7 @@ function App() {
     const newObj = {};
     newObj.ingredients = idsForOrder;
     dispatch(sentOrder(newObj));
-    setOrderPopupisOpen(true);
+    openOrderModal();
   }
 
   /////Обработчик дропа в конструктор (добавляет уникальный айди и диспатчит его в массив)
@@ -63,16 +69,16 @@ function App() {
   /////Удаление элемента из массива
 
   ////////////Обработчик попапа с игредиентом
-  const handleClickForOpeningredientPopup = (element, event) => {
+  const handleClickForOpenIngredientPopup = (element, event) => {
     event.stopPropagation();
     dispatch(addCurrentIngredient(element));
-    setIngredientPopupisOpen(ingredientPopupisOpen === false ? true : false);
+    openIngrModal();
   };
 
   ////////Закрытие попапа
   const closePopup = (event) => {
-    setIngredientPopupisOpen(ingredientPopupisOpen === true ? false : false);
-    setOrderPopupisOpen(orderPopupisOpen === true ? false : false);
+    closeIngrModal();
+    closeOrderrModal();
     dispatch({
       type: DELETE_CURRENT_INGREDIENT,
       item: "",
@@ -87,32 +93,27 @@ function App() {
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <BurgerIngredients
-            ingredientPopupisOpen={ingredientPopupisOpen}
             handleClickForOpeningredientPopup={
-              handleClickForOpeningredientPopup
+              handleClickForOpenIngredientPopup
             }
           />
           <BurgerConstructor
             handleClickForOpeningredientPopup={
-              handleClickForOpeningredientPopup
+              handleClickForOpenIngredientPopup
             }
             onDropHandler={handleDrop}
-            ingredientPopupisOpen={ingredientPopupisOpen}
             handleOrderButton={handleOrderButton}
           />
         </main>
       </DndProvider>
-      {ingredientPopupisOpen | orderPopupisOpen ? (
+      {isIngrModalOpened | isOrderModalOpened ? (
         <Modal
-          ingredientPopupisOpen
-          title={
-            ingredientPopupisOpen && <p className="text text_type_main-medium">Детали ингредиента</p>
-          }
+          title={isIngrModalOpened && "Детали ингредиента"}
           closePopup={closePopup}
         >
-          {ingredientPopupisOpen === true && <IngredientDetails />}
+          {isIngrModalOpened === true && <IngredientDetails />}
 
-          {orderPopupisOpen === true && <OrderDetails />}
+          {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}
     </div>

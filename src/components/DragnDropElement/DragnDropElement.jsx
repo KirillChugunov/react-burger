@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
+import PropTypes from "prop-types";
 
 export const DragnDropElement = ({
   element,
@@ -42,4 +43,10 @@ export const DragnDropElement = ({
   const opacity = isDragging ? 0 : 1;
 
   return <div ref={dragDropRef}>{children}</div>;
+};
+
+DragnDropElement.propTypes = {
+  element: PropTypes.object,
+  index: PropTypes.number,
+  moveDraggedElements: PropTypes.func,
 };

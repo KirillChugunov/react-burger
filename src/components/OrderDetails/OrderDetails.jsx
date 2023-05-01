@@ -1,13 +1,9 @@
 import styles from "./OrderDetails.module.css";
-import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { done111 } from "./../../images/order accpeted/popup/done111.png";
 import { useSelector } from "react-redux";
-import { logo } from "./../../images/order accpeted/popup/done111.png";
+import logo from "./../../images/order accpeted/popup/done111.png";
 
 export function OrderDetails(props) {
   const OrderNunber = useSelector((store) => store.order.orderNumber);
-  const logo = require("./../../images/order accpeted/popup/done111.png");
   return (
     <div className={`${styles.orderdetails__container}` + " mt-30 mb-30"}>
       <div className="mb-8">

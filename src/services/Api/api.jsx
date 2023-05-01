@@ -10,16 +10,15 @@ export function checkResponse(res) {
   return Promise.reject(`${res.status} - error`);
 }
 
-export function getIngredientsFromServer() {
-  return fetch(`${config.baseUrl}/ingredients`).then((res) =>
-    checkResponse(res)
-  );
-}
+export const getIngredientsFromServer = () => request(`ingredients`);
 
-export function sendOrderToServer(newObj) {
-  return fetch(`${config.baseUrl}/orders`, {
+export const sendOrderToServer = (newObj) =>
+  request(`orders`, {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify(newObj),
-  }).then((res) => checkResponse(res));
+  });
+
+function request(endpoint, options) {
+  return fetch(`${config.baseUrl}/${endpoint}`, options).then(checkResponse);
 }

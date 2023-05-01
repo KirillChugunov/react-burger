@@ -6,9 +6,10 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { DraggableElement } from "../draggableElement/DragabbleElement";
-import { getBoundingClientRect, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
 export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
   ////////////////////////////////////////////////////////Хуки-селекторы:
@@ -25,41 +26,27 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
   ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
   ////Рефы разметки для скролла
-  const bunRef = useRef();
-  const sauseRef = useRef();
-  const mainRef = useRef();
-  const scrollContainer = useRef();
+  const BunRef = useRef();
+  const SauseRef = useRef();
+  const MainRef = useRef();
+  const ScrollContainer = useRef();
   const tabsRef = useRef();
-  ////Обрабочик скролла
-  function onScrollHandler() {
-    const BunTopCoord = bunRef.current.getBoundingClientRect();
-    const SauseTopCoord = sauseRef.current.getBoundingClientRect();
-    const MainTopCoord = mainRef.current.getBoundingClientRect();
-    if (BunTopCoord.top > 0 && BunTopCoord.top < SauseTopCoord.top && current) {
+
+  ////// Хуки обсервера
+  const [BunHeadingRef, inViewBun] = useInView({ threshold: 0 });
+  const [SauseHeadingRef, inViewSause] = useInView({ threshold: 0 });
+  const [MainHeadingRef, inViewMain] = useInView({ threshold: 0 });
+
+  //////Подсветка в зависимости от inView хука. 
+  useEffect(() => {
+    if (inViewBun) {
       setCurrent("one");
-    } else if (
-      SauseTopCoord.top > 0 &&
-      SauseTopCoord.top < MainTopCoord.top &&
-      BunTopCoord.top < 0
-    ) {
+    } else if (inViewSause) {
       setCurrent("two");
-    } else if (
-      MainTopCoord.top > 0 &&
-      SauseTopCoord.top < 0 &&
-      BunTopCoord.top < 0
-    ) {
+    } else if (inViewMain) {
       setCurrent("three");
     }
-  }
-
-  //////Сняли/повесили слушателя на скролл
-  useEffect(() => {
-    scrollContainer.current.addEventListener("scroll", onScrollHandler);
-
-    return () => {
-      scrollContainer.current.removeEventListener("scroll", onScrollHandler);
-    };
-  });
+  }, [inViewBun, inViewSause, inViewMain]);
 
   /////Функция для наполнения счетчика выбранных элементов
   function itemCount(element) {
@@ -71,39 +58,53 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
 
   //////Отдельно для булок с учетом структуры хранилища
   function BunCount(bun) {
-    let currentBun = "";
     return DraggedElementsAndBuns.bun != null &&
       bun.name === DraggedElementsAndBuns.bun.name
       ? 1
       : 0;
   }
 
-  ///////Функция скролла к конкретному блоку в зависимости от стейта.
-  useEffect(() => {
-    current === "one" && bunRef.current.scrollIntoView();
-    current === "two" && sauseRef.current.scrollIntoView();
-    current === "three" && mainRef.current.scrollIntoView();
-  });
-  //////Рендер
+  /////Функция скролла к конкретному блоку в зависимости от стейта.
+
+  const handleTabClick = (section, activeState) => {
+    setCurrent(activeState);
+    section.current.scrollIntoView({ behavior: "smooth" });
+  };
+
+  ////Рендер
   return (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
         <h2 className={"text text_type_main-large"}>Соберите бургер</h2>
       </div>
-      <div className={`${styles.tabs_container}` + " tabs"}>
-        <Tab value="one" active={current === "one"} onClick={setCurrent}>
+      <div ref={tabsRef} className={`${styles.tabs_container}` + " tabs"}>
+        <Tab
+          value="one"
+          active={current === "one"}
+          onClick={() => handleTabClick(BunRef, "one")}
+        >
           Булки
         </Tab>
-        <Tab value="two" active={current === "two"} onClick={setCurrent}>
+        <Tab
+          value="two"
+          active={current === "two"}
+          onClick={() => handleTabClick(SauseRef, "two")}
+        >
           Соусы
         </Tab>
-        <Tab value="three" active={current === "three"} onClick={setCurrent}>
+        <Tab
+          value="three"
+          active={current === "three"}
+          onClick={() => handleTabClick(MainRef, "three")}
+        >
           Начинки
         </Tab>
       </div>
-      <div ref={scrollContainer} className={styles.menu__container}>
-        <div ref={bunRef} className="mt-10">
-          <h3 className="text text_type_main-medium">Булки</h3>
+      <div ref={ScrollContainer} className={styles.menu__container}>
+        <div ref={BunRef} className="mt-10">
+          <h3 ref={BunHeadingRef} className="text text_type_main-medium">
+            Булки
+          </h3>
         </div>
         <ul className={styles.ingredients__container}>
           {Ingredients.map((element, index) => {
@@ -118,7 +119,9 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
+                    onClick={(event) =>
+                      handleClickForOpeningredientPopup(element, event)
+                    }
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -153,8 +156,10 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           })}
         </ul>
 
-        <div ref={sauseRef} className="mt-10">
-          <h3 className="text text_type_main-medium">Соусы</h3>
+        <div ref={SauseRef} className="mt-10">
+          <h3 ref={SauseHeadingRef} className="text text_type_main-medium">
+            Соусы
+          </h3>
         </div>
         <ul className={styles.ingredients__container}>
           {Ingredients.map((element, index) => {
@@ -169,7 +174,9 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
+                    onClick={(event) =>
+                      handleClickForOpeningredientPopup(element, event)
+                    }
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -204,23 +211,23 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           })}
         </ul>
 
-        <div ref={mainRef} className="mt-10">
-          <h3 className="text text_type_main-medium">Начинки</h3>
+        <div ref={MainRef} className="mt-10">
+          <h3 ref={MainHeadingRef} className="text text_type_main-medium">
+            Начинки
+          </h3>
         </div>
         <ul className={styles.ingredients__container}>
           {Ingredients.map((element, index) => {
             if (element.type === "main") {
               return (
-                <DraggableElement
-                  element={element}
-                  key={element._id}
-                  index={index}
-                >
+                <DraggableElement element={element} key={element._id}>
                   <li
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) => handleClickForOpeningredientPopup(element,event)}
+                    onClick={(event) =>
+                      handleClickForOpeningredientPopup(element, event)
+                    }
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter

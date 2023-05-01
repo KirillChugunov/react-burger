@@ -7,9 +7,7 @@ export function ModalOverlay(props) {
     <div
       tabIndex={-1}
       className={styles.modal__overlay_visible}
-      onClick={(event) => {
-        props.closePopup(event);
-      }}
+      onClick={props.closePopup}
     >
       {props.children}
     </div>
@@ -18,5 +16,4 @@ export function ModalOverlay(props) {
 
 ModalOverlay.propTypes = {
   closePopup: PropTypes.func,
-  handdleCloseByEscape: PropTypes.func,
 };
