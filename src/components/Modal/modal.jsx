@@ -10,8 +10,7 @@ const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
   ////////ЗАкрытие попапов на Esc
-
-  useEffect(() => {
+   useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === "Escape") {
         props.closePopup();
@@ -46,5 +45,5 @@ export function Modal(props) {
 
 Modal.propTypes = {
   closePopup: PropTypes.func,
-  title: PropTypes.string,
+  title: PropTypes.string
 };

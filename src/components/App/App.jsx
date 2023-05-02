@@ -108,7 +108,7 @@ function App() {
       </DndProvider>
       {isIngrModalOpened | isOrderModalOpened ? (
         <Modal
-          title={isIngrModalOpened && "Детали ингредиента"}
+          title={isIngrModalOpened ? "Детали ингредиента" : ""}
           closePopup={closePopup}
         >
           {isIngrModalOpened === true && <IngredientDetails />}
