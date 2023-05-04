@@ -1,0 +1,51 @@
+.bgconstuctor__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  height: 912px;
+}
+
+.menu__container::-webkit-scrollbar {
+  width: 12px;
+}
+.menu__container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.menu__container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+  border: 3px solid #2f2f37;
+  border-radius: 6px;
+}
+
+.menu__container {
+  overflow-y: scroll;
+}
+
+.ingredients__container {
+  list-style: none;
+  display: grid;
+  padding: 0;
+  grid-template-columns: 1fr 1fr;
+}
+
+.inglist__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.price__container {
+  display: flex;
+  justify-content: center;
+}
+
+.name__text {
+  text-align: center;
+}
+
+.tabs_container {
+  display: flex;
+}

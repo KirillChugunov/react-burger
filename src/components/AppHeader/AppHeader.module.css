@@ -1,0 +1,26 @@
+.header {
+  background-color: #1c1c21;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.header__item {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.header__navigation {
+  display: flex;
+  gap: 8px;
+}
+
+.header__login {
+  display: flex;
+  gap: 8px;
+  justify-self: end;
+}
+
+.logo__container {
+  justify-self: center;
+}
