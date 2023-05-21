@@ -1,0 +1,15 @@
+.profile_container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-content: end;
+  margin-top: 20%;
+}
+
+.blue {
+  text-decoration: none;
+  color: blue;
+}
+
+.red {
+  color: solid red;
+}
