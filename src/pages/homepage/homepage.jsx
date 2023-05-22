@@ -89,8 +89,7 @@ export function HomePage() {
 
   return (
     <div className={styles.page}>
-      /{" "}
-      <DndProvider backend={HTML5Backend}>
+        <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <BurgerIngredients
             handleClickForOpeningredientPopup={

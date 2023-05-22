@@ -1,0 +1,19 @@
+.ingredientDetails__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.composition__container {
+  display: flex;
+}
+
+.img__container {
+  width: 480px;
+  height: 240px;
+}
+
+.item_composition__container {
+  text-align: center;
+  color: #8585ad;
+}

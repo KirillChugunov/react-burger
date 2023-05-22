@@ -1,4 +1,4 @@
-import { GET_TOKEN_ONLOAD, GET_USERINFO, GET_USER_ONLOAD, LOGIN, LOGOUT, REGISTRATION } from "../actions/authentification";
+import { AUTH_ERROR, GET_TOKEN_ONLOAD, GET_USERINFO, GET_USER_ONLOAD, LOGIN, LOGOUT, REGISTRATION } from "../actions/authentification";
 
 const initialState = {
   isLogin: false,
@@ -8,6 +8,7 @@ const initialState = {
   },
   accessToken: "",
   refreshToken: "",
+  logginCheck:false
 };
 
 export const authentification = (state = initialState, action) => {
@@ -22,6 +23,7 @@ export const authentification = (state = initialState, action) => {
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
+        logginCheck:true
       };
 
 
@@ -35,6 +37,7 @@ export const authentification = (state = initialState, action) => {
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
+        logginCheck:true
       };
 
       case GET_TOKEN_ONLOAD:
@@ -43,6 +46,7 @@ export const authentification = (state = initialState, action) => {
           accessToken: action.accessToken,
           refreshToken: action.refreshToken,
           isLogin: false,
+          logginCheck:false,
         };
 
         case GET_USER_ONLOAD:
@@ -53,6 +57,7 @@ export const authentification = (state = initialState, action) => {
               email: action.email,
             },
             isLogin: true,
+            logginCheck:true
           };
   
 
@@ -64,13 +69,22 @@ export const authentification = (state = initialState, action) => {
           email: action.email,
         },
         isLogin: true,
+        logginCheck:true
       };
 
     case LOGOUT:
       return {
         ...state,
         isLogin: false,
+        logginCheck:false      
       };
+
+    case AUTH_ERROR:
+         return {
+          ...state,
+          isLogin: false,
+          logginCheck:true      
+        };
 
     default:
       return state;

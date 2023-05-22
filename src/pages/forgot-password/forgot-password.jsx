@@ -17,7 +17,7 @@ export function PwdRecoveryPage() {
 
   function handleResetPassword(email) {
       resetPassword(email).then((res) => (console.log(res),
-      res.success === true ? navigate("/reset-password") : console.log("ошибка"))
+      res.success === true ? navigate("/reset-password", {state:true}) : console.log("ошибка"))
     );
   }
 
@@ -50,7 +50,7 @@ export function PwdRecoveryPage() {
       </div>
       <div className="mt-20">
         <p className="text text_type_main-default">
-          Вспомнили пароль? <Link to="/login">Войти</Link>
+          Вспомнили пароль? <Link to={"/login"}>Войти</Link>
         </p>
       </div>
     </div>

@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import styles from "./loginpage.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { requestNewPassword } from "../../services/Api/api";
 
 export function PwdResetPage() {
@@ -20,7 +20,9 @@ export function PwdResetPage() {
     navigate("/")
   }
 
-  return (
+  const stateLocation = useLocation().state
+  if (!stateLocation ) {navigate("/")} else 
+ { return (
     <div className={styles.registration_container}>
       <h1
         className={`${styles.text_container}` + " text text_type_main-medium"}
@@ -69,5 +71,5 @@ export function PwdResetPage() {
         </p>
       </div>
     </div>
-  );
+  );}
 }

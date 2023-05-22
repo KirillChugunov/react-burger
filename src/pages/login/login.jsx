@@ -20,6 +20,7 @@ export function LoginPage() {
     navigate("/")
     dispatch(checkLogin(email, password))
   }
+
   return (
     <div className={styles.registration_container}>
       <h1
@@ -53,14 +54,14 @@ export function LoginPage() {
         </div>
         <div className="mt-20">
           <p className="text text_type_main-default">
-            Вы - новый пользователь?{" "}
+            Вы - новый пользователь?
             <Link to="/register">Зарегистрироваться</Link>
           </p>
         </div>
         <div className="mt-4">
           <p className="text text_type_main-default">
-            Забыли пароль?{" "}
-            <Link to="/forgot-password">Восстановитить пароль</Link>
+            Забыли пароль?
+       
           </p>
         </div>
       </div>
