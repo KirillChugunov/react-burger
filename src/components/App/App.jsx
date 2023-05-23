@@ -6,9 +6,9 @@ import { RegisterPage } from "../../pages/register/register.jsx";
 import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password.jsx";
 import { PwdResetPage } from "../../pages/reset-pasword/reset-password.jsx";
 import { ProfilePage } from "../../pages/profile/profile.jsx";
-import { IngredientsPage } from "../../pages/ingredients/ingredients.jsx";
+import { IngredientsPage } from "../../pages/ingredients/ingredient.jsx";
 import { HomePage } from "../../pages/homepage/homepage.jsx";
-import { AUTH_ERROR, authUserOnLoad } from "../../services/actions/authentification.jsx";
+import { AUTH_FAILED, authUserOnLoad } from "../../services/actions/authentification.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement.jsx";
 import { useEffect } from "react";
@@ -22,12 +22,15 @@ function App() {
   const dispatch = useDispatch()
   const activeCoockie = getCookie("accessToken")
   useEffect(() => {
-   if (activeCoockie != null) {dispatch(authUserOnLoad())} 
-   else {
-      dispatch({type:AUTH_ERROR})
+   if (activeCoockie != null) {console.log("нашел пользователя"); dispatch(authUserOnLoad())} 
+   else {console.log("залогинься"); dispatch({type:AUTH_FAILED})
    }
 })
   console.log(document.cookie)
+
+useEffect(() => {
+   dispatch(getFeed());
+ }, []);
 
 
 
@@ -42,7 +45,7 @@ function App() {
     <Route path="/forgot-password" element={<RouteForLoggedUser element={<PwdRecoveryPage />}/>}/>
     <Route path="/reset-password" element={<RouteForLoggedUser element={<PwdResetPage />}/>}/>
     <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>}/>
-    <Route path="/ingredients" element={<IngredientsPage />}/>
+    <Route path="/ingredients/:id" element={<IngredientsPage />}/>
     </Routes>
     </Router>
     </div>

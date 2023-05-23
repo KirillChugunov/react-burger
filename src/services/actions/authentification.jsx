@@ -13,7 +13,7 @@ export const GET_USERINFO = "GET_USERINFO";
 export const LOGOUT = "LOGOUT";
 export const REGISTRATION = "REGISTRATION";
 export const GET_TOKEN_ONLOAD = "GET_TOKEN_ONLOAD";
-export const AUTH_ERROR = "AUTH_ERROR";
+export const AUTH_FAILED = "AUTH_FAILED";
 
 export const authUserOnLoad = () => {
 return function (dispatch) {
@@ -39,7 +39,7 @@ return function (dispatch) {
         )
       )
       .catch((error) =>(console.log(error.message), dispatch({
-          type: AUTH_ERROR,
+          type: AUTH_FAILED,
         })
       ));
   };}

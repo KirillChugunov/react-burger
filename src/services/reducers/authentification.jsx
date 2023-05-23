@@ -1,4 +1,4 @@
-import { AUTH_ERROR, GET_TOKEN_ONLOAD, GET_USERINFO, GET_USER_ONLOAD, LOGIN, LOGOUT, REGISTRATION } from "../actions/authentification";
+import { AUTH_FAILED, GET_TOKEN_ONLOAD, GET_USERINFO, GET_USER_ONLOAD, LOGIN, LOGOUT, REGISTRATION } from "../actions/authentification";
 
 const initialState = {
   isLogin: false,
@@ -79,7 +79,7 @@ export const authentification = (state = initialState, action) => {
         logginCheck:false      
       };
 
-    case AUTH_ERROR:
+    case AUTH_FAILED:
          return {
           ...state,
           isLogin: false,
