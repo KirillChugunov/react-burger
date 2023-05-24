@@ -18,6 +18,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { getFeed } from "../../services/actions/ingredientList.jsx";
 import { useModal } from "../../hooks/useModal.js";
+import { Outlet } from "react-router-dom";
 
 export function HomePage() {
   const dispatch = useDispatch();
@@ -89,6 +90,7 @@ export function HomePage() {
 
   return (
     <div className={styles.page}>
+      <Outlet/>
         <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <BurgerIngredients
@@ -105,14 +107,13 @@ export function HomePage() {
           />
         </main>
       </DndProvider>
-      {isIngrModalOpened | isOrderModalOpened ? (
+      {isOrderModalOpened ? (
         <Modal
           title={isIngrModalOpened ? "Детали ингредиента" : ""}
           closePopup={closePopup}
         >
-          {isIngrModalOpened === true && <IngredientDetails />}
-
-          {isOrderModalOpened === true && <OrderDetails />}
+         
+         {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}
     </div>

@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 
 export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
   ////////////////////////////////////////////////////////Хуки-селекторы:
@@ -110,6 +112,15 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "bun") {
               return (
+                <Link key={uuidv4()}
+                to={`/ingredients/${element._id}`}
+                  // to={{ pathname: `/ingredients/${element._id}`, 
+                  //   state: {test:test}}}
+                  
+                  
+                  
+                  
+                  >
                 <DraggableElement
                   element={element}
                   key={element._id}
@@ -150,7 +161,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                       {element.name}
                     </p>
                   </li>
-                </DraggableElement>
+                </DraggableElement></Link>
               );
             }
           })}

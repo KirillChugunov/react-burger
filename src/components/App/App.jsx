@@ -15,6 +15,8 @@ import { useEffect } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser.jsx";
 import { getCookie } from "../../services/Coockie/getCookie.jsx";
 import { getFeed } from "../../services/actions/ingredientList.jsx";
+import { Modal } from "../Modal/modal.jsx";
+import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
 
 
 function App() {
@@ -39,13 +41,13 @@ useEffect(() => {
     <AppHeader />
    <Router>
    <Routes>
-    <Route path="/" element={<HomePage/>}/>
+    <Route path="/" element={<HomePage/>}><Route path="/ingredients/:id" element={<Modal><IngredientDetails /></Modal>}/></Route>
     <Route path="/login" element={<RouteForLoggedUser element={<LoginPage  />}/>}/>
     <Route path="/register" element={<RouteForLoggedUser element={<RegisterPage />}/>}/>
     <Route path="/forgot-password" element={<RouteForLoggedUser element={<PwdRecoveryPage />}/>}/>
     <Route path="/reset-password" element={<RouteForLoggedUser element={<PwdResetPage />}/>}/>
     <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>}/>
-    <Route path="/ingredients/:id" element={<IngredientsPage />}/>
+    <Route path="/ingredients/:id" element={<Modal />}/>
     </Routes>
     </Router>
     </div>
