@@ -3,24 +3,23 @@ import { Link, useParams } from "react-router-dom";
 import styles from "./IngredientDetails.module.css";
 
 export function IngredientsPage() {
-
-  const Ingredients = useSelector((store) => store.ingredientList.feed[1]);
   const {id} = useParams();
-  console.log(id)
-  console.log(Ingredients)
+  const Ingredients = useSelector((store) => store.ingredientList.feed)
+  const Ingredient = Ingredients.find(item => item._id === id)
 
-  if (Ingredients) {return (
+
+
+  if (id && Ingredient) {return (
      <div className={styles.ingredientDetails__container}>
-      <p>{id}</p>
       <div className={"ml-4 mr-4 mb-4"}>
         <img
           className={styles.img__container}
-          src={Ingredients.image}
+          src={Ingredient.image}
           alt={`изображение ${Ingredients.name}`}
         ></img>
       </div>
       <div className="ml-4 mr-4 mb-4">
-        <p className="text text_type_main-medium">{Ingredients.name}</p>
+        <p className="text text_type_main-medium">{Ingredient.name}</p>
       </div>
       <div className={styles.composition__container}>
         <div
@@ -29,7 +28,7 @@ export function IngredientsPage() {
           }
         >
           <p className="text text_type_main-default">Калории,ккал</p>
-          <p className="text text_type_main-medium">{Ingredients.calories}</p>
+          <p className="text text_type_main-medium">{Ingredient.calories}</p>
         </div>
         <div
           className={
@@ -37,7 +36,7 @@ export function IngredientsPage() {
           }
         >
           <p className="text text_type_main-default">Белки, г</p>
-          <p className="text text_type_main-medium">{Ingredients.proteins}</p>
+          <p className="text text_type_main-medium">{Ingredient.proteins}</p>
         </div>
 
         <div
@@ -46,7 +45,7 @@ export function IngredientsPage() {
           }
         >
           <p className="text text_type_main-default">Жиры, г</p>
-          <p className="text text_type_main-medium">{Ingredients.fat}</p>
+          <p className="text text_type_main-medium">{Ingredient.fat}</p>
         </div>
 
         <div
@@ -55,7 +54,7 @@ export function IngredientsPage() {
           }
         >
           <p className="text text_type_main-default">Углеводы, г</p>
-          <p className="text text_type_main-medium">{Ingredients.carbohydrates}</p>
+          <p className="text text_type_main-medium">{Ingredient.carbohydrates}</p>
         </div>
       </div>
     </div>

@@ -10,10 +10,11 @@ import { useSelector } from "react-redux";
 import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
 export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
+  const location = useLocation();
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
@@ -113,14 +114,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
             if (element.type === "bun") {
               return (
                 <Link key={uuidv4()}
-                to={`/ingredients/${element._id}`}
-                  // to={{ pathname: `/ingredients/${element._id}`, 
-                  //   state: {test:test}}}
-                  
-                  
-                  
-                  
-                  >
+                to={`/ingredients/${element._id}`} state={{background: location}}>
                 <DraggableElement
                   element={element}
                   key={element._id}
@@ -130,9 +124,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
+                  
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -184,9 +176,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
+                  
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter
@@ -235,9 +225,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     className={
                       `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                     }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
+                  
                   >
                     <div className="ml-4 mr-4 mb-1 mt-0">
                       <Counter

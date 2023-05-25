@@ -108,11 +108,8 @@ export function HomePage() {
         </main>
       </DndProvider>
       {isOrderModalOpened ? (
-        <Modal
-          title={isIngrModalOpened ? "Детали ингредиента" : ""}
-          closePopup={closePopup}
-        >
-         
+        <Modal closePopup={closePopup}
+        >        
          {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}

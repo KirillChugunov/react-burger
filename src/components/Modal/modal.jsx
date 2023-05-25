@@ -25,13 +25,14 @@ export function Modal(props) {
   }, []);
 
   const handleClose = () => {
+    if(props.closePopup){ props.closePopup()}
     navigate("/")
   }
 
 
 
   return ReactDOM.createPortal(
-    <ModalOverlay closePopup={props.closePopup}>
+    <ModalOverlay>
       <div
         className={styles.modal__container}
         onClick={(e) => e.stopPropagation()}

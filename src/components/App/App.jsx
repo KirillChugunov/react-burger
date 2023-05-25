@@ -1,6 +1,6 @@
 import { AppHeader } from "../AppHeader/AppHeader.jsx";
 import styles from "./App.module.css";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { LoginPage } from "../../pages/login/login.jsx";
 import { RegisterPage } from "../../pages/register/register.jsx";
 import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password.jsx";
@@ -21,6 +21,13 @@ import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
 
 function App() {
 
+  const location = useLocation()
+  const background = location.state && location.state.background;
+  console.log(background)
+
+
+
+
   const dispatch = useDispatch()
   const activeCoockie = getCookie("accessToken")
   useEffect(() => {
@@ -39,17 +46,22 @@ useEffect(() => {
   return (
       <div className={styles.page}>
     <AppHeader />
-   <Router>
-   <Routes>
-    <Route path="/" element={<HomePage/>}><Route path="/ingredients/:id" element={<Modal><IngredientDetails /></Modal>}/></Route>
+    <Routes location={background || location}>
+    <Route path="/" element={<HomePage/>} />
+    <Route path="/ingredients/:id" element={<IngredientsPage />}/>
     <Route path="/login" element={<RouteForLoggedUser element={<LoginPage  />}/>}/>
     <Route path="/register" element={<RouteForLoggedUser element={<RegisterPage />}/>}/>
     <Route path="/forgot-password" element={<RouteForLoggedUser element={<PwdRecoveryPage />}/>}/>
     <Route path="/reset-password" element={<RouteForLoggedUser element={<PwdResetPage />}/>}/>
     <Route path="/profile" element={<ProtectedRouteElement element={<ProfilePage />}/>}/>
-    <Route path="/ingredients/:id" element={<Modal />}/>
     </Routes>
-    </Router>
+
+    {background && (
+        <Routes location={location}>
+         <Route path="/ingredients/:id" element={<Modal title={"Детали ингредиента"} children={<IngredientsPage />}></Modal>}/>
+        </Routes>
+      )}
+  
     </div>
    );
 }
