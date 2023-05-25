@@ -19,8 +19,15 @@
   display: flex;
   gap: 8px;
   justify-self: end;
+  color:white;
+  text-decoration:none;
 }
 
 .logo__container {
   justify-self: center;
 }
+
+.link_text {
+  color:white;
+  text-decoration:none;
+ }

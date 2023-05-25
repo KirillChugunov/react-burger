@@ -49,3 +49,8 @@
 .tabs_container {
   display: flex;
 }
+
+.link {
+  text-decoration: none;
+  color:white;
+}

@@ -13,7 +13,7 @@ import { useInView } from "react-intersection-observer";
 import { Link, useLocation } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
-export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
+export function BurgerIngredients() {
   const location = useLocation();
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
@@ -113,7 +113,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "bun") {
               return (
-                <Link key={uuidv4()}
+                <Link className={styles.link} key={uuidv4()}
                 to={`/ingredients/${element._id}`} state={{background: location}}>
                 <DraggableElement
                   element={element}
@@ -168,6 +168,8 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "sauce") {
               return (
+                <Link className={styles.link} key={uuidv4()}
+                to={`/ingredients/${element._id}`} state={{background: location}}>
                 <DraggableElement
                   element={element}
                   key={element._id}
@@ -206,6 +208,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     </p>
                   </li>
                 </DraggableElement>
+                </Link>
               );
             }
           })}
@@ -220,6 +223,8 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "main") {
               return (
+                <Link className={styles.link} key={uuidv4()}
+                to={`/ingredients/${element._id}`} state={{background: location}}>
                 <DraggableElement element={element} key={element._id}>
                   <li
                     className={
@@ -255,6 +260,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
                     </p>
                   </li>
                 </DraggableElement>
+                </Link>
               );
             }
           })}
