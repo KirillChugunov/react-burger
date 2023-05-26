@@ -29,7 +29,7 @@ import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
-  console.log(background);
+
 
   const dispatch = useDispatch();
   const activeCoockie = getCookie("accessToken");
@@ -42,7 +42,7 @@ function App() {
       dispatch({ type: AUTH_FAILED });
     }
   });
-  console.log(document.cookie);
+
 
   useEffect(() => {
     dispatch(getFeed());

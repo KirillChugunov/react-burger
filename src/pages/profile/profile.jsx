@@ -41,7 +41,7 @@ export function ProfilePage() {
     setShowButtons(false);
   }
 
-  console.log(userInfo.user.name);
+
 
   const handleLogOut = () => {
     navigate("/");

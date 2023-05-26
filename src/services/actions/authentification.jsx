@@ -70,7 +70,6 @@ export const checkLogin = (email, password) => {
     requestLogin(email, password).then((res) => {
       setCookie("accessToken", res.accessToken);
       setCookie("refreshToken", res.refreshToken);
-      console.log(document.cookie);
       dispatch({
         type: LOGIN,
         name: res.user.name,
