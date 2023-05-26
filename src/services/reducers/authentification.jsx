@@ -98,16 +98,16 @@ export const authentification = (state = initialState, action) => {
         logginCheck: true,
       };
 
-      case GET_USER_ONLOAD:
-        return {
-          ...state,
-          user: {
-            email: action.name,
-            name: action.email,
-          },
-          isLogin: true,
-          logginCheck: true,
-        };
+    case GET_USER_ONLOAD:
+      return {
+        ...state,
+        user: {
+          email: action.name,
+          name: action.email,
+        },
+        isLogin: true,
+        logginCheck: true,
+      };
 
     default:
       return state;

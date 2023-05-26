@@ -16,7 +16,7 @@ export const LOGOUT = "LOGOUT";
 export const REGISTRATION = "REGISTRATION";
 export const GET_TOKEN_ONLOAD = "GET_TOKEN_ONLOAD";
 export const AUTH_FAILED = "AUTH_FAILED";
-export const SET_USERINFO = "SET_USERINFO"
+export const SET_USERINFO = "SET_USERINFO";
 
 export const authUserOnLoad = () => {
   return function (dispatch) {

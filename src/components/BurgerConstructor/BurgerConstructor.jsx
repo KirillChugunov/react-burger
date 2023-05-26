@@ -67,11 +67,13 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
     dispatch(deleteItem(element.unicID));
   }
 
-const handleOrder = () => {
+  const handleOrder = () => {
     if (userLogin) {
-      handleOrderButton()}
-    else {navigate("login")}
-  }
+      handleOrderButton();
+    } else {
+      navigate("login");
+    }
+  };
 
   return (
     <section>

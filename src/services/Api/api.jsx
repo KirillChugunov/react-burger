@@ -78,14 +78,16 @@ export const requestLogout = (token) =>
     body: JSON.stringify({ token: getCookie("refreshToken") }),
   });
 
-
-export const requestUserInfoChange = (email, name, password) => 
-request("auth/user", {
-  method: "PATCH",
-  headers: { "Content-Type": "application/json", authorization:getCookie("accessToken") },
-  body: JSON.stringify({ 
-    email: `${email}`,
-    password: `${password}`,
-    name: `${name}`
-  }),
-});
+export const requestUserInfoChange = (email, name, password) =>
+  request("auth/user", {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getCookie("accessToken"),
+    },
+    body: JSON.stringify({
+      email: `${email}`,
+      password: `${password}`,
+      name: `${name}`,
+    }),
+  });

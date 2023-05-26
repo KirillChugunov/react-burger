@@ -8,7 +8,10 @@ import style from "./profile.module.css";
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { sendLogOut, setUserInfo } from "../../services/actions/authentification";
+import {
+  sendLogOut,
+  setUserInfo,
+} from "../../services/actions/authentification";
 import { requestUserInfoChange } from "../../services/Api/api";
 
 export function ProfilePage() {
@@ -21,27 +24,24 @@ export function ProfilePage() {
   const [password, setPassword] = React.useState("password");
   const [showButtons, setShowButtons] = React.useState(false);
 
-
-  function handleChange (event, setter) {
-    setter(event.target.value)
-    setShowButtons(true)
+  function handleChange(event, setter) {
+    setter(event.target.value);
+    setShowButtons(true);
   }
 
-  function handleSave (email, name, password) {
-  dispatch(setUserInfo(email, name, password))
-  setShowButtons(false)
+  function handleSave(email, name, password) {
+    dispatch(setUserInfo(email, name, password));
+    setShowButtons(false);
   }
 
-  function handleCancel () {
-    setName(userInfo.user.name)
-    setEmail(userInfo.user.email)
-    setPassword("password")
-    setShowButtons(false)
+  function handleCancel() {
+    setName(userInfo.user.name);
+    setEmail(userInfo.user.email);
+    setPassword("password");
+    setShowButtons(false);
   }
 
-
-
-console.log(userInfo.user.name)
+  console.log(userInfo.user.name);
 
   const handleLogOut = () => {
     navigate("/");
@@ -124,17 +124,26 @@ console.log(userInfo.user.name)
             icon="EditIcon"
           />
         </div>
-       {showButtons ? 
-       <div className={`${style.button_container}` + " mt-6"}>
-       <Button htmlType="button" type="secondary" size="medium" onClick={() => handleCancel()}>
-Отмена
-</Button>
-<Button htmlType="button" type="primary" size="medium" onClick={() => handleSave(email, name, password)}>
-  Сохранить
-</Button> 
-</div>
-:
-null}
+        {showButtons ? (
+          <div className={`${style.button_container}` + " mt-6"}>
+            <Button
+              htmlType="button"
+              type="secondary"
+              size="medium"
+              onClick={() => handleCancel()}
+            >
+              Отмена
+            </Button>
+            <Button
+              htmlType="button"
+              type="primary"
+              size="medium"
+              onClick={() => handleSave(email, name, password)}
+            >
+              Сохранить
+            </Button>
+          </div>
+        ) : null}
       </div>
     </div>
   );

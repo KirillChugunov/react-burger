@@ -15,6 +15,6 @@
 }
 
 .button_container {
-  display:flex;
+  display: flex;
   justify-content: flex-end;
 }
