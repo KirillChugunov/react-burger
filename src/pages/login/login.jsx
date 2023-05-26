@@ -15,10 +15,9 @@ export function LoginPage() {
   const [password, setPassword] = React.useState("password");
   const dispatch = useDispatch();
 
-
   function handleLoginButton(email, password) {
-    navigate("/")
-    dispatch(checkLogin(email, password))
+    navigate("/");
+    dispatch(checkLogin(email, password));
   }
 
   return (
@@ -48,7 +47,12 @@ export function LoginPage() {
           />
         </div>
         <div className="mt-6">
-          <Button htmlType="button" type="primary" size="medium" onClick={() => handleLoginButton(email, password)}>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="medium"
+            onClick={() => handleLoginButton(email, password)}
+          >
             Войти
           </Button>
         </div>
@@ -59,10 +63,7 @@ export function LoginPage() {
           </p>
         </div>
         <div className="mt-4">
-          <p className="text text_type_main-default">
-            Забыли пароль?
-       
-          </p>
+          <p className="text text_type_main-default">Забыли пароль?</p>
         </div>
       </div>
     </div>

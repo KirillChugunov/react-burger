@@ -5,11 +5,16 @@
   margin-top: 20%;
 }
 
-.blue {
+.link {
   text-decoration: none;
-  color: blue;
+  color: white;
 }
 
-.red {
-  color: solid red;
+.link_inactive {
+  text-decoration: none;
+}
+
+.button_container {
+  display:flex;
+  justify-content: flex-end;
 }

@@ -3,7 +3,7 @@ import { currentIngredient } from "./currentingredient";
 import { ingredientList } from "./ingredientList";
 import { currentBurgerIngredients } from "./currentburgeringredients";
 import { order } from "./order";
-import { authentification } from "./authentification"
+import { authentification } from "./authentification";
 import thunk from "redux-thunk";
 
 export const rootReducer = combineReducers({
@@ -11,5 +11,5 @@ export const rootReducer = combineReducers({
   ingredientList,
   currentIngredient,
   order,
-  authentification
+  authentification,
 });

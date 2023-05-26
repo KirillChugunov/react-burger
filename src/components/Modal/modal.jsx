@@ -12,7 +12,7 @@ const modalRoot = document.getElementById("modal");
 export function Modal(props) {
   const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
-   useEffect(() => {
+  useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === "Escape") {
         props.closePopup();
@@ -25,11 +25,11 @@ export function Modal(props) {
   }, []);
 
   const handleClose = () => {
-    if(props.closePopup){ props.closePopup()}
-    navigate("/")
-  }
-
-
+    if (props.closePopup) {
+      props.closePopup();
+    }
+    navigate("/");
+  };
 
   return ReactDOM.createPortal(
     <ModalOverlay>
@@ -54,5 +54,5 @@ export function Modal(props) {
 
 Modal.propTypes = {
   closePopup: PropTypes.func,
-  title: PropTypes.string
+  title: PropTypes.string,
 };

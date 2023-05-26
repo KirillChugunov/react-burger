@@ -2,7 +2,9 @@ import {
   checkUserInfo,
   getAuthCoockie,
   requestLogin,
+  requestLogout,
   requestRegistrationNewUser,
+  requestUserInfoChange,
 } from "../Api/api";
 import { getCookie } from "../Coockie/getCookie";
 import { setCookie } from "../Coockie/setCookie";
@@ -14,9 +16,10 @@ export const LOGOUT = "LOGOUT";
 export const REGISTRATION = "REGISTRATION";
 export const GET_TOKEN_ONLOAD = "GET_TOKEN_ONLOAD";
 export const AUTH_FAILED = "AUTH_FAILED";
+export const SET_USERINFO = "SET_USERINFO"
 
 export const authUserOnLoad = () => {
-return function (dispatch) {
+  return function (dispatch) {
     getAuthCoockie()
       .then(
         (res) => (
@@ -34,16 +37,20 @@ return function (dispatch) {
           dispatch({
             type: GET_USER_ONLOAD,
             name: res.user.name,
-            email: res.user.name,
+            email: res.user.email,
           })
         )
       )
-      .catch((error) =>(console.log(error.message), dispatch({
-          type: AUTH_FAILED,
-        })
-      ));
-  };}
-
+      .catch(
+        (error) => (
+          console.log(error.message),
+          dispatch({
+            type: AUTH_FAILED,
+          })
+        )
+      );
+  };
+};
 
 export const handleRegistration = (name, email, password) => {
   return function (dispatch) {
@@ -86,6 +93,24 @@ export const getUserInfo = () => {
   };
 };
 
-export const checkLnogout = () => ({
-  type: LOGOUT,
-});
+export const setUserInfo = (email, name, password) => {
+  return function (dispatch) {
+    requestUserInfoChange(email, name, password).then((res) =>
+      dispatch({
+        type: SET_USERINFO,
+        name: res.user.name,
+        email: res.user.email,
+      })
+    );
+  };
+};
+
+export const sendLogOut = () => {
+  return function (dispatch) {
+    requestLogout().then((res) =>
+      dispatch({
+        type: LOGOUT,
+      })
+    );
+  };
+};

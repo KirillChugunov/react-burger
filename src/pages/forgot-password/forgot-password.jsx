@@ -16,8 +16,13 @@ export function PwdRecoveryPage() {
   const [email, setEmail] = React.useState("bob@example.com");
 
   function handleResetPassword(email) {
-      resetPassword(email).then((res) => (console.log(res),
-      res.success === true ? navigate("/reset-password", {state:true}) : console.log("ошибка"))
+    resetPassword(email).then(
+      (res) => (
+        console.log(res),
+        res.success === true
+          ? navigate("/reset-password", { state: true })
+          : console.log("ошибка")
+      )
     );
   }
 

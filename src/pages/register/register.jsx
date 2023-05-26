@@ -11,17 +11,16 @@ import { useDispatch } from "react-redux";
 import { handleRegistration } from "../../services/actions/authentification";
 
 export function RegisterPage() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = React.useState("bob@example.com");
   const [email, setEmail] = React.useState("bob@example.com");
   const [password, setPassword] = React.useState("password");
- 
-  function handleRegistrationButton (name, email, password) {
-    dispatch(handleRegistration(name, email, password))
-    navigate("/")
-  }
 
+  function handleRegistrationButton(name, email, password) {
+    dispatch(handleRegistration(name, email, password));
+    navigate("/");
+  }
 
   return (
     <div className={styles.registration_container}>
@@ -65,7 +64,12 @@ export function RegisterPage() {
           />
         </div>
         <div className="mt-6">
-          <Button htmlType="button" type="primary" size="medium" onClick={() => handleRegistrationButton(name, email, password)}>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="medium"
+            onClick={() => handleRegistrationButton(name, email, password)}
+          >
             Зарегистрироваться
           </Button>
         </div>

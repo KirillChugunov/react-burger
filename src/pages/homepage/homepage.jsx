@@ -90,8 +90,8 @@ export function HomePage() {
 
   return (
     <div className={styles.page}>
-      <Outlet/>
-        <DndProvider backend={HTML5Backend}>
+      <Outlet />
+      <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
           <BurgerIngredients
             handleClickForOpeningredientPopup={
@@ -108,9 +108,8 @@ export function HomePage() {
         </main>
       </DndProvider>
       {isOrderModalOpened ? (
-        <Modal closePopup={closePopup}
-        >        
-         {isOrderModalOpened === true && <OrderDetails />}
+        <Modal closePopup={closePopup}>
+          {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}
     </div>

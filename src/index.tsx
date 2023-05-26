@@ -1,34 +1,31 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/App/App';
-import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import { rootReducer } from "./services/reducers/rootReducer"
-import { compose, createStore, applyMiddleware } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import { BrowserRouter, Router } from 'react-router-dom';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./components/App/App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider } from "react-redux";
+import { rootReducer } from "./services/reducers/rootReducer";
+import { compose, createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import { BrowserRouter, Router } from "react-router-dom";
 
-
-
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))
-
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
 );
 
-
-
+const root = ReactDOM.createRoot(
+  document.getElementById("root") as HTMLElement
+);
 
 root.render(
   <BrowserRouter>
-  <Provider store={store}>
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-  </Provider>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
   </BrowserRouter>
 );
 
