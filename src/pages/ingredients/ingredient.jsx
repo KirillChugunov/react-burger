@@ -1,21 +1,24 @@
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 
-export function IngredientDetails(props) {
-  const info = useSelector((store) => store.currentIngredient.state);
-  if (info) {
+export function IngredientsPage() {
+  const { id } = useParams();
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
+  const Ingredient = Ingredients.find((item) => item._id === id);
+
+  if (id && Ingredient) {
     return (
       <div className={styles.ingredientDetails__container}>
         <div className={"ml-4 mr-4 mb-4"}>
           <img
             className={styles.img__container}
-            src={info.image}
-            alt={`изображение ${info.name}`}
+            src={Ingredient.image}
+            alt={`изображение ${Ingredients.name}`}
           ></img>
         </div>
         <div className="ml-4 mr-4 mb-4">
-          <p className="text text_type_main-medium">{info.name}</p>
+          <p className="text text_type_main-medium">{Ingredient.name}</p>
         </div>
         <div className={styles.composition__container}>
           <div
@@ -24,7 +27,7 @@ export function IngredientDetails(props) {
             }
           >
             <p className="text text_type_main-default">Калории,ккал</p>
-            <p className="text text_type_main-medium">{info.calories}</p>
+            <p className="text text_type_main-medium">{Ingredient.calories}</p>
           </div>
           <div
             className={
@@ -32,7 +35,7 @@ export function IngredientDetails(props) {
             }
           >
             <p className="text text_type_main-default">Белки, г</p>
-            <p className="text text_type_main-medium">{info.proteins}</p>
+            <p className="text text_type_main-medium">{Ingredient.proteins}</p>
           </div>
 
           <div
@@ -41,7 +44,7 @@ export function IngredientDetails(props) {
             }
           >
             <p className="text text_type_main-default">Жиры, г</p>
-            <p className="text text_type_main-medium">{info.fat}</p>
+            <p className="text text_type_main-medium">{Ingredient.fat}</p>
           </div>
 
           <div
@@ -50,7 +53,9 @@ export function IngredientDetails(props) {
             }
           >
             <p className="text text_type_main-default">Углеводы, г</p>
-            <p className="text text_type_main-medium">{info.carbohydrates}</p>
+            <p className="text text_type_main-medium">
+              {Ingredient.carbohydrates}
+            </p>
           </div>
         </div>
       </div>

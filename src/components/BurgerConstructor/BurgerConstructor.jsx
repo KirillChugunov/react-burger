@@ -13,9 +13,12 @@ import {
   sortIngredientConstructor,
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
+import { useNavigate } from "react-router-dom";
 
 export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
+  const userLogin = useSelector((store) => store.authentification.isLogin);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
@@ -63,6 +66,14 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   function handleItemDelete(element) {
     dispatch(deleteItem(element.unicID));
   }
+
+  const handleOrder = () => {
+    if (userLogin) {
+      handleOrderButton();
+    } else {
+      navigate("login");
+    }
+  };
 
   return (
     <section>
@@ -134,7 +145,7 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
                 htmlType="button"
                 type="primary"
                 size="large"
-                onClick={handleOrderButton}
+                onClick={handleOrder}
               >
                 Оформить заказ
               </Button>

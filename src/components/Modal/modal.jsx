@@ -5,12 +5,14 @@ import PropTypes from "prop-types";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import * as ReactDOM from "react-dom";
 import { useModal } from "../../hooks/useModal.js";
+import { useNavigate } from "react-router-dom";
 
 const modalRoot = document.getElementById("modal");
 
 export function Modal(props) {
+  const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
-   useEffect(() => {
+  useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === "Escape") {
         props.closePopup();
@@ -22,8 +24,15 @@ export function Modal(props) {
     };
   }, []);
 
+  const handleClose = () => {
+    if (props.closePopup) {
+      props.closePopup();
+    }
+    navigate("/");
+  };
+
   return ReactDOM.createPortal(
-    <ModalOverlay closePopup={props.closePopup}>
+    <ModalOverlay>
       <div
         className={styles.modal__container}
         onClick={(e) => e.stopPropagation()}
@@ -33,7 +42,7 @@ export function Modal(props) {
             <p className="text text_type_main-medium">{props.title}</p>
           )}
           <div className={styles.closeIconContainer}>
-            <CloseIcon type="primary" onClick={props.closePopup} />
+            <CloseIcon type="primary" onClick={handleClose} />
           </div>
         </div>
         {props.children}
@@ -45,5 +54,5 @@ export function Modal(props) {
 
 Modal.propTypes = {
   closePopup: PropTypes.func,
-  title: PropTypes.string
+  title: PropTypes.string,
 };

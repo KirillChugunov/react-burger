@@ -10,8 +10,11 @@ import { useSelector } from "react-redux";
 import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
+import { Link, useLocation } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
+export function BurgerIngredients() {
+  const location = useLocation();
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
@@ -37,7 +40,7 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
   const [sauseHeadingRef, inViewSause] = useInView({ threshold: 0 });
   const [mainHeadingRef, inViewMain] = useInView({ threshold: 0 });
 
-  //////Подсветка в зависимости от inView хука. 
+  //////Подсветка в зависимости от inView хука.
   useEffect(() => {
     if (inViewBun) {
       setCurrent("one");
@@ -110,47 +113,48 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "bun") {
               return (
-                <DraggableElement
-                  element={element}
-                  key={element._id}
-                  
+                <Link
+                  className={styles.link}
+                  key={uuidv4()}
+                  to={`/ingredients/${element._id}`}
+                  state={{ background: location }}
                 >
-                  <li
-                    className={
-                      `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
-                    }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <Counter
-                        count={BunCount(element)}
-                        size="default"
-                        extraClass="m-1"
-                      />
-                      <img
-                        src={element.image}
-                        alt={`изображение ${element.name}`}
-                      ></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
+                  <DraggableElement element={element} key={element._id}>
+                    <li
                       className={
-                        `${styles.name__text}` + " text text_type_main-default"
+                        `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                       }
                     >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
+                      <div className="ml-4 mr-4 mb-1 mt-0">
+                        <Counter
+                          count={BunCount(element)}
+                          size="default"
+                          extraClass="m-1"
+                        />
+                        <img
+                          src={element.image}
+                          alt={`изображение ${element.name}`}
+                        ></img>
+                      </div>
+                      <div
+                        className={`${styles.price__container}` + " mb-1 mt-1"}
+                      >
+                        <CurrencyIcon type="primary" />
+                        <p className="text text_type_digits-default">
+                          {element.price}
+                        </p>
+                      </div>
+                      <p
+                        className={
+                          `${styles.name__text}` +
+                          " text text_type_main-default"
+                        }
+                      >
+                        {element.name}
+                      </p>
+                    </li>
+                  </DraggableElement>
+                </Link>
               );
             }
           })}
@@ -165,46 +169,48 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "sauce") {
               return (
-                <DraggableElement
-                  element={element}
-                  key={element._id}
-                                  >
-                  <li
-                    className={
-                      `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
-                    }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <Counter
-                        count={itemCount(element)}
-                        size="default"
-                        extraClass="m-1"
-                      />
-                      <img
-                        src={element.image}
-                        alt={`изображение ${element.name}`}
-                      ></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
+                <Link
+                  className={styles.link}
+                  key={uuidv4()}
+                  to={`/ingredients/${element._id}`}
+                  state={{ background: location }}
+                >
+                  <DraggableElement element={element} key={element._id}>
+                    <li
                       className={
-                        `${styles.name__text}` + " text text_type_main-default"
+                        `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                       }
                     >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
+                      <div className="ml-4 mr-4 mb-1 mt-0">
+                        <Counter
+                          count={itemCount(element)}
+                          size="default"
+                          extraClass="m-1"
+                        />
+                        <img
+                          src={element.image}
+                          alt={`изображение ${element.name}`}
+                        ></img>
+                      </div>
+                      <div
+                        className={`${styles.price__container}` + " mb-1 mt-1"}
+                      >
+                        <CurrencyIcon type="primary" />
+                        <p className="text text_type_digits-default">
+                          {element.price}
+                        </p>
+                      </div>
+                      <p
+                        className={
+                          `${styles.name__text}` +
+                          " text text_type_main-default"
+                        }
+                      >
+                        {element.name}
+                      </p>
+                    </li>
+                  </DraggableElement>
+                </Link>
               );
             }
           })}
@@ -219,43 +225,48 @@ export function BurgerIngredients({ handleClickForOpeningredientPopup }) {
           {Ingredients.map((element) => {
             if (element.type === "main") {
               return (
-                <DraggableElement element={element} key={element._id}>
-                  <li
-                    className={
-                      `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
-                    }
-                    onClick={(event) =>
-                      handleClickForOpeningredientPopup(element, event)
-                    }
-                  >
-                    <div className="ml-4 mr-4 mb-1 mt-0">
-                      <Counter
-                        count={itemCount(element)}
-                        size="default"
-                        extraClass="m-1"
-                      />
-                      <img
-                        src={element.image}
-                        alt={`изображение ${element.name}`}
-                      ></img>
-                    </div>
-                    <div
-                      className={`${styles.price__container}` + " mb-1 mt-1"}
-                    >
-                      <CurrencyIcon type="primary" />
-                      <p className="text text_type_digits-default">
-                        {element.price}
-                      </p>
-                    </div>
-                    <p
+                <Link
+                  className={styles.link}
+                  key={uuidv4()}
+                  to={`/ingredients/${element._id}`}
+                  state={{ background: location }}
+                >
+                  <DraggableElement element={element} key={element._id}>
+                    <li
                       className={
-                        `${styles.name__text}` + " text text_type_main-default"
+                        `${styles.inglist__container}` + " ml-4 mr-1 mb-10 mt-0"
                       }
                     >
-                      {element.name}
-                    </p>
-                  </li>
-                </DraggableElement>
+                      <div className="ml-4 mr-4 mb-1 mt-0">
+                        <Counter
+                          count={itemCount(element)}
+                          size="default"
+                          extraClass="m-1"
+                        />
+                        <img
+                          src={element.image}
+                          alt={`изображение ${element.name}`}
+                        ></img>
+                      </div>
+                      <div
+                        className={`${styles.price__container}` + " mb-1 mt-1"}
+                      >
+                        <CurrencyIcon type="primary" />
+                        <p className="text text_type_digits-default">
+                          {element.price}
+                        </p>
+                      </div>
+                      <p
+                        className={
+                          `${styles.name__text}` +
+                          " text text_type_main-default"
+                        }
+                      >
+                        {element.name}
+                      </p>
+                    </li>
+                  </DraggableElement>
+                </Link>
               );
             }
           })}

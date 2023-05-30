@@ -1,121 +1,94 @@
-import React, { useState, useEffect } from "react";
 import { AppHeader } from "../AppHeader/AppHeader.jsx";
 import styles from "./App.module.css";
-import { BurgerIngredients } from "../BurgerIngredients/BurgerIngredients.jsx";
-import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor.jsx";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { LoginPage } from "../../pages/login/login.jsx";
+import { RegisterPage } from "../../pages/register/register.jsx";
+import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password.jsx";
+import { PwdResetPage } from "../../pages/reset-pasword/reset-password.jsx";
+import { ProfilePage } from "../../pages/profile/profile.jsx";
+import { IngredientsPage } from "../../pages/ingredients/ingredient.jsx";
+import { HomePage } from "../../pages/homepage/homepage.jsx";
+import {
+  AUTH_FAILED,
+  authUserOnLoad,
+} from "../../services/actions/authentification.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement.jsx";
+import { useEffect } from "react";
+import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser.jsx";
+import { getCookie } from "../../services/Coockie/getCookie.jsx";
+import { getFeed } from "../../services/actions/ingredientList.jsx";
 import { Modal } from "../Modal/modal.jsx";
 import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
-import { OrderDetails } from "../OrderDetails/OrderDetails.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../services/actions/currentburgeringredients.jsx";
-import {
-  addCurrentIngredient,
-  DELETE_CURRENT_INGREDIENT,
-} from "../../services/actions/currentingredient.jsx";
-import { getIDsArray, sentOrder } from "../../services/actions/order.jsx";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import { v4 as uuidv4 } from "uuid";
-import { getFeed } from "./../../services/actions/ingredientList.jsx";
-import { useModal } from "../../hooks/useModal.js";
 
 function App() {
+  const location = useLocation();
+  const background = location.state && location.state.background;
+
+
   const dispatch = useDispatch();
-  /////////////////////////////////////////////////////////////Стейты:
-  ///Берем кастомный хук
-  const {
-    closeModal: closeIngrModal,
-    isModalOpen: isIngrModalOpened,
-    openModal: openIngrModal,
-  } = useModal();
-  const {
-    closeModal: closeOrderrModal,
-    isModalOpen: isOrderModalOpened,
-    openModal: openOrderModal,
-  } = useModal();
+  const activeCoockie = getCookie("accessToken");
+  useEffect(() => {
+    if (activeCoockie != null) {
+      console.log("нашел пользователя");
+      dispatch(authUserOnLoad());
+    } else {
+      console.log("залогинься");
+      dispatch({ type: AUTH_FAILED });
+    }
+  });
 
-  const draggedElements = useSelector(
-    (store) => store.currentBurgerIngredients.ingredientsadded
-  );
-  ///Список ингредиентов, перетянутых в конструктор без булок(объект)
-  const draggedElementsAndBuns = useSelector(
-    (store) => store.currentBurgerIngredients
-  );
 
-  ////////////////Обработчик кнопки заказа
-  function handleOrderButton() {
-    const idsForOrder = [
-      draggedElementsAndBuns.bun._id,
-      ...draggedElements.map((item) => item._id),
-      draggedElementsAndBuns.bun._id,
-    ];
-    dispatch(getIDsArray(idsForOrder));
-    const newObj = {};
-    newObj.ingredients = idsForOrder;
-    dispatch(sentOrder(newObj));
-    openOrderModal();
-  }
-
-  /////Обработчик дропа в конструктор (добавляет уникальный айди и диспатчит его в массив)
-  const handleDrop = (itemId) => {
-    itemId.unicID = uuidv4();
-    dispatch(addItem(itemId));
-  };
-
-  React.useEffect(() => {
+  useEffect(() => {
     dispatch(getFeed());
   }, []);
-
-  /////Удаление элемента из массива
-
-  ////////////Обработчик попапа с игредиентом
-  const handleClickForOpenIngredientPopup = (element, event) => {
-    event.stopPropagation();
-    dispatch(addCurrentIngredient(element));
-    openIngrModal();
-  };
-
-  ////////Закрытие попапа
-  const closePopup = (event) => {
-    closeIngrModal();
-    closeOrderrModal();
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-      item: "",
-    });
-  };
-
-  ////////Рендер приложения
 
   return (
     <div className={styles.page}>
       <AppHeader />
-      <DndProvider backend={HTML5Backend}>
-        <main className={styles.main}>
-          <BurgerIngredients
-            handleClickForOpeningredientPopup={
-              handleClickForOpenIngredientPopup
-            }
-          />
-          <BurgerConstructor
-            handleClickForOpeningredientPopup={
-              handleClickForOpenIngredientPopup
-            }
-            onDropHandler={handleDrop}
-            handleOrderButton={handleOrderButton}
-          />
-        </main>
-      </DndProvider>
-      {isIngrModalOpened | isOrderModalOpened ? (
-        <Modal
-          title={isIngrModalOpened ? "Детали ингредиента" : ""}
-          closePopup={closePopup}
-        >
-          {isIngrModalOpened === true && <IngredientDetails />}
+      <Routes location={background || location}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ingredients/:id" element={<IngredientsPage />} />
+        <Route
+          path="/login"
+          element={<RouteForLoggedUser element={<LoginPage />} />}
+        />
+        <Route
+          path="/register"
+          element={<RouteForLoggedUser element={<RegisterPage />} />}
+        />
+        <Route
+          path="/forgot-password"
+          element={<RouteForLoggedUser element={<PwdRecoveryPage />} />}
+        />
+        <Route
+          path="/reset-password"
+          element={<RouteForLoggedUser element={<PwdResetPage />} />}
+        />
+        <Route
+          path="/profile"
+          element={<ProtectedRouteElement element={<ProfilePage />} />}
+        />
+      </Routes>
 
-          {isOrderModalOpened === true && <OrderDetails />}
-        </Modal>
-      ) : null}
+      {background && (
+        <Routes location={location}>
+          <Route
+            path="/ingredients/:id"
+            element={
+              <Modal
+                title={"Детали ингредиента"}
+                children={<IngredientsPage />}
+              ></Modal>
+            }
+          />
+        </Routes>
+      )}
     </div>
   );
 }
