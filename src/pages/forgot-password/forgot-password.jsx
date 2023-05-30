@@ -13,7 +13,7 @@ import {
 
 export function PwdRecoveryPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("bob@example.com");
+  const [email, setEmail] = React.useState(" ");
 
   function handleResetPassword(email) {
     resetPassword(email).then(

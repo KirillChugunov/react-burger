@@ -63,7 +63,7 @@ export function LoginPage() {
           </p>
         </div>
         <div className="mt-4">
-          <p className="text text_type_main-default">Забыли пароль?</p>
+           <Link className="text text_type_main-default" to="/forgot-password">Забыли пароль?</Link>
         </div>
       </div>
     </div>

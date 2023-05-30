@@ -6,7 +6,6 @@ import {
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
 import {
@@ -14,30 +13,37 @@ import {
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
 import { useNavigate } from "react-router-dom";
+import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
+import { FunctionComponent } from "react";
 
-export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
-  const userLogin = useSelector((store) => store.authentification.isLogin);
+
+interface IBurgerConstructorProps {
+  onDropHandler:Function,
+  handleOrderButton:Function
+}
+
+export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({onDropHandler, handleOrderButton}) => {
+  const userLogin = useSelector((store:any) => store.authentification.isLogin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const draggedElements = useSelector(
-    (store) => store.currentBurgerIngredients.ingredientsadded
+    (store:any) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store) => store.currentBurgerIngredients
+    (store:any) => store.currentBurgerIngredients
   );
 
   /////Калькулятор цены заказа для отображения
-  function calculatePrice() {
+  function calculatePrice():number {
     let IngredientsPriceArray = [];
-    let total = 0;
     if (draggedElementsAndBuns.bun != null) {
       IngredientsPriceArray = [
         draggedElementsAndBuns.bun.price,
-        ...draggedElements.map((item) => item.price),
+        ...draggedElements.map((item:TingredientAndUnicID) => item.price),
         draggedElementsAndBuns.bun.price,
       ];
       return IngredientsPriceArray.reduce((partialSum, a) => partialSum + a, 0);
@@ -54,7 +60,7 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   });
 
   /////////Сотируем элементы и диспатчим массив в хранилище
-  const moveDraggedElements = (dragIndex, hoverIndex) => {
+  const moveDraggedElements = (dragIndex:number, hoverIndex:number):void => {
     const dragIngredient = draggedElements[dragIndex];
     const updateddraggedElements = [...draggedElements];
     updateddraggedElements.splice(dragIndex, 1);
@@ -63,11 +69,11 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   };
 
   //////Обработчик удаления
-  function handleItemDelete(element) {
+  function handleItemDelete(element:TingredientAndUnicID) {
     dispatch(deleteItem(element.unicID));
   }
 
-  const handleOrder = () => {
+  const handleOrder = ():void => {
     if (userLogin) {
       handleOrderButton();
     } else {
@@ -95,7 +101,7 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
           </div>
         )}
         <div className={styles.mainandsauce__container}>
-          {draggedElements.map((element, index) => {
+          {draggedElements.map((element:TingredientAndUnicID, index:number) => {
             if (element.type === "main" || element.type === "sauce") {
               return (
                 <DragnDropElement
@@ -157,7 +163,4 @@ export function BurgerConstructor({ onDropHandler, handleOrderButton }) {
   );
 }
 
-BurgerConstructor.propTypes = {
-  onDropHandler: PropTypes.func,
-  handleOrderButton: PropTypes.func,
-};
+

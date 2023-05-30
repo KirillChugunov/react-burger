@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./AppHeader.module.css";
 import {
   Logo,
@@ -9,8 +9,8 @@ import {
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export function AppHeader(props) {
-  const userLogin = useSelector((store) => store.authentification.isLogin);
+export const AppHeader:FunctionComponent = () => { 
+  const userLogin:Boolean = useSelector((store:any) => store.authentification.isLogin);
   return (
     <header className={styles.header}>
       <nav className={styles.header__navigation}>

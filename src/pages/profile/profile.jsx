@@ -19,10 +19,10 @@ export function ProfilePage() {
   const dispatch = useDispatch();
   const userInfo = useSelector((store) => store.authentification);
   const inputRef = React.useRef(null);
-  const [name, setName] = React.useState(userInfo.user.name);
-  const [email, setEmail] = React.useState(userInfo.user.email);
-  const [password, setPassword] = React.useState("password");
-  const [showButtons, setShowButtons] = React.useState(false);
+  const [name, setName] = React.useState<String>(userInfo.user.name);
+  const [email, setEmail] = React.useState<String>(userInfo.user.email);
+  const [password, setPassword] = React.useState<String>("password");
+  const [showButtons, setShowButtons] = React.useState<Boolean>(false);
 
   function handleChange(event, setter) {
     setter(event.target.value);
@@ -47,6 +47,7 @@ export function ProfilePage() {
     navigate("/");
     dispatch(sendLogOut());
   };
+  
   return (
     <div className={style.profile_container}>
       <div className={"mr-15"}>
