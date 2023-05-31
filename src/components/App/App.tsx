@@ -24,13 +24,15 @@ import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
 import { getCookie } from "../../services/Coockie/getCookie";
 import { getFeed } from "../../services/actions/ingredientList";
 import { Modal } from "../Modal/modal";
+import { useModal } from "../../hooks/useModal";
+import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 
 
-function App() {
+export const App = ():JSX.Element | null => {
   const location = useLocation();
   const background = location.state && location.state.background;
-  const dispatch = useDispatch();
-  const activeCoockie = getCookie("accessToken");
+  const dispatch:any = useDispatch();
+  const activeCoockie:string | undefined = getCookie("accessToken");
 
   useEffect(() => {
     if (activeCoockie != null) {
@@ -45,6 +47,23 @@ function App() {
   useEffect(() => {
     dispatch(getFeed());
   }, []);
+
+  const closePopup = () => {
+    closeIngrModal();
+    closeOrderrModal();
+    dispatch({
+      type: DELETE_CURRENT_INGREDIENT,
+      item: "",
+    });
+  };
+
+  const {
+    closeModal: closeIngrModal,
+ } = useModal();
+  const {
+    closeModal: closeOrderrModal,
+  } = useModal();
+
 
   return (
     <div className={styles.page}>
@@ -80,6 +99,7 @@ function App() {
             path="/ingredients/:id"
             element={
               <Modal
+                closePopup={closePopup}
                 title={"Детали ингредиента"}
                 children={<IngredientsPage />}
               ></Modal>

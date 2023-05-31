@@ -4,20 +4,20 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./registerpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { handleRegistration } from "../../services/actions/authentification";
 
-export function RegisterPage() {
-  const dispatch = useDispatch();
+export const RegisterPage:FunctionComponent = () => {
+  const dispatch:any = useDispatch();
   const navigate = useNavigate();
-  const [name, setName] = React.useState("bob@example.com");
-  const [email, setEmail] = React.useState("bob@example.com");
-  const [password, setPassword] = React.useState("password");
+  const [name, setName] = React.useState<string>("bob@example.com");
+  const [email, setEmail] = React.useState<string>("bob@example.com");
+  const [password, setPassword] = React.useState<string>("password");
 
-  function handleRegistrationButton(name, email, password) {
+  function handleRegistrationButton(name:string, email:string, password:string) {
     dispatch(handleRegistration(name, email, password));
     navigate("/");
   }
