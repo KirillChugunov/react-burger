@@ -1,0 +1,33 @@
+.price_container {
+  display:flex;
+  gap:9px;
+  justify-self:end;
+}
+
+.ingr_container {
+  display:grid;
+  grid-template-columns:min-content max-content 1fr;
+  align-items: center;
+}
+
+.img_container {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+width: 64px;
+height: 64px;
+background: #131316;
+border-radius: 100px;
+border: 2px solid;
+background: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%),
+linear-gradient(0deg, #131316, #131316);
+border-image-source: linear-gradient(63.18deg, #801AB3 0%, #4C4CFF 100%);
+}
+
+.img {
+  background-color: #131316;
+  border-radius: 100px;
+  height: 56px;
+  width: 56px;
+}
+

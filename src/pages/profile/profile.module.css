@@ -1,6 +1,6 @@
 .profile_container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 320px 1fr;
   justify-content: end;
   margin-top: 20%;
 }

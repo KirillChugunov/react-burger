@@ -6,48 +6,23 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./profile.module.css";
 import React, { ChangeEvent, FunctionComponent } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  sendLogOut,
-  setUserInfo,
-} from "../../services/actions/authentification";
-import { requestUserInfoChange } from "../../services/Api/api";
+import { sendLogOut } from "../../services/actions/authentification";
 
-export const ProfilePage:FunctionComponent = () => {
+export const ProfilePage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const dispatch:any = useDispatch();
-  const userInfo = useSelector((store:any) => store.authentification);
-  const inputRef = React.useRef<HTMLInputElement>(null);
-  const [name, setName] = React.useState<string>(userInfo.user.name);
-  const [email, setEmail] = React.useState<string>(userInfo.user.email);
-  const [password, setPassword] = React.useState<string>("password");
-  const [showButtons, setShowButtons] = React.useState<boolean>(false);
-
-  function handleChange(event:ChangeEvent<HTMLInputElement>, setter:Function) {
-    setter(event.target.value);
-    setShowButtons(true);
-  }
-
-  function handleSave(email:string, name:string, password:string) {
-    dispatch(setUserInfo(email, name, password));
-    setShowButtons(false);
-  }
-
-  function handleCancel() {
-    setName(userInfo.user.name);
-    setEmail(userInfo.user.email);
-    setPassword("password");
-    setShowButtons(false);
-  }
-
-
+    const dispatch: any = useDispatch();
 
   const handleLogOut = () => {
+    document.cookie =  "accessToken = 0; expires=-1"
     navigate("/");
     dispatch(sendLogOut());
-  };
-  
+    setTimeout(function(){
+      window.location.reload();
+    }, 1000);
+    };
+
   return (
     <div className={style.profile_container}>
       <div className={"mr-15"}>
@@ -91,61 +66,7 @@ export const ProfilePage:FunctionComponent = () => {
           В этом разделе вы можете изменить свои персональные данные
         </p>
       </div>
-      <div>
-        <div className="mt-6">
-          <Input
-            type={"text"}
-            placeholder={"Имя"}
-            onChange={(e) => handleChange(e, setName)}
-            icon={"EditIcon"}
-            value={name}
-            name={"name"}
-            error={false}
-            ref={inputRef}
-            errorText={"Ошибка"}
-            size={"default"}
-            extraClass="ml-1"
-          />
-        </div>
-        <div className="mt-6">
-          <EmailInput
-            onChange={(e) => handleChange(e, setEmail)}
-            value={email}
-            name={"email"}
-            placeholder="Логин"
-            isIcon={true}
-            extraClass="mb-2"
-          />
-        </div>
-        <div className="mt-6">
-          <PasswordInput
-            onChange={(e) => handleChange(e, setPassword)}
-            value={password}
-            name={"password"}
-            icon="EditIcon"
-          />
-        </div>
-        {showButtons ? (
-          <div className={`${style.button_container}` + " mt-6"}>
-            <Button
-              htmlType="button"
-              type="secondary"
-              size="medium"
-              onClick={() => handleCancel()}
-            >
-              Отмена
-            </Button>
-            <Button
-              htmlType="button"
-              type="primary"
-              size="medium"
-              onClick={() => handleSave(email, name, password)}
-            >
-              Сохранить
-            </Button>
-          </div>
-        ) : null}
-      </div>
+      <Outlet />
     </div>
   );
-}
+};

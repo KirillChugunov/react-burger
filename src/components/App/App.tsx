@@ -19,30 +19,40 @@ import {
 } from "../../services/actions/authentification";
 import { useDispatch } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
 import { getCookie } from "../../services/Coockie/getCookie";
 import { getFeed } from "../../services/actions/ingredientList";
 import { Modal } from "../Modal/modal";
 import { useModal } from "../../hooks/useModal";
 import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
+import { OrdersFeed } from "../../pages/orders-feed/feed";
+import { CurrentOrderFeed } from "../../pages/current-order-feed/current-order-feed";
+import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
+import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
 
-
-export const App = ():JSX.Element | null => {
+export const App = (): JSX.Element | null => {
   const location = useLocation();
   const background = location.state && location.state.background;
-  const dispatch:any = useDispatch();
-  const activeCoockie:string | undefined = getCookie("accessToken");
+  const dispatch: any = useDispatch();
+  const activeCoockie: string | undefined = getCookie("accessToken");
+  const [coockieCount, setCount] = useState(0);
 
-  useEffect(() => {
-    if (activeCoockie != null) {
+ useEffect(() => {
+  setTimeout(() => {
+    setCount(coockieCount + 1);
+  }, 54000);
+  console.log(coockieCount)
+    if (activeCoockie != null || 0) {
       console.log("нашел пользователя");
       dispatch(authUserOnLoad());
     } else {
       console.log("залогинься");
       dispatch({ type: AUTH_FAILED });
     }
-  });
+  }, [coockieCount]);
+
+
 
   useEffect(() => {
     dispatch(getFeed());
@@ -57,13 +67,8 @@ export const App = ():JSX.Element | null => {
     });
   };
 
-  const {
-    closeModal: closeIngrModal,
- } = useModal();
-  const {
-    closeModal: closeOrderrModal,
-  } = useModal();
-
+  const { closeModal: closeIngrModal } = useModal();
+  const { closeModal: closeOrderrModal } = useModal();
 
   return (
     <div className={styles.page}>
@@ -90,7 +95,12 @@ export const App = ():JSX.Element | null => {
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
-        />
+        >
+          <Route path="/profile/" element={<ProfileInputs />} />
+          <Route path="/profile/orders" element={<OrdersHistoryFeed />} />
+        </Route>
+        <Route path="/feed" element={<OrdersFeed />} />
+        <Route path="/feed/1" element={<CurrentOrderFeed />} />
       </Routes>
 
       {background && (
@@ -109,6 +119,6 @@ export const App = ():JSX.Element | null => {
       )}
     </div>
   );
-}
+};
 
 export default App;

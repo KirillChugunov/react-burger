@@ -106,6 +106,7 @@ export const setUserInfo = (email, name, password) => {
 
 export const sendLogOut = () => {
   return function (dispatch) {
+    document.cookie =  "accessToken = 0; expires=-1"
     requestLogout().then((res) =>
       dispatch({
         type: LOGOUT,
