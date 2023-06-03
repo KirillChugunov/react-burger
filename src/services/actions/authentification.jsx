@@ -21,26 +21,22 @@ export const SET_USERINFO = "SET_USERINFO";
 export const authUserOnLoad = () => {
   return function (dispatch) {
     getAuthCoockie()
-      .then(
-        (res) => (
+      .then((res) => (
           setCookie("refreshToken", res.refreshToken),
           setCookie("accessToken", res.accessToken),
           dispatch({
             type: GET_TOKEN_ONLOAD,
             accessToken: res.accessToken,
             refreshToken: res.refreshToken,
-          })
-        )
-      )
-      .then((res) =>
-        checkUserInfo(res.accessToken).then((res) =>
+          }),
+          checkUserInfo(res.accessToken).then((res) =>
           dispatch({
             type: GET_USER_ONLOAD,
             name: res.user.name,
             email: res.user.email,
           })
         )
-      )
+      ))
       .catch(
         (error) => (
           console.log(error.message),

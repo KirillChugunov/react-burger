@@ -31,7 +31,7 @@ export const AppHeader:FunctionComponent = () => {
           )}
         </NavLink>
 
-        <NavLink className={styles.link_text} to="/orders">
+        <NavLink className={styles.link_text} to="/feed">
           {({ isActive }) => (
             <div className={`${styles.header__item}` + " ml-5 mr-2 mb-4 mt-4"}>
               <ListIcon type={isActive ? "primary" : "secondary"} />

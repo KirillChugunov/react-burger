@@ -9,10 +9,11 @@ import { compose, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { BrowserRouter, Router } from "react-router-dom";
+import { socketMiddleware } from "./services/middleware/wsmiddleware";
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(applyMiddleware((thunk), socketMiddleware('wss://norma.nomoreparties.space/orders/all')))
 );
 
 const root = ReactDOM.createRoot(
