@@ -1,15 +1,15 @@
 .current_order_feed_container {
-  display:flex;
+  display: flex;
   flex-direction: column;
   margin-top: 122px;
   max-width: 640px;
-  margin-right:auto;
-  margin-left:auto;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .price_container {
-  display:flex;
-  gap:9px;
+  display: flex;
+  gap: 9px;
 }
 
 .order_number_container {
@@ -17,11 +17,11 @@
 }
 
 .cards_container {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:16px;
+  gap: 16px;
   height: 366px;
-  overflow-y:scroll;
+  overflow-y: scroll;
 }
 
 .cards_container::-webkit-scrollbar {
@@ -32,15 +32,15 @@
 }
 .cards_container::-webkit-scrollbar-thumb {
   background: #8585ad;
-  border: 3px solid #8585AD;
+  border: 3px solid #8585ad;
   border-radius: 6px;
 }
 
 .total_container {
-  display:flex;
+  display: flex;
   justify-content: space-between;
 }
 
 .done_textcolor {
-  color: #00CCCC;
+  color: #00cccc;
 }

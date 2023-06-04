@@ -1,14 +1,14 @@
 .feed_container {
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap:60px;
+  gap: 60px;
   height: 912px;
 }
 
 .orders_scroll_container {
-  display:flex;
+  display: flex;
   flex-direction: column;
-  gap:16px;
+  gap: 16px;
   overflow-y: scroll;
 }
 

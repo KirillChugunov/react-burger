@@ -21,7 +21,8 @@ export const SET_USERINFO = "SET_USERINFO";
 export const authUserOnLoad = () => {
   return function (dispatch) {
     getAuthCoockie()
-      .then((res) => (
+      .then(
+        (res) => (
           setCookie("refreshToken", res.refreshToken),
           setCookie("accessToken", res.accessToken),
           dispatch({
@@ -30,13 +31,14 @@ export const authUserOnLoad = () => {
             refreshToken: res.refreshToken,
           }),
           checkUserInfo(res.accessToken).then((res) =>
-          dispatch({
-            type: GET_USER_ONLOAD,
-            name: res.user.name,
-            email: res.user.email,
-          })
+            dispatch({
+              type: GET_USER_ONLOAD,
+              name: res.user.name,
+              email: res.user.email,
+            })
+          )
         )
-      ))
+      )
       .catch(
         (error) => (
           console.log(error.message),
@@ -102,7 +104,7 @@ export const setUserInfo = (email, name, password) => {
 
 export const sendLogOut = () => {
   return function (dispatch) {
-    document.cookie =  "accessToken = 0; expires=-1"
+    document.cookie = "accessToken = 0; expires=-1";
     requestLogout().then((res) =>
       dispatch({
         type: LOGOUT,

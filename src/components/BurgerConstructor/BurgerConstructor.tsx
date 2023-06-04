@@ -16,34 +16,36 @@ import { useNavigate } from "react-router-dom";
 import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
 import { FunctionComponent } from "react";
 
-
 interface IBurgerConstructorProps {
-  onDropHandler:Function,
-  handleOrderButton:Function
+  onDropHandler: Function;
+  handleOrderButton: Function;
 }
 
-export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({onDropHandler, handleOrderButton}) => {
-  const userLogin = useSelector((store:any) => store.authentification.isLogin);
+export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
+  onDropHandler,
+  handleOrderButton,
+}) => {
+  const userLogin = useSelector((store: any) => store.authentification.isLogin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const draggedElements = useSelector(
-    (store:any) => store.currentBurgerIngredients.ingredientsadded
+    (store: any) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store:any) => store.currentBurgerIngredients
+    (store: any) => store.currentBurgerIngredients
   );
 
   /////Калькулятор цены заказа для отображения
-  function calculatePrice():number {
+  function calculatePrice(): number {
     let IngredientsPriceArray = [];
     if (draggedElementsAndBuns.bun != null) {
       IngredientsPriceArray = [
         draggedElementsAndBuns.bun.price,
-        ...draggedElements.map((item:TingredientAndUnicID) => item.price),
+        ...draggedElements.map((item: TingredientAndUnicID) => item.price),
         draggedElementsAndBuns.bun.price,
       ];
       return IngredientsPriceArray.reduce((partialSum, a) => partialSum + a, 0);
@@ -60,7 +62,7 @@ export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({on
   });
 
   /////////Сотируем элементы и диспатчим массив в хранилище
-  const moveDraggedElements = (dragIndex:number, hoverIndex:number):void => {
+  const moveDraggedElements = (dragIndex: number, hoverIndex: number): void => {
     const dragIngredient = draggedElements[dragIndex];
     const updateddraggedElements = [...draggedElements];
     updateddraggedElements.splice(dragIndex, 1);
@@ -69,11 +71,11 @@ export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({on
   };
 
   //////Обработчик удаления
-  function handleItemDelete(element:TingredientAndUnicID) {
+  function handleItemDelete(element: TingredientAndUnicID) {
     dispatch(deleteItem(element.unicID));
   }
 
-  const handleOrder = ():void => {
+  const handleOrder = (): void => {
     if (userLogin) {
       handleOrderButton();
     } else {
@@ -101,29 +103,31 @@ export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({on
           </div>
         )}
         <div className={styles.mainandsauce__container}>
-          {draggedElements.map((element:TingredientAndUnicID, index:number) => {
-            if (element.type === "main" || element.type === "sauce") {
-              return (
-                <DragnDropElement
-                  type="dragged"
-                  key={element.unicID}
-                  element={element}
-                  index={index}
-                  moveDraggedElements={moveDraggedElements}
-                >
-                  <div className={styles.itemcontainer}>
-                    <DragIcon type="primary" />
-                    <ConstructorElement
-                      text={element.name}
-                      price={element.price}
-                      thumbnail={element.image}
-                      handleClose={() => handleItemDelete(element)}
-                    />
-                  </div>
-                </DragnDropElement>
-              );
+          {draggedElements.map(
+            (element: TingredientAndUnicID, index: number) => {
+              if (element.type === "main" || element.type === "sauce") {
+                return (
+                  <DragnDropElement
+                    type="dragged"
+                    key={element.unicID}
+                    element={element}
+                    index={index}
+                    moveDraggedElements={moveDraggedElements}
+                  >
+                    <div className={styles.itemcontainer}>
+                      <DragIcon type="primary" />
+                      <ConstructorElement
+                        text={element.name}
+                        price={element.price}
+                        thumbnail={element.image}
+                        handleClose={() => handleItemDelete(element)}
+                      />
+                    </div>
+                  </DragnDropElement>
+                );
+              }
             }
-          })}
+          )}
         </div>
 
         {draggedElementsAndBuns.bun != null && (
@@ -161,6 +165,4 @@ export const BurgerConstructor:FunctionComponent<IBurgerConstructorProps> = ({on
       </div>
     </section>
   );
-}
-
-
+};

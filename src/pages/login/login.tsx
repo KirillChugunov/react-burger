@@ -9,13 +9,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { checkLogin } from "../../services/actions/authentification";
 
-export const LoginPage:FunctionComponent = () => {
+export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("bob@example.com");
   const [password, setPassword] = React.useState("password");
-  const dispatch:any = useDispatch();
+  const dispatch: any = useDispatch();
 
-  function handleLoginButton(email:string, password:string) {
+  function handleLoginButton(email: string, password: string) {
     navigate("/");
     dispatch(checkLogin(email, password));
   }
@@ -63,9 +63,11 @@ export const LoginPage:FunctionComponent = () => {
           </p>
         </div>
         <div className="mt-4">
-           <Link className="text text_type_main-default" to="/forgot-password">Забыли пароль?</Link>
+          <Link className="text text_type_main-default" to="/forgot-password">
+            Забыли пароль?
+          </Link>
         </div>
       </div>
     </div>
   );
-}
+};

@@ -1,13 +1,13 @@
 import { useDrop } from "react-dnd";
-import { FunctionComponent} from "react";
-
+import { FunctionComponent } from "react";
 
 interface IDropTargetProps {
-  onDropHandler:Function
+  onDropHandler: Function;
 }
 
-
-export const DropTarget:FunctionComponent<IDropTargetProps> = ({onDropHandler}) => {
+export const DropTarget: FunctionComponent<IDropTargetProps> = ({
+  onDropHandler,
+}) => {
   const [, dropRef] = useDrop({
     accept: "sauce",
     drop(item) {
@@ -23,5 +23,3 @@ export const DropTarget:FunctionComponent<IDropTargetProps> = ({onDropHandler}) 
 };
 
 export default DropTarget;
-
-

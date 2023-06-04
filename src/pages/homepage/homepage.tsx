@@ -19,8 +19,8 @@ import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TTextString, TingredientAndUnicID } from "../../services/types/types";
 
-export const HomePage:FunctionComponent = () => {
-  const dispatch:any = useDispatch();
+export const HomePage: FunctionComponent = () => {
+  const dispatch: any = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
   ///Берем кастомный хук
   const {
@@ -35,29 +35,29 @@ export const HomePage:FunctionComponent = () => {
   } = useModal();
 
   const draggedElements = useSelector(
-    (store:any) => store.currentBurgerIngredients.ingredientsadded
+    (store: any) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store:any) => store.currentBurgerIngredients
+    (store: any) => store.currentBurgerIngredients
   );
 
   ////////////////Обработчик кнопки заказа
   function handleOrderButton() {
     const idsForOrder = [
       draggedElementsAndBuns.bun._id,
-      ...draggedElements.map((item:TingredientAndUnicID) => item._id),
+      ...draggedElements.map((item: TingredientAndUnicID) => item._id),
       draggedElementsAndBuns.bun._id,
     ];
     dispatch(getIDsArray(idsForOrder));
-    const newObj:any = {};
+    const newObj: any = {};
     newObj.ingredients = idsForOrder;
     dispatch(sentOrder(newObj));
     openOrderModal();
   }
 
   /////Обработчик дропа в конструктор (добавляет уникальный айди и диспатчит его в массив)
-  const handleDrop = (itemId:TingredientAndUnicID) => {
+  const handleDrop = (itemId: TingredientAndUnicID) => {
     itemId.unicID = uuidv4();
     dispatch(addItem(itemId));
   };
@@ -65,9 +65,6 @@ export const HomePage:FunctionComponent = () => {
   React.useEffect(() => {
     dispatch(getFeed());
   }, []);
-
-
-
 
   ////////Закрытие попапа
   const closePopup = () => {
@@ -86,9 +83,8 @@ export const HomePage:FunctionComponent = () => {
       <Outlet />
       <DndProvider backend={HTML5Backend}>
         <main className={styles.main}>
-          <BurgerIngredients         
-          />
-          <BurgerConstructor           
+          <BurgerIngredients />
+          <BurgerConstructor
             onDropHandler={handleDrop}
             handleOrderButton={handleOrderButton}
           />
@@ -101,4 +97,4 @@ export const HomePage:FunctionComponent = () => {
       ) : null}
     </div>
   );
-}
+};

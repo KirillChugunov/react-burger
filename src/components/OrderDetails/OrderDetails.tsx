@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import logo from "./../../images/order accpeted/popup/done111.png";
 import { FunctionComponent } from "react";
 
-export const OrderDetails:FunctionComponent = () => {
-  const OrderNunber = useSelector((store:any) => store.order.orderNumber);
+export const OrderDetails: FunctionComponent = () => {
+  const OrderNunber = useSelector((store: any) => store.order.orderNumber);
   return (
     <div className={`${styles.orderdetails__container}` + " mt-30 mb-30"}>
       <div className="mb-8">
@@ -30,4 +30,4 @@ export const OrderDetails:FunctionComponent = () => {
       </div>
     </div>
   );
-}
+};

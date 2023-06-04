@@ -30,30 +30,36 @@ import { OrdersFeed } from "../../pages/orders-feed/feed";
 import { CurrentOrderFeed } from "../../pages/current-order-feed/current-order-feed";
 import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
 import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
-import { WS_CONNECTION_START, WS_CONNECTION_SUCCESS, getfeeeeeeeeeeeed } from "../../services/middleware/wsmiddlewareActions"
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  getfeeeeeeeeeeeed,
+} from "../../services/middleware/wsmiddlewareActions";
 
 export const App = (): JSX.Element | null => {
-  const isLoaded = useSelector((store:any) => store.authentification.logginCheck);
+  const isLoaded = useSelector(
+    (store: any) => store.authentification.logginCheck
+  );
   const location = useLocation();
   const background = location.state && location.state.background;
   const dispatch: any = useDispatch();
   const activeCoockie: any = getCookie("accessToken");
   const [coockieCount, setCount] = useState(0);
 
-const CheckUser = (coockie:string) => {
-      if (coockie != null || 0) {
+  const CheckUser = (coockie: string) => {
+    if (coockie != null || 0) {
       console.log("нашел пользователя");
       dispatch(authUserOnLoad());
     } else {
       console.log("залогинься");
-      dispatch({ type: AUTH_FAILED })}}
+      dispatch({ type: AUTH_FAILED });
+    }
+  };
 
-isLoaded === false && CheckUser(activeCoockie)
+  isLoaded === false && CheckUser(activeCoockie);
 
-   
   useEffect(() => {
     dispatch(getFeed());
-    dispatch(getfeeeeeeeeeeeed())
   }, []);
 
   const closePopup = () => {
@@ -117,6 +123,6 @@ isLoaded === false && CheckUser(activeCoockie)
       )}
     </div>
   );
-}
+};
 
 export default App;

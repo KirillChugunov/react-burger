@@ -13,7 +13,12 @@ import { socketMiddleware } from "./services/middleware/wsmiddleware";
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware((thunk), socketMiddleware('wss://norma.nomoreparties.space/orders/all')))
+  composeWithDevTools(
+    applyMiddleware(
+      thunk,
+      socketMiddleware("wss://norma.nomoreparties.space/orders/all")
+    )
+  )
 );
 
 const root = ReactDOM.createRoot(

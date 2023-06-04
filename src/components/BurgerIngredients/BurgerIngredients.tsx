@@ -14,23 +14,21 @@ import { Link, useLocation } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { v4 as uuidv4 } from "uuid";
 
-
-export const BurgerIngredients:FunctionComponent = () => {
+export const BurgerIngredients: FunctionComponent = () => {
   const location = useLocation();
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
-    (store:any) => store.currentBurgerIngredients.ingredientsadded
+    (store: any) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const DraggedElementsAndBuns = useSelector(
-    (store:any) => store.currentBurgerIngredients
+    (store: any) => store.currentBurgerIngredients
   );
   ///Список ингредиентов с API
-  const Ingredients = useSelector((store:any) => store.ingredientList.feed);
+  const Ingredients = useSelector((store: any) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
-  console.log(current)
   ////Рефы разметки для скролла
   const bunRef = useRef<HTMLDivElement>(null);
   const sauseRef = useRef<HTMLDivElement>(null);
@@ -55,15 +53,15 @@ export const BurgerIngredients:FunctionComponent = () => {
   }, [inViewBun, inViewSause, inViewMain]);
 
   /////Функция для наполнения счетчика выбранных элементов
-  function itemCount(element:TingredientAndUnicID):number {
+  function itemCount(element: TingredientAndUnicID): number {
     let itemCount = [];
     return (itemCount = DraggedElements.filter(
-      (item:TingredientAndUnicID) => item._id === element._id
+      (item: TingredientAndUnicID) => item._id === element._id
     ).length);
   }
 
   //////Отдельно для булок с учетом структуры хранилища
-  function BunCount(bun:TingredientAndUnicID):number {
+  function BunCount(bun: TingredientAndUnicID): number {
     return DraggedElementsAndBuns.bun != null &&
       bun.name === DraggedElementsAndBuns.bun.name
       ? 1
@@ -72,9 +70,8 @@ export const BurgerIngredients:FunctionComponent = () => {
 
   /////Функция скролла к конкретному блоку в зависимости от стейта.
 
-  const handleTabClick = (section:any, activeState:string) => {
+  const handleTabClick = (section: any, activeState: string) => {
     setCurrent(activeState);
-    console.log(section)
     section.current.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -114,7 +111,7 @@ export const BurgerIngredients:FunctionComponent = () => {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element:TingredientAndUnicID) => {
+          {Ingredients.map((element: TingredientAndUnicID) => {
             if (element.type === "bun") {
               return (
                 <Link
@@ -170,7 +167,7 @@ export const BurgerIngredients:FunctionComponent = () => {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element:TingredientAndUnicID) => {
+          {Ingredients.map((element: TingredientAndUnicID) => {
             if (element.type === "sauce") {
               return (
                 <Link
@@ -226,7 +223,7 @@ export const BurgerIngredients:FunctionComponent = () => {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element:TingredientAndUnicID) => {
+          {Ingredients.map((element: TingredientAndUnicID) => {
             if (element.type === "main") {
               return (
                 <Link
@@ -278,7 +275,7 @@ export const BurgerIngredients:FunctionComponent = () => {
       </div>
     </section>
   );
-}
+};
 
 BurgerIngredients.propTypes = {
   handleClickForOpeningredientPopup: PropTypes.func,

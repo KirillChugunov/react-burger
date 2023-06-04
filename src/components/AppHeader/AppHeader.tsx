@@ -9,8 +9,10 @@ import {
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-export const AppHeader:FunctionComponent = () => { 
-  const userLogin:Boolean = useSelector((store:any) => store.authentification.isLogin);
+export const AppHeader: FunctionComponent = () => {
+  const userLogin: Boolean = useSelector(
+    (store: any) => store.authentification.isLogin
+  );
   return (
     <header className={styles.header}>
       <nav className={styles.header__navigation}>
@@ -73,4 +75,4 @@ export const AppHeader:FunctionComponent = () => {
       </NavLink>
     </header>
   );
-}
+};

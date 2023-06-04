@@ -68,7 +68,7 @@ export const getAuthCoockie = (token) =>
   request("auth/token", {
     method: "POST",
     headers: config.headers,
-    body: JSON.stringify({ token: getCookie("refreshToken")}),
+    body: JSON.stringify({ token: getCookie("refreshToken") }),
   });
 
 export const requestLogout = (token) =>

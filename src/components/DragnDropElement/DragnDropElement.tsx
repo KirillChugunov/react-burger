@@ -3,24 +3,21 @@ import { useDrag, useDrop } from "react-dnd";
 import PropTypes from "prop-types";
 import { TingredientAndUnicID } from "../../services/types/types";
 
-
 interface IDragnDropElementProps {
-   children:ReactNode,
-   index:number,
-   moveDraggedElements:Function,
-   type:string,
-   element:TingredientAndUnicID
+  children: ReactNode;
+  index: number;
+  moveDraggedElements: Function;
+  type: string;
+  element: TingredientAndUnicID;
 }
 
-
-export const DragnDropElement:FunctionComponent<IDragnDropElementProps> = ({
+export const DragnDropElement: FunctionComponent<IDragnDropElementProps> = ({
   children,
   index,
   moveDraggedElements,
   type,
-  element
+  element,
 }) => {
-
   const [{ isDragging }, dragRef] = useDrag({
     type: "dragged",
     item: { index },
@@ -31,10 +28,10 @@ export const DragnDropElement:FunctionComponent<IDragnDropElementProps> = ({
 
   const [spec, dropRef] = useDrop({
     accept: "dragged",
-    hover: (item:any, monitor:any) => {
+    hover: (item: any, monitor: any) => {
       const dragIndex = item.index;
       const hoverIndex = index;
-      const hoverBoundingRect:any = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect: any = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
@@ -50,9 +47,8 @@ export const DragnDropElement:FunctionComponent<IDragnDropElementProps> = ({
   });
 
   const ref = useRef<HTMLElement>(null);
-  const dragDropRef:any = dragRef(dropRef(ref));
+  const dragDropRef: any = dragRef(dropRef(ref));
   const opacity = isDragging ? 0 : 1;
 
   return <div ref={dragDropRef}>{children}</div>;
 };
-

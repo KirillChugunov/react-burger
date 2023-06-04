@@ -12,16 +12,16 @@ import { sendLogOut } from "../../services/actions/authentification";
 
 export const ProfilePage: FunctionComponent = () => {
   const navigate = useNavigate();
-    const dispatch: any = useDispatch();
+  const dispatch: any = useDispatch();
 
   const handleLogOut = () => {
-    document.cookie =  "accessToken = 0; expires=-1"
+    document.cookie = "accessToken = 0; expires=-1";
     navigate("/");
     dispatch(sendLogOut());
-    setTimeout(function(){
+    setTimeout(function () {
       window.location.reload();
     }, 1000);
-    };
+  };
 
   return (
     <div className={style.profile_container}>

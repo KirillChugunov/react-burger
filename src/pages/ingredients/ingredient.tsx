@@ -4,10 +4,12 @@ import styles from "./IngredientDetails.module.css";
 import { FunctionComponent } from "react";
 import { TingredientAndUnicID } from "../../services/types/types";
 
-export const IngredientsPage = ():JSX.Element | null => {
+export const IngredientsPage = (): JSX.Element | null => {
   const { id } = useParams();
-  const Ingredients = useSelector((store:any) => store.ingredientList.feed);
-  const Ingredient = Ingredients.find((item:TingredientAndUnicID) => item._id === id);
+  const Ingredients = useSelector((store: any) => store.ingredientList.feed);
+  const Ingredient = Ingredients.find(
+    (item: TingredientAndUnicID) => item._id === id
+  );
   if (id && Ingredient) {
     return (
       <div className={styles.ingredientDetails__container}>
@@ -60,7 +62,8 @@ export const IngredientsPage = ():JSX.Element | null => {
           </div>
         </div>
       </div>
-    ) 
- }
- else {return (null)}
-}
+    );
+  } else {
+    return null;
+  }
+};
