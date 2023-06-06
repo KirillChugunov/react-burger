@@ -52,7 +52,7 @@ export const authentification = (state = initialState, action) => {
         ...state,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
-        isLogin: false,
+        isLogin: true,
         logginCheck: false,
       };
 

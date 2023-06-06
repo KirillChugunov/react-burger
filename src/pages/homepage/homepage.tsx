@@ -18,8 +18,13 @@ import { getFeed } from "../../services/actions/ingredientList";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TTextString, TingredientAndUnicID } from "../../services/types/types";
+import { getCookie } from "../../services/Coockie/getCookie";
+import { AUTH_FAILED, authUserOnLoad, refreshAcsesToken } from "../../services/actions/authentification";
 
 export const HomePage: FunctionComponent = () => {
+
+
+
   const dispatch: any = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
   ///Берем кастомный хук
@@ -55,6 +60,8 @@ export const HomePage: FunctionComponent = () => {
     dispatch(sentOrder(newObj));
     openOrderModal();
   }
+
+
 
   /////Обработчик дропа в конструктор (добавляет уникальный айди и диспатчит его в массив)
   const handleDrop = (itemId: TingredientAndUnicID) => {

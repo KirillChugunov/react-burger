@@ -2,17 +2,14 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import styles from "./CardOrder.module.css";
 import { useSelector } from "react-redux";
 
-export const CardOrder = ({ order }) => {
+export const CardOrder = ({ order, status }) => {
   const ingredientsStorage = useSelector((store) => store.ingredientList.feed);
   const orderIngredientsArr = order.ingredients?.map((element) =>
     ingredientsStorage?.find((item) => item._id === element)
   );
 
   const orderPrice = orderIngredientsArr.map((item) => item.price).reduce((partialSum, a) => partialSum + a, 0);
-  console.log(orderPrice)
 
-
-  console.log(orderIngredientsArr);
 
   return (
     <div className={styles.cardorder_container}>
@@ -24,6 +21,8 @@ export const CardOrder = ({ order }) => {
       </div>
       <div className="mt-6 ml-6 mr-6">
         <p className="text text_type_main-medium">{order.name}</p>
+        {status && <p>{status}</p>}
+        
       </div>
       <div className={`${styles.icons_price_container}` + " mt-6 ml-6 mr-6 mb-6"}
       >

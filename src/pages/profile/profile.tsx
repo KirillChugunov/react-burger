@@ -9,13 +9,14 @@ import React, { ChangeEvent, FunctionComponent } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { sendLogOut } from "../../services/actions/authentification";
+import { deleteCookie } from "../../services/Coockie/deleteCoockie";
 
 export const ProfilePage: FunctionComponent = () => {
   const navigate = useNavigate();
   const dispatch: any = useDispatch();
 
   const handleLogOut = () => {
-    document.cookie = "accessToken = 0; expires=-1";
+    deleteCookie("refreshToken")
     navigate("/");
     dispatch(sendLogOut());
     setTimeout(function () {

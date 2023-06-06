@@ -16,6 +16,7 @@ import { HomePage } from "../../pages/homepage/homepage";
 import {
   AUTH_FAILED,
   authUserOnLoad,
+  refreshAcsesToken,
 } from "../../services/actions/authentification";
 import { useDispatch, useSelector } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
@@ -43,20 +44,20 @@ export const App = (): JSX.Element | null => {
   const location = useLocation();
   const background = location.state && location.state.background;
   const dispatch: any = useDispatch();
-  const activeCoockie: any = getCookie("accessToken");
-  const [coockieCount, setCount] = useState(0);
+  const refreshToken: any = getCookie("refreshToken");
+  const accessToken: any = getCookie("accessToken");
 
-  const CheckUser = (coockie: string) => {
-    if (coockie != null || 0) {
-      console.log("нашел пользователя");
-      dispatch(authUserOnLoad());
-    } else {
-      console.log("залогинься");
-      dispatch({ type: AUTH_FAILED });
-    }
+  
+  const CheckUser = (refreshToken:string | undefined, accessToken:string | undefined) => {
+    refreshToken === undefined && dispatch({ type: AUTH_FAILED }) && console.log("залогинься");
+    refreshToken != undefined && accessToken != undefined && dispatch(authUserOnLoad(accessToken))
+    refreshToken != undefined && accessToken === undefined && dispatch(refreshAcsesToken())
   };
 
-  isLoaded === false && CheckUser(activeCoockie);
+  
+  CheckUser(refreshToken,accessToken)
+
+
 
   useEffect(() => {
     dispatch(getFeed());

@@ -5,6 +5,7 @@ import { currentBurgerIngredients } from "./currentburgeringredients";
 import { order } from "./order";
 import { authentification } from "./authentification";
 import { wsReducer } from "../middleware/wsmiddlewareReduser";
+import { wsReducerAuth } from "../middleware-auth/wsmiddlewareReduser-auth";
 import thunk from "redux-thunk";
 
 export const rootReducer = combineReducers({
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   order,
   authentification,
   wsReducer,
+  wsReducerAuth
 });
