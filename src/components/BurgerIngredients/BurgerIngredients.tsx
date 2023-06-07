@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./BurgerIngredients.module.css";
 import {
   Tab,
@@ -11,29 +11,32 @@ import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link, useLocation } from "react-router-dom";
+import { TingredientAndUnicID } from "../../services/types/types";
 import { v4 as uuidv4 } from "uuid";
 
-export function BurgerIngredients() {
+
+export const BurgerIngredients:FunctionComponent = () => {
   const location = useLocation();
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
-    (store) => store.currentBurgerIngredients.ingredientsadded
+    (store:any) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const DraggedElementsAndBuns = useSelector(
-    (store) => store.currentBurgerIngredients
+    (store:any) => store.currentBurgerIngredients
   );
   ///Список ингредиентов с API
-  const Ingredients = useSelector((store) => store.ingredientList.feed);
+  const Ingredients = useSelector((store:any) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
+  console.log(current)
   ////Рефы разметки для скролла
-  const bunRef = useRef();
-  const sauseRef = useRef();
-  const mainRef = useRef();
-  const scrollContainer = useRef();
-  const tabsRef = useRef();
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauseRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
+  const scrollContainer = useRef<HTMLDivElement>(null);
+  const tabsRef = useRef<HTMLDivElement>(null);
 
   ////// Хуки обсервера
   const [bunHeadingRef, inViewBun] = useInView({ threshold: 0 });
@@ -52,15 +55,15 @@ export function BurgerIngredients() {
   }, [inViewBun, inViewSause, inViewMain]);
 
   /////Функция для наполнения счетчика выбранных элементов
-  function itemCount(element) {
+  function itemCount(element:TingredientAndUnicID):number {
     let itemCount = [];
     return (itemCount = DraggedElements.filter(
-      (item) => item._id === element._id
+      (item:TingredientAndUnicID) => item._id === element._id
     ).length);
   }
 
   //////Отдельно для булок с учетом структуры хранилища
-  function BunCount(bun) {
+  function BunCount(bun:TingredientAndUnicID):number {
     return DraggedElementsAndBuns.bun != null &&
       bun.name === DraggedElementsAndBuns.bun.name
       ? 1
@@ -69,8 +72,9 @@ export function BurgerIngredients() {
 
   /////Функция скролла к конкретному блоку в зависимости от стейта.
 
-  const handleTabClick = (section, activeState) => {
+  const handleTabClick = (section:any, activeState:string) => {
     setCurrent(activeState);
+    console.log(section)
     section.current.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -110,7 +114,7 @@ export function BurgerIngredients() {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element:TingredientAndUnicID) => {
             if (element.type === "bun") {
               return (
                 <Link
@@ -166,7 +170,7 @@ export function BurgerIngredients() {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element:TingredientAndUnicID) => {
             if (element.type === "sauce") {
               return (
                 <Link
@@ -222,7 +226,7 @@ export function BurgerIngredients() {
           </h3>
         </div>
         <ul className={styles.ingredients__container}>
-          {Ingredients.map((element) => {
+          {Ingredients.map((element:TingredientAndUnicID) => {
             if (element.type === "main") {
               return (
                 <Link

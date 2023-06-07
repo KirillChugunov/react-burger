@@ -1,21 +1,20 @@
 import {
   Button,
   EmailInput,
-  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import {
   resetPassword,
-  requestPassword as restPassword,
+  requestNewPassword as restPassword,
 } from "../../services/Api/api";
 
 export function PwdRecoveryPage() {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("bob@example.com");
+  const [email, setEmail] = React.useState<string>(" ");
 
-  function handleResetPassword(email) {
+  function handleResetPassword(email:string) {
     resetPassword(email).then(
       (res) => (
         console.log(res),

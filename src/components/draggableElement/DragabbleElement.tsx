@@ -1,8 +1,16 @@
-import React from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
+import { TingredientAndUnicID } from "../../services/types/types";
 
-export const DraggableElement = ({ element, children }) => {
+
+interface IDraggableElementProps {
+  element:TingredientAndUnicID,
+  children:ReactNode
+}
+
+
+export const DraggableElement:FunctionComponent<IDraggableElementProps> = ({ element, children }) => {
   const { _id, type } = element;
   const [{ isDrag }, dragRef] = useDrag({
     type: `${type}`,
@@ -15,6 +23,3 @@ export const DraggableElement = ({ element, children }) => {
   return <div ref={dragRef}>{children}</div>;
 };
 
-DraggableElement.propTypes = {
-  element: PropTypes.object,
-};

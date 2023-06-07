@@ -1,4 +1,4 @@
-import { AppHeader } from "../AppHeader/AppHeader.jsx";
+import { AppHeader } from "../AppHeader/AppHeader";
 import styles from "./App.module.css";
 import {
   BrowserRouter as Router,
@@ -6,33 +6,34 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { LoginPage } from "../../pages/login/login.jsx";
-import { RegisterPage } from "../../pages/register/register.jsx";
-import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password.jsx";
-import { PwdResetPage } from "../../pages/reset-pasword/reset-password.jsx";
-import { ProfilePage } from "../../pages/profile/profile.jsx";
-import { IngredientsPage } from "../../pages/ingredients/ingredient.jsx";
-import { HomePage } from "../../pages/homepage/homepage.jsx";
+import { LoginPage } from "../../pages/login/login";
+import { RegisterPage } from "../../pages/register/register";
+import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password";
+import { PwdResetPage } from "../../pages/reset-pasword/reset-password";
+import { ProfilePage } from "../../pages/profile/profile";
+import { IngredientsPage } from "../../pages/ingredients/ingredient";
+import { HomePage } from "../../pages/homepage/homepage";
 import {
   AUTH_FAILED,
   authUserOnLoad,
-} from "../../services/actions/authentification.jsx";
-import { useDispatch, useSelector } from "react-redux";
-import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement.jsx";
+} from "../../services/actions/authentification";
+import { useDispatch } from "react-redux";
+import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
 import { useEffect } from "react";
-import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser.jsx";
-import { getCookie } from "../../services/Coockie/getCookie.jsx";
-import { getFeed } from "../../services/actions/ingredientList.jsx";
-import { Modal } from "../Modal/modal.jsx";
-import { IngredientDetails } from "../IngredientDetails/IngredientDetails.jsx";
+import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
+import { getCookie } from "../../services/Coockie/getCookie";
+import { getFeed } from "../../services/actions/ingredientList";
+import { Modal } from "../Modal/modal";
+import { useModal } from "../../hooks/useModal";
+import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 
-function App() {
+
+export const App = ():JSX.Element | null => {
   const location = useLocation();
   const background = location.state && location.state.background;
+  const dispatch:any = useDispatch();
+  const activeCoockie:string | undefined = getCookie("accessToken");
 
-
-  const dispatch = useDispatch();
-  const activeCoockie = getCookie("accessToken");
   useEffect(() => {
     if (activeCoockie != null) {
       console.log("нашел пользователя");
@@ -43,10 +44,26 @@ function App() {
     }
   });
 
-
   useEffect(() => {
     dispatch(getFeed());
   }, []);
+
+  const closePopup = () => {
+    closeIngrModal();
+    closeOrderrModal();
+    dispatch({
+      type: DELETE_CURRENT_INGREDIENT,
+      item: "",
+    });
+  };
+
+  const {
+    closeModal: closeIngrModal,
+ } = useModal();
+  const {
+    closeModal: closeOrderrModal,
+  } = useModal();
+
 
   return (
     <div className={styles.page}>
@@ -82,6 +99,7 @@ function App() {
             path="/ingredients/:id"
             element={
               <Modal
+                closePopup={closePopup}
                 title={"Детали ингредиента"}
                 children={<IngredientsPage />}
               ></Modal>

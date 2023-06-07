@@ -5,7 +5,7 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./profile.module.css";
-import React from "react";
+import React, { ChangeEvent, FunctionComponent } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,22 +14,22 @@ import {
 } from "../../services/actions/authentification";
 import { requestUserInfoChange } from "../../services/Api/api";
 
-export function ProfilePage() {
+export const ProfilePage:FunctionComponent = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const userInfo = useSelector((store) => store.authentification);
-  const inputRef = React.useRef(null);
-  const [name, setName] = React.useState(userInfo.user.name);
-  const [email, setEmail] = React.useState(userInfo.user.email);
-  const [password, setPassword] = React.useState("password");
-  const [showButtons, setShowButtons] = React.useState(false);
+  const dispatch:any = useDispatch();
+  const userInfo = useSelector((store:any) => store.authentification);
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [name, setName] = React.useState<string>(userInfo.user.name);
+  const [email, setEmail] = React.useState<string>(userInfo.user.email);
+  const [password, setPassword] = React.useState<string>("password");
+  const [showButtons, setShowButtons] = React.useState<boolean>(false);
 
-  function handleChange(event, setter) {
+  function handleChange(event:ChangeEvent<HTMLInputElement>, setter:Function) {
     setter(event.target.value);
     setShowButtons(true);
   }
 
-  function handleSave(email, name, password) {
+  function handleSave(email:string, name:string, password:string) {
     dispatch(setUserInfo(email, name, password));
     setShowButtons(false);
   }
@@ -47,6 +47,7 @@ export function ProfilePage() {
     navigate("/");
     dispatch(sendLogOut());
   };
+  
   return (
     <div className={style.profile_container}>
       <div className={"mr-15"}>

@@ -4,26 +4,25 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./loginpage.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { requestNewPassword } from "../../services/Api/api";
 
-export function PwdResetPage() {
+export const PwdResetPage = ():JSX.Element  =>  {
   const navigate = useNavigate();
-  const [password, setPassword] = React.useState("password");
-  const [mailcode, setMailCode] = React.useState("mailcode");
+  const [password, setPassword] = React.useState<string>("password");
+  const [mailcode, setMailCode] = React.useState<string>("mailcode");
 
-  function handleResetPassword(password, token) {
+  function handleResetPassword(password:string, token:string) {
     requestNewPassword(password, token).then((res) => console.log(res));
     navigate("/");
   }
 
   const stateLocation = useLocation().state;
-  if (!stateLocation) {
-    navigate("/");
-  } else {
-    return (
+  !stateLocation &&  navigate("/")
+   
+  return (
       <div className={styles.registration_container}>
         <h1
           className={`${styles.text_container}` + " text text_type_main-medium"}
@@ -74,4 +73,4 @@ export function PwdResetPage() {
       </div>
     );
   }
-}
+

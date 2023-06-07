@@ -1,12 +1,11 @@
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
+import { FunctionComponent} from "react";
 import { useSelector } from "react-redux";
 
-export function IngredientDetails(props) {
-  const info = useSelector((store) => store.currentIngredient.state);
-  if (info) {
+  export const IngredientDetails:FunctionComponent = () => {
+  const info = useSelector((store:any) => store.currentIngredient.state);
     return (
-      <div className={styles.ingredientDetails__container}>
+      info && <div className={styles.ingredientDetails__container}>
         <div className={"ml-4 mr-4 mb-4"}>
           <img
             className={styles.img__container}
@@ -56,4 +55,4 @@ export function IngredientDetails(props) {
       </div>
     );
   }
-}
+
