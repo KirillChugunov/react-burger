@@ -16,7 +16,7 @@ export const ProfilePage: FunctionComponent = () => {
   const dispatch: any = useDispatch();
 
   const handleLogOut = () => {
-    deleteCookie("refreshToken")
+    deleteCookie("refreshToken");
     navigate("/");
     dispatch(sendLogOut());
     setTimeout(function () {

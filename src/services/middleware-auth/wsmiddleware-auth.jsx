@@ -3,8 +3,7 @@ import { Middleware, MiddlewareAPI } from "redux";
 
 // import  { AppActions, AppDispatch, RootState } from '../types';
 
-export const socketMiddlewareAuth
- = (wsUrl) => {
+export const socketMiddlewareAuth = (wsUrl) => {
   return (store) => {
     let socket = null;
 
@@ -14,7 +13,6 @@ export const socketMiddlewareAuth
 
       if (type === "WS_CONNECTION_START_AUTH") {
         socket = new WebSocket(wsUrl);
-        console.log(wsUrl)
       }
 
       if (socket) {
@@ -31,7 +29,6 @@ export const socketMiddlewareAuth
         // функция, которая вызывается при получения события от сервера
         socket.onmessage = (event) => {
           const data = JSON.parse(event.data);
-          console.log(data)
           dispatch({ type: "WS_GET_MESSAGE_AUTH", payload: data });
         };
         // функция, которая вызывается при закрытии соединения

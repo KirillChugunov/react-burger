@@ -36,6 +36,8 @@ import {
   WS_CONNECTION_SUCCESS,
   getfeeeeeeeeeeeed,
 } from "../../services/middleware/wsmiddlewareActions";
+import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
+import { Preloader } from "../Preloader/preloader";
 
 export const App = (): JSX.Element | null => {
   const isLoaded = useSelector(
@@ -47,21 +49,20 @@ export const App = (): JSX.Element | null => {
   const refreshToken: any = getCookie("refreshToken");
   const accessToken: any = getCookie("accessToken");
 
-  
-  const CheckUser = (refreshToken:string | undefined, accessToken:string | undefined) => {
-    refreshToken === undefined && dispatch({ type: AUTH_FAILED }) && console.log("залогинься");
-    refreshToken != undefined && accessToken != undefined && dispatch(authUserOnLoad(accessToken))
-    refreshToken != undefined && accessToken === undefined && dispatch(refreshAcsesToken())
+  const CheckUser = (
+    refreshToken: string | undefined,
+    accessToken: string | undefined
+  ) => {
+    refreshToken === undefined && dispatch({ type: AUTH_FAILED });
+    refreshToken != undefined &&
+      accessToken != undefined &&
+      dispatch(authUserOnLoad(accessToken));
+    refreshToken != undefined &&
+      accessToken === undefined &&
+      dispatch(refreshAcsesToken());
   };
 
-  
-  CheckUser(refreshToken,accessToken)
-
-
-
-  useEffect(() => {
-    dispatch(getFeed());
-  }, []);
+  CheckUser(refreshToken, accessToken);
 
   const closePopup = () => {
     closeIngrModal();
@@ -72,6 +73,10 @@ export const App = (): JSX.Element | null => {
     });
   };
 
+  useEffect(() => {
+    dispatch(getFeed());
+  }, []);
+
   const { closeModal: closeIngrModal } = useModal();
   const { closeModal: closeOrderrModal } = useModal();
 
@@ -80,6 +85,7 @@ export const App = (): JSX.Element | null => {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/2" element={<Preloader />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
           path="/login"
@@ -103,9 +109,13 @@ export const App = (): JSX.Element | null => {
         >
           <Route path="/profile/" element={<ProfileInputs />} />
           <Route path="/profile/orders" element={<OrdersHistoryFeed />} />
+          <Route
+            path="/profile/orders/:id"
+            element={<CurrentOrderHistoryFeed />}
+          />
         </Route>
         <Route path="/feed" element={<OrdersFeed />} />
-        <Route path="/feed/1" element={<CurrentOrderFeed />} />
+        <Route path="/feed/:id" element={<CurrentOrderFeed />} />
       </Routes>
 
       {background && (
@@ -117,6 +127,26 @@ export const App = (): JSX.Element | null => {
                 closePopup={closePopup}
                 title={"Детали ингредиента"}
                 children={<IngredientsPage />}
+              ></Modal>
+            }
+          />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal
+                closePopup={closePopup}
+                children={<CurrentOrderFeed />}
+              ></Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal
+                closePopup={closePopup}
+                children={<CurrentOrderHistoryFeed />}
               ></Modal>
             }
           />

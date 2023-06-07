@@ -13,6 +13,7 @@ import { useInView } from "react-intersection-observer";
 import { Link, useLocation } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { v4 as uuidv4 } from "uuid";
+import { Preloader } from "../Preloader/preloader";
 
 export const BurgerIngredients: FunctionComponent = () => {
   const location = useLocation();
@@ -76,7 +77,7 @@ export const BurgerIngredients: FunctionComponent = () => {
   };
 
   ////Рендер
-  return (
+  return Ingredients ? (
     <section className={styles.bgconstuctor__container}>
       <div className="mt-10 mb-5">
         <h2 className={"text text_type_main-large"}>Соберите бургер</h2>
@@ -274,6 +275,8 @@ export const BurgerIngredients: FunctionComponent = () => {
         </ul>
       </div>
     </section>
+  ) : (
+    <Preloader />
   );
 };
 

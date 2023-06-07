@@ -13,8 +13,7 @@ import { socketMiddleware } from "./services/middleware/wsmiddleware";
 import { socketMiddlewareAuth } from "./services/middleware-auth/wsmiddleware-auth";
 import { getCookie } from "./services/Coockie/getCookie";
 
-const accessToken = getCookie("accessToken")
-console.log(getCookie("accessToken"))
+const accessToken = getCookie("accessToken");
 
 const store = createStore(
   rootReducer,
@@ -22,7 +21,10 @@ const store = createStore(
     applyMiddleware(
       thunk,
       socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
-      socketMiddlewareAuth("wss://norma.nomoreparties.space/orders?token="+`${getCookie("accessToken")?.replace('Bearer ','')}`)
+      socketMiddlewareAuth(
+        "wss://norma.nomoreparties.space/orders?token=" +
+          `${getCookie("accessToken")?.replace("Bearer ", "")}`
+      )
     )
   )
 );

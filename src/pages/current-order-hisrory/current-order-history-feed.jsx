@@ -1,22 +1,27 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import styles from "./currrent-order-feed.module.css";
+import styles from "./currrent-order-history-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getfeeeeeeeeeeeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
-import { getFeed } from "../../services/actions/ingredientList";
+import { getfeeeeeeeeeeeedAuth } from "../../services/middleware-auth/wsmiddlewareActions-auth";
 
-export const CurrentOrderFeed = () => {
+export const CurrentOrderHistoryFeed = () => {
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(getfeeeeeeeeeeeed());
+    dispatch(getfeeeeeeeeeeeedAuth());
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
-  const Orders = useSelector((store) => store.wsReducer.messages?.orders); /// нашли массив заказов
+  const Orders = useSelector((store) => store?.wsReducerAuth?.messages.orders); /// нашли массив заказов
+  console.log(Orders);
+
   const Order = Orders?.find((item) => item._id === id); /// нашли наш заказ
-  const ingredientsStorage = useSelector((store) => store.ingredientList?.feed); /// нашли массив ингридиентов
+  const ingredientsStorage = useSelector(
+    (store) => store?.ingredientList?.feed
+  ); /// нашли массив ингридиентов
   const orderIngredientsArr = Order?.ingredients?.map((element) =>
     ingredientsStorage?.find((item) => item._id === element)
   ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
@@ -27,7 +32,7 @@ export const CurrentOrderFeed = () => {
 
   const unicIngredientsWithCount = unicIngredients?.map((element) => ({
     ...element,
-    count: orderIngredientsArr.filter((item) => item._id === element._id)
+    count: orderIngredientsArr?.filter((item) => item._id === element._id)
       .length,
   })); /// добавили к объектам массива уникальных элементов новое свойство для отрисовки количества и расчета стоимости
 

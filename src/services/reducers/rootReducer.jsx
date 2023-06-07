@@ -15,5 +15,5 @@ export const rootReducer = combineReducers({
   order,
   authentification,
   wsReducer,
-  wsReducerAuth
+  wsReducerAuth,
 });

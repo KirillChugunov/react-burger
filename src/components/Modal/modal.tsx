@@ -38,7 +38,7 @@ export const Modal: FunctionComponent<IModalProps> = ({
     if (closePopup) {
       closePopup();
     }
-    navigate("/");
+    navigate(-1);
   };
 
   return ReactDOM.createPortal(

@@ -20,47 +20,62 @@ export const SET_USERINFO = "SET_USERINFO";
 export const authUserOnLoad = (accessToken) => {
   return function (dispatch) {
     checkUserInfo(accessToken)
-    .then((res) =>
-    (dispatch({
-      type: GET_USER_ONLOAD,
-      name: res.user.name,
-      email: res.user.email,
-    }),
-    console.log("аксес токен жив"))
-   )
-   .catch((error) => (
-    console.log(error),
-    getAuthCoockie()
-    .then(
+      .then((res) =>
+        dispatch({
+          type: GET_USER_ONLOAD,
+          name: res.user.name,
+          email: res.user.email,
+        })
+      )
+      .catch(
+        (error) => (
+          console.log(error),
+          getAuthCoockie().then(
+            (res) => (
+              setCookie("refreshToken", res.refreshToken, {
+                expires: 99999999,
+                path: "/",
+              }),
+              setCookie("accessToken", res.accessToken, {
+                expires: 12000,
+                path: "/",
+              }),
+              dispatch({
+                type: GET_TOKEN_ONLOAD,
+                accessToken: res.accessToken,
+                refreshToken: res.refreshToken,
+              }),
+              console.log("аксес токен протух, я обновил")
+            )
+          )
+        )
+      )
+      .catch((error) => console.log(error));
+  };
+};
+
+export const refreshAcsesToken = () => {
+  return function (dispatch) {
+    getAuthCoockie().then(
       (res) => (
-        setCookie("refreshToken", res.refreshToken, { expires: 99999999 }),
-        setCookie("accessToken", res.accessToken, { expires: 12000 }),
+        setCookie("refreshToken", res.refreshToken, {
+          expires: 99999999,
+          path: "/",
+        }),
+        setCookie("accessToken", res.accessToken, {
+          expires: 12000,
+          path: "/",
+        }),
         dispatch({
           type: GET_TOKEN_ONLOAD,
           accessToken: res.accessToken,
           refreshToken: res.refreshToken,
         }),
-        console.log("аксес токен протух, я обновил")))
-    ))
-    .catch((error) => console.log(error))
-  }}
-  
-  export const refreshAcsesToken = () => {
-    return function (dispatch)
-   {getAuthCoockie()
-      .then((res) => (
-          setCookie("refreshToken", res.refreshToken,{ expires: 99999999 } ),
-          setCookie("accessToken", res.accessToken, { expires: 12000 }),
-          dispatch({
-            type: GET_TOKEN_ONLOAD,
-            accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
-          }),
-          console.log("получил аксес токен")))}
-  }
-   
-  
-
+        console.log("получил аксес токен")
+      )
+    );
+  };
+};
 
 export const handleRegistration = (name, email, password) => {
   return function (dispatch) {
