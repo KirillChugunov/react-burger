@@ -5,6 +5,7 @@
   overflow-y: scroll;
   width: 100%;
   height: 916px;
+  
 }
 
 .orders_scroll_container::-webkit-scrollbar {

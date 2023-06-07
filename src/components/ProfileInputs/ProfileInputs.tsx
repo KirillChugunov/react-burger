@@ -8,7 +8,6 @@ import style from "./ProfileInputs.module.css";
 import React, { ChangeEvent, FunctionComponent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../services/actions/authentification";
-import { requestUserInfoChange } from "../../services/Api/api";
 
 export const ProfileInputs: FunctionComponent = () => {
   const dispatch: any = useDispatch();
@@ -41,7 +40,7 @@ export const ProfileInputs: FunctionComponent = () => {
 
   return (
     <div>
-      <div className="mt-6">
+      <div className={`${style.input_container}` + " mt-6"}>
         <Input
           type={"text"}
           placeholder={"Имя"}

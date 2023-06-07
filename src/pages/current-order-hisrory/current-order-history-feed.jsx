@@ -1,4 +1,4 @@
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./currrent-order-history-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
@@ -50,13 +50,15 @@ export const CurrentOrderHistoryFeed = () => {
         {Order?.number}
       </p>
       <p className="text text_type_main-medium mt-10">{Order?.name}</p>
-      <p
-        className={
+      {Order.status === "done" && <p className={
           `${styles.done_textcolor}` + " text text_type_main-default mt-3"
-        }
-      >
-        {Order?.status}
-      </p>
+        }>Готов</p>}
+        {Order.status === "pending" && <p className={
+          `${styles.done_textcolor}` + " text text_type_main-default mt-3"
+        }>Готовиться</p>}
+        {Order.status === "created" &&  <p className={
+          `${styles.done_textcolor}` + " text text_type_main-default mt-3"
+        }>Создан</p>}
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
         {unicIngredientsWithCount?.map((ingredient) => (
@@ -64,9 +66,7 @@ export const CurrentOrderHistoryFeed = () => {
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>
-        <p className="text text_type_main-default text_color_inactive">
-          {Order?.createdAt}
-        </p>
+      <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(Order.createdAt)} />
         <div className={styles.price_container}>
           <p className="text text_type_digits-default">{orderPrice}</p>
           <CurrencyIcon type="primary" />

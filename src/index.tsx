@@ -22,8 +22,7 @@ const store = createStore(
       thunk,
       socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
       socketMiddlewareAuth(
-        "wss://norma.nomoreparties.space/orders?token=" +
-          `${getCookie("accessToken")?.replace("Bearer ", "")}`
+        "wss://norma.nomoreparties.space/orders"
       )
     )
   )

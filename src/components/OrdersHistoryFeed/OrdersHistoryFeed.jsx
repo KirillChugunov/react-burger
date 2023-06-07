@@ -17,7 +17,7 @@ export const OrdersHistoryFeed = () => {
   }, []);
 
   return (
-    <div className={styles.orders_scroll_container}>
+    <div className={`${styles.orders_scroll_container}` + " mt-10"}>
       {orderFeed?.map((order) => (
         <Link
           order={order}

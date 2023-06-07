@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Middleware, MiddlewareAPI } from "redux";
+import { getCookie } from "../Coockie/getCookie";
 
 // import  { AppActions, AppDispatch, RootState } from '../types';
 
@@ -12,8 +13,8 @@ export const socketMiddlewareAuth = (wsUrl) => {
       const { type, payload } = action;
 
       if (type === "WS_CONNECTION_START_AUTH") {
-        socket = new WebSocket(wsUrl);
-      }
+        socket = new WebSocket(wsUrl + "?token=" +
+        `${getCookie("accessToken")?.replace("Bearer ", "")}`)}
 
       if (socket) {
         // функция, которая вызывается при открытии сокета

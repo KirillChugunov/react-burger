@@ -84,7 +84,7 @@ export const App = (): JSX.Element | null => {
     <div className={styles.page}>
       <AppHeader />
       <Routes location={background || location}>
-        <Route path="/" element={<HomePage />} />
+        <Route  path="/" element={<HomePage />} />
         <Route path="/2" element={<Preloader />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
@@ -109,12 +109,12 @@ export const App = (): JSX.Element | null => {
         >
           <Route path="/profile/" element={<ProfileInputs />} />
           <Route path="/profile/orders" element={<OrdersHistoryFeed />} />
-          <Route
+        </Route>
+        <Route path="/feed" element={<OrdersFeed />} />
+        <Route
             path="/profile/orders/:id"
             element={<CurrentOrderHistoryFeed />}
           />
-        </Route>
-        <Route path="/feed" element={<OrdersFeed />} />
         <Route path="/feed/:id" element={<CurrentOrderFeed />} />
       </Routes>
 
