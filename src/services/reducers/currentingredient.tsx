@@ -1,0 +1,18 @@
+import {
+  ADD_CURRENT_INGREDIENT,
+  DELETE_CURRENT_INGREDIENT,
+} from "../actions/currentingredient";
+import { TCurrentIngredientActions, TCurrentIngredientState } from "../types/types";
+
+const initialState:TCurrentIngredientState = null;
+
+export const currentIngredient = (state = initialState, action:TCurrentIngredientActions) => {
+  switch (action.type) {
+    case ADD_CURRENT_INGREDIENT:
+      return { state: { ...action.ingredientAdded } };
+    case DELETE_CURRENT_INGREDIENT:
+      return { state: null };
+    default:
+      return state;
+  }
+};

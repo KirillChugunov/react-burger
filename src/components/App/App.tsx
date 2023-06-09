@@ -18,9 +18,9 @@ import {
   authUserOnLoad,
   refreshAcsesToken,
 } from "../../services/actions/authentification";
-import { useDispatch, useSelector } from "react-redux";
+import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
 import { getCookie } from "../../services/Coockie/getCookie";
 import { getFeed } from "../../services/actions/ingredientList";
@@ -31,17 +31,12 @@ import { OrdersFeed } from "../../pages/orders-feed/feed";
 import { CurrentOrderFeed } from "../../pages/current-order-feed/current-order-feed";
 import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
 import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
-import {
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  getfeeeeeeeeeeeed,
-} from "../../services/middleware/wsmiddlewareActions";
 import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
 import { Preloader } from "../Preloader/preloader";
+import { AppDispatch, AppThunk, RootState, TAuthentificationState } from "../../services/types/types";
 
 export const App = (): JSX.Element | null => {
-  const isLoaded = useSelector(
-    (store: any) => store.authentification.logginCheck
+  const isLoaded:TypedUseSelectorHook<RootState> = useSelector((store:any) => store.authentification.logginCheck
   );
   const location = useLocation();
   const background = location.state && location.state.background;

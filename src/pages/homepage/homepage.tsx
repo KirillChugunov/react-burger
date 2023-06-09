@@ -7,9 +7,8 @@ import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../services/actions/currentburgeringredients";
 import {
-  addCurrentIngredient,
-  DELETE_CURRENT_INGREDIENT,
-} from "../../services/actions/currentingredient.jsx";
+    DELETE_CURRENT_INGREDIENT,
+} from "../../services/actions/currentingredient";
 import { getIDsArray, sentOrder } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -17,13 +16,8 @@ import { v4 as uuidv4 } from "uuid";
 import { getFeed } from "../../services/actions/ingredientList";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
-import { TTextString, TingredientAndUnicID } from "../../services/types/types";
-import { getCookie } from "../../services/Coockie/getCookie";
-import {
-  AUTH_FAILED,
-  authUserOnLoad,
-  refreshAcsesToken,
-} from "../../services/actions/authentification";
+import { TingredientAndUnicID } from "../../services/types/types";
+
 
 export const HomePage: FunctionComponent = () => {
   const dispatch: any = useDispatch();

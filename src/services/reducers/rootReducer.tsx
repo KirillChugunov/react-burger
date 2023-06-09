@@ -6,12 +6,11 @@ import { order } from "./order";
 import { authentification } from "./authentification";
 import { wsReducer } from "../middleware/wsmiddlewareReduser";
 import { wsReducerAuth } from "../middleware-auth/wsmiddlewareReduser-auth";
-import thunk from "redux-thunk";
+
 
 export const rootReducer = combineReducers({
   currentBurgerIngredients,
   ingredientList,
-  currentIngredient,
   order,
   authentification,
   wsReducer,

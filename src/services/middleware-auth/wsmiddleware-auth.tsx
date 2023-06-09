@@ -1,16 +1,15 @@
-import { useSelector } from "react-redux";
 import { Middleware, MiddlewareAPI } from "redux";
 import { getCookie } from "../Coockie/getCookie";
+import { AppDispatch, RootState, TwsmiddlewareAuthActions } from "../types/types";
 
-// import  { AppActions, AppDispatch, RootState } from '../types';
 
-export const socketMiddlewareAuth = (wsUrl) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddlewareAuth = (wsUrl:string):Middleware  => {
+  return ((store:MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket:WebSocket | null = null;
 
-    return (next) => (action) => {
-      const { dispatch, getState } = store;
-      const { type, payload } = action;
+    return (next) => (action:TwsmiddlewareAuthActions) => {
+      const { dispatch } = store;
+      const { type } = action;
 
       if (type === "WS_CONNECTION_START_AUTH") {
         socket = new WebSocket(wsUrl + "?token=" +
@@ -36,15 +35,9 @@ export const socketMiddlewareAuth = (wsUrl) => {
         socket.onclose = (event) => {
           dispatch({ type: "WS_CONNECTION_CLOSED_AUTH", payload: event });
         };
-
-        if (type === "WS_SEND_MESSAGE_AUTH") {
-          const message = payload;
-          // функция для отправки сообщения на сервер
-          socket.send(JSON.stringify(message));
-        }
       }
 
       next(action);
     };
-  };
+  }) as Middleware;
 };
