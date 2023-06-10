@@ -1,12 +1,12 @@
-import { Dispatch } from 'redux';
+import { Dispatch } from "redux";
 import { getIngredientsFromServer } from "../Api/api";
-import { AppDispatch, AppThunk } from '../types/types';
-export const GET_FEED:"GET_FEED" = "GET_FEED";
-export const GET_FEED_FAILED:"GET_FEED_FAILED" = "GET_FEED_FAILED";
-export const GET_FEED_SUCCESS:"GET_FEED_SUCCESS" = "GET_FEED_SUCCESS";
+import { AppDispatch, AppThunk } from "../types/types";
+export const GET_FEED: "GET_FEED" = "GET_FEED";
+export const GET_FEED_FAILED: "GET_FEED_FAILED" = "GET_FEED_FAILED";
+export const GET_FEED_SUCCESS: "GET_FEED_SUCCESS" = "GET_FEED_SUCCESS";
 
-export const getFeed:AppThunk = () => {
-  return function (dispatch:AppDispatch) {
+export const getFeed: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_FEED,
     });
@@ -24,4 +24,4 @@ export const getFeed:AppThunk = () => {
         });
       });
   };
-}
+};

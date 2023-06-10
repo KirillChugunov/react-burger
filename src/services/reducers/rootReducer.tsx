@@ -7,7 +7,6 @@ import { authentification } from "./authentification";
 import { wsReducer } from "../middleware/wsmiddlewareReduser";
 import { wsReducerAuth } from "../middleware-auth/wsmiddlewareReduser-auth";
 
-
 export const rootReducer = combineReducers({
   currentBurgerIngredients,
   ingredientList,

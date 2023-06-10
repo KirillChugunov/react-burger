@@ -15,7 +15,7 @@ export const PwdResetPage = (): JSX.Element => {
   const [mailcode, setMailCode] = React.useState<string>("mailcode");
 
   function handleResetPassword(password: string, token: string) {
-    requestNewPassword(password, token).then((res) => console.log(res));
+    requestNewPassword(password, token);
     navigate("/");
   }
 

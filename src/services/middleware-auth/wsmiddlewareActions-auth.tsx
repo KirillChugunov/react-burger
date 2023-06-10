@@ -12,10 +12,10 @@ export const WS_GET_MESSAGE_AUTH: "WS_GET_MESSAGE_AUTH" = "WS_GET_MESSAGE_AUTH";
 export const WS_SEND_MESSAGE_AUTH: "WS_SEND_MESSAGE_AUTH" =
   "WS_SEND_MESSAGE_AUTH";
 
-export const getfeeeeeeeeeeeedAuth:AppThunk = () => {
+export const getOrdersHistoryFeed: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     dispatch({
-      type: WS_CONNECTION_START_AUTH
+      type: WS_CONNECTION_START_AUTH,
     });
   };
 };

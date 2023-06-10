@@ -20,7 +20,7 @@
   flex-direction: column;
   gap: 16px;
   height: 366px;
-  overflow: auto
+  overflow: auto;
 }
 
 .cards_container::-webkit-scrollbar {

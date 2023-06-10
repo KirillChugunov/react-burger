@@ -6,12 +6,15 @@ import {
   WS_GET_MESSAGE,
 } from "./wsmiddlewareActions";
 
-const initialState:TwsmiddlewareState = {
+const initialState: TwsmiddlewareState = {
   wsConnected: false,
   messages: {},
 };
 
-export const wsReducer = (state = initialState, action:TwsmiddlewareActions) => {
+export const wsReducer = (
+  state = initialState,
+  action: TwsmiddlewareActions
+) => {
   switch (action.type) {
     // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
     // Установим флаг wsConnected в состояние true

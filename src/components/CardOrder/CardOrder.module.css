@@ -61,7 +61,6 @@
 
 .img_array_container {
   display: flex;
-  
 }
 
 .img_opacity {
@@ -69,7 +68,7 @@
   height: 56px;
   width: 56px;
   object-fit: cover;
-  background: black
+  background: black;
 }
 
 .text_opacity {
@@ -79,7 +78,7 @@
   letter-spacing: 0em;
   text-align: center;
   display: inline-block;
- }
+}
 
 .rest_orders_container {
   position: relative;
@@ -92,7 +91,6 @@
   text-align: center;
   width: 100%;
   margin-left: -15px;
-  
 }
 .text_box:before {
   content: "";

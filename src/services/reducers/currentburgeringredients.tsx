@@ -43,7 +43,8 @@ export const currentBurgerIngredients = (
           ...state,
           bun: { ...action.ingredientsadded },
         };
-      } return {
+      }
+      return {
         ...state,
         ingredientsadded: [...state.ingredientsadded, action.ingredientsadded],
       };

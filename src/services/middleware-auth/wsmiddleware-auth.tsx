@@ -1,19 +1,26 @@
 import { Middleware, MiddlewareAPI } from "redux";
 import { getCookie } from "../Coockie/getCookie";
-import { AppDispatch, RootState, TwsmiddlewareAuthActions } from "../types/types";
+import {
+  AppDispatch,
+  RootState,
+  TwsmiddlewareAuthActions,
+} from "../types/types";
 
+export const socketMiddlewareAuth = (wsUrl: string): Middleware => {
+  return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
 
-export const socketMiddlewareAuth = (wsUrl:string):Middleware  => {
-  return ((store:MiddlewareAPI<AppDispatch, RootState>) => {
-    let socket:WebSocket | null = null;
-
-    return (next) => (action:TwsmiddlewareAuthActions) => {
+    return (next) => (action: TwsmiddlewareAuthActions) => {
       const { dispatch } = store;
       const { type } = action;
 
       if (type === "WS_CONNECTION_START_AUTH") {
-        socket = new WebSocket(wsUrl + "?token=" +
-        `${getCookie("accessToken")?.replace("Bearer ", "")}`)}
+        socket = new WebSocket(
+          wsUrl +
+            "?token=" +
+            `${getCookie("accessToken")?.replace("Bearer ", "")}`
+        );
+      }
 
       if (socket) {
         // функция, которая вызывается при открытии сокета

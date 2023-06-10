@@ -1,4 +1,3 @@
-
 import style from "./profile.module.css";
 import { FunctionComponent } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
@@ -24,11 +23,14 @@ export const ProfilePage: FunctionComponent = () => {
       <div className={`${style.links_container}` + " mr-15"}>
         <div className={"mb-20"}>
           <div className="mt-6">
-            <NavLink  to="/profile" end className={({ isActive }) =>
+            <NavLink
+              to="/profile"
+              end
+              className={({ isActive }) =>
                 isActive
-                ? `${style.link}` + " text text_type_main-medium"
-                : `${style.link_inactive}` +
-                  " text text_type_main-medium text_color_inactive"
+                  ? `${style.link}` + " text text_type_main-medium"
+                  : `${style.link_inactive}` +
+                    " text text_type_main-medium text_color_inactive"
               }
             >
               Профиль
@@ -36,14 +38,16 @@ export const ProfilePage: FunctionComponent = () => {
           </div>
           <div className="mt-6">
             <NavLink
-              to="/profile/orders" caseSensitive 
+              to="/profile/orders"
+              caseSensitive
               className={({ isActive }) =>
                 isActive
                   ? `${style.link}` + " text text_type_main-medium"
                   : `${style.link_inactive}` +
                     " text text_type_main-medium text_color_inactive"
               }
-            end>
+              end
+            >
               История заказов
             </NavLink>
           </div>

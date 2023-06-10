@@ -4,13 +4,13 @@ import img from "./../../images/bun-0111111.png";
 import { TingredientAndCount } from "../../services/types/types";
 import { FunctionComponent } from "react";
 
-
-
 interface ICurrentOrderCardProps {
-  ingredient:TingredientAndCount
+  ingredient: TingredientAndCount;
 }
 
-export const CurrentOrderCard:FunctionComponent<ICurrentOrderCardProps> = ({ ingredient }) => {
+export const CurrentOrderCard: FunctionComponent<ICurrentOrderCardProps> = ({
+  ingredient,
+}) => {
   return (
     <div className={`${styles.ingr_container}` + " mr-6"}>
       <div className={styles.img_container}>

@@ -33,12 +33,11 @@ import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
 import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
 import { Preloader } from "../Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
-import type {} from "redux-thunk/extend-redux"; 
+import type {} from "redux-thunk/extend-redux";
 import { useSelector } from "../../hooks/customUseSelector";
 
 export const App = (): JSX.Element | null => {
-  const isLoaded = useSelector((store) => store.authentification.logginCheck
-  );
+  const isLoaded = useSelector((store) => store.authentification.logginCheck);
   const location = useLocation();
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
@@ -80,7 +79,7 @@ export const App = (): JSX.Element | null => {
     <div className={styles.page}>
       <AppHeader />
       <Routes location={background || location}>
-        <Route  path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route path="/2" element={<Preloader />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
@@ -108,9 +107,9 @@ export const App = (): JSX.Element | null => {
         </Route>
         <Route path="/feed" element={<OrdersFeed />} />
         <Route
-            path="/profile/orders/:id"
-            element={<CurrentOrderHistoryFeed />}
-          />
+          path="/profile/orders/:id"
+          element={<CurrentOrderHistoryFeed />}
+        />
         <Route path="/feed/:id" element={<CurrentOrderFeed />} />
       </Routes>
 

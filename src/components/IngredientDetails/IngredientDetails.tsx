@@ -2,7 +2,6 @@ import { useSelector } from "../../hooks/customUseSelector";
 import styles from "./IngredientDetails.module.css";
 import { FunctionComponent } from "react";
 
-
 export const IngredientDetails: FunctionComponent = () => {
   const info = useSelector((store: any) => store.currentIngredient.state);
   return (

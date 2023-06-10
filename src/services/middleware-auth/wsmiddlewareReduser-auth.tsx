@@ -1,4 +1,7 @@
-import { TwsmiddlewareAuthActions, TwsmiddlewareAuthState } from "../types/types";
+import {
+  TwsmiddlewareAuthActions,
+  TwsmiddlewareAuthState,
+} from "../types/types";
 import {
   WS_CONNECTION_SUCCESS_AUTH,
   WS_CONNECTION_ERROR_AUTH,
@@ -6,12 +9,15 @@ import {
   WS_GET_MESSAGE_AUTH,
 } from "./wsmiddlewareActions-auth";
 
-const initialState:TwsmiddlewareAuthState = {
+const initialState: TwsmiddlewareAuthState = {
   wsConnected: false,
   messages: {},
 };
 
-export const wsReducerAuth = (state = initialState, action:TwsmiddlewareAuthActions) => {
+export const wsReducerAuth = (
+  state = initialState,
+  action: TwsmiddlewareAuthActions
+) => {
   switch (action.type) {
     // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
     // Установим флаг wsConnected в состояние true

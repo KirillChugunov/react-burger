@@ -12,16 +12,13 @@ import { BrowserRouter, Router } from "react-router-dom";
 import { socketMiddleware } from "./services/middleware/wsmiddleware";
 import { socketMiddlewareAuth } from "./services/middleware-auth/wsmiddleware-auth";
 
-
 export const store = createStore(
   rootReducer,
   composeWithDevTools(
     applyMiddleware(
       thunk,
       socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
-      socketMiddlewareAuth(
-        "wss://norma.nomoreparties.space/orders"
-      )
+      socketMiddlewareAuth("wss://norma.nomoreparties.space/orders")
     )
   )
 );

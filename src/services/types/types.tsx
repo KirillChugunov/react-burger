@@ -38,30 +38,34 @@ import {
   WS_GET_MESSAGE_AUTH,
   WS_SEND_MESSAGE_AUTH,
 } from "../middleware-auth/wsmiddlewareActions-auth";
-import { Action, ActionCreator} from 'redux';
+import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../middleware/wsmiddlewareActions";
-import type {} from "redux-thunk/extend-redux"
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE,
+} from "../middleware/wsmiddlewareActions";
+import type {} from "redux-thunk/extend-redux";
 
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; 
-
-
-
+export type AppDispatch = typeof store.dispatch;
 
 export type AppThunk<TReturn = void> = ActionCreator<
-ThunkAction<TReturn, Action, RootState, TApplicationActions>
->
+  ThunkAction<TReturn, Action, RootState, TApplicationActions>
+>;
 
 export type TOrder = {
-createdAt:string,
-ingredients:Array<string>,
-name:string,
-number:number,
-status:string,
-updatedAt:string,
-_id:string
-}
+  createdAt: string;
+  ingredients: Array<string>;
+  name: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+};
 
 export type Tingredient = {
   _id: string;
@@ -81,9 +85,8 @@ export type TingredientAndUnicID = Tingredient & {
 };
 
 export type TingredientAndCount = Tingredient & {
- count:number
+  count: number;
 };
-
 
 export type TTextString = {
   ingredients?: string;
@@ -231,7 +234,7 @@ export type TCurrentIngredientActions =
   | IAddCurrentIngredient
   | IDeleteCurrentIngredient;
 
-  export type TCurrentIngredientState = null | object
+export type TCurrentIngredientState = null | object;
 
 ///////////////////////////////////ingredientList
 
@@ -265,30 +268,29 @@ export interface IWSConnectionStartAuth {
 
 export interface IWSConnectionSuccessAuth {
   readonly type: typeof WS_CONNECTION_SUCCESS_AUTH;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionErrorAuth {
   readonly type: typeof WS_CONNECTION_ERROR_AUTH;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionClosedAuth {
   readonly type: typeof WS_CONNECTION_CLOSED_AUTH;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionGetMessageAuth {
   readonly type: typeof WS_GET_MESSAGE_AUTH;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionSendMessageAuth {
   readonly type: typeof WS_SEND_MESSAGE_AUTH;
-  readonly payload: any
+  readonly payload: any;
 }
 
 export type TwsmiddlewareAuthState = {
-    wsConnected: boolean,
-    messages:Object
-  };
-
+  wsConnected: boolean;
+  messages: Object;
+};
 
 export type TwsmiddlewareAuthActions =
   | IWSConnectionStartAuth
@@ -298,38 +300,35 @@ export type TwsmiddlewareAuthActions =
   | IWSConnectionGetMessageAuth
   | IWSConnectionSendMessageAuth;
 
-
 ///////////////////////////////wsmiddleware
 export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
-
 }
 export interface IWSConnectionSuccess {
   readonly type: typeof WS_CONNECTION_SUCCESS;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionError {
   readonly type: typeof WS_CONNECTION_ERROR;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionClosed {
   readonly type: typeof WS_CONNECTION_CLOSED;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionGetMessage {
   readonly type: typeof WS_GET_MESSAGE;
-  readonly payload: any
+  readonly payload: any;
 }
 export interface IWSConnectionSendMessage {
   readonly type: typeof WS_SEND_MESSAGE;
-  readonly payload: any
+  readonly payload: any;
 }
 
 export type TwsmiddlewareState = {
-    wsConnected: boolean,
-    messages:Object
-  };
-
+  wsConnected: boolean;
+  messages: Object;
+};
 
 export type TwsmiddlewareActions =
   | IWSConnectionStart
@@ -339,8 +338,6 @@ export type TwsmiddlewareActions =
   | IWSConnectionGetMessage
   | IWSConnectionSendMessage;
 
-
-
 export type TApplicationActions =
   | TOrderActions
   | TCurrentBurgerIngredientActions
@@ -348,4 +345,4 @@ export type TApplicationActions =
   | TCurrentIngredientActions
   | TIngredientListActions
   | TwsmiddlewareAuthActions
-  | TwsmiddlewareActions
+  | TwsmiddlewareActions;

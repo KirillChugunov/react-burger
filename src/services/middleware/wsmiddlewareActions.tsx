@@ -9,7 +9,7 @@ export const WS_CONNECTION_CLOSED: "WS_CONNECTION_CLOSED" =
 export const WS_GET_MESSAGE: "WS_GET_MESSAGE" = "WS_GET_MESSAGE";
 export const WS_SEND_MESSAGE: "WS_SEND_MESSAGE" = "WS_SEND_MESSAGE";
 
-export const getfeeeeeeeeeeeed:AppThunk = () => {
+export const getOrdersFeed: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     dispatch({
       type: WS_CONNECTION_START,

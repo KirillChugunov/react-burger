@@ -5,13 +5,16 @@ import {
 } from "../actions/ingredientList";
 import { TIngredientListActions, TIngredientListState } from "../types/types";
 
-const initialState:TIngredientListState = {
+const initialState: TIngredientListState = {
   feedRequest: false,
   feedFailed: false,
   feed: [],
 };
 
-export const ingredientList = (state = initialState, action:TIngredientListActions) => {
+export const ingredientList = (
+  state = initialState,
+  action: TIngredientListActions
+) => {
   switch (action.type) {
     case GET_FEED: {
       return {

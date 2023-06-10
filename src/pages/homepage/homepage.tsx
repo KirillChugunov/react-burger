@@ -6,9 +6,7 @@ import { Modal } from "../../components/Modal/modal";
 import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
 import { useSelector } from "react-redux";
 import { addItem } from "../../services/actions/currentburgeringredients";
-import {
-    DELETE_CURRENT_INGREDIENT,
-} from "../../services/actions/currentingredient";
+import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 import { getIDsArray, sentOrder } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -18,7 +16,6 @@ import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { useDispatch } from "../../hooks/customDispatch";
-
 
 export const HomePage: FunctionComponent = () => {
   const dispatch: any = useDispatch();
