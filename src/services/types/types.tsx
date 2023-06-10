@@ -40,26 +40,28 @@ import {
 } from "../middleware-auth/wsmiddlewareActions-auth";
 import { Action, ActionCreator} from 'redux';
 import { ThunkAction } from "redux-thunk";
-import { ArrayTypeNode } from "typescript";
 import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE, WS_SEND_MESSAGE } from "../middleware/wsmiddlewareActions";
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from 'react-redux';
+import type {} from "redux-thunk/extend-redux"
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch; 
 
 
+
+
 export type AppThunk<TReturn = void> = ActionCreator<
 ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >
-export const useSelector: TypedUseSelectorHook<RootState> = selectorHook; 
-export const useDispatch = () => dispatchHook<AppDispatch | AppThunk>; 
 
-
-
+export type TOrder = {
+createdAt:string,
+ingredients:Array<string>,
+name:string,
+number:number,
+status:string,
+updatedAt:string,
+_id:string
+}
 
 export type Tingredient = {
   _id: string;
@@ -77,6 +79,11 @@ export type TingredientAndUnicID = Tingredient & {
   unicID: string;
   index?: number;
 };
+
+export type TingredientAndCount = Tingredient & {
+ count:number
+};
+
 
 export type TTextString = {
   ingredients?: string;

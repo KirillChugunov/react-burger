@@ -18,7 +18,6 @@ import {
   authUserOnLoad,
   refreshAcsesToken,
 } from "../../services/actions/authentification";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
 import { useEffect } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
@@ -33,14 +32,16 @@ import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
 import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
 import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
 import { Preloader } from "../Preloader/preloader";
-import { AppDispatch, AppThunk, RootState, TAuthentificationState } from "../../services/types/types";
+import { useDispatch } from "../../hooks/customDispatch";
+import type {} from "redux-thunk/extend-redux"; 
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const App = (): JSX.Element | null => {
-  const isLoaded:TypedUseSelectorHook<RootState> = useSelector((store:any) => store.authentification.logginCheck
+  const isLoaded = useSelector((store) => store.authentification.logginCheck
   );
   const location = useLocation();
   const background = location.state && location.state.background;
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const refreshToken: any = getCookie("refreshToken");
   const accessToken: any = getCookie("accessToken");
 

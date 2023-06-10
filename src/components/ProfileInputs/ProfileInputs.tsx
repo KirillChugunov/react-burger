@@ -6,11 +6,12 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./ProfileInputs.module.css";
 import React, { ChangeEvent, FunctionComponent } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { setUserInfo } from "../../services/actions/authentification";
+import { useDispatch } from "../../hooks/customDispatch";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const ProfileInputs: FunctionComponent = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const userInfo = useSelector((store: any) => store.authentification);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [name, setName] = React.useState(userInfo.user.name);

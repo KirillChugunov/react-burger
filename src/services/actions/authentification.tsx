@@ -21,7 +21,7 @@ export const SET_USERINFO:"SET_USERINFO" = "SET_USERINFO";
 
 
 export const authUserOnLoad:AppThunk = (accessToken:string) => {
-  return function (dispatch:AppDispatch) {
+  return function (dispatch) {
     checkUserInfo(accessToken)
       .then((res) =>
         dispatch({

@@ -6,8 +6,8 @@ import {
 import React, { FunctionComponent } from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { checkLogin } from "../../services/actions/authentification";
+import { useDispatch } from "../../hooks/customDispatch";
 
 export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();

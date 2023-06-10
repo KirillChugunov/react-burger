@@ -1,6 +1,7 @@
+import { useSelector } from "../../hooks/customUseSelector";
 import styles from "./IngredientDetails.module.css";
 import { FunctionComponent } from "react";
-import { useSelector } from "react-redux";
+
 
 export const IngredientDetails: FunctionComponent = () => {
   const info = useSelector((store: any) => store.currentIngredient.state);

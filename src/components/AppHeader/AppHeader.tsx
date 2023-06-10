@@ -7,7 +7,7 @@ import {
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const AppHeader: FunctionComponent = () => {
   const userLogin: Boolean = useSelector(

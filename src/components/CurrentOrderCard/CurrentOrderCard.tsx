@@ -1,8 +1,16 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./CurrentOrderCard.module.css";
 import img from "./../../images/bun-0111111.png";
+import { TingredientAndCount } from "../../services/types/types";
+import { FunctionComponent } from "react";
 
-export const CurrentOrderCard = ({ ingredient }) => {
+
+
+interface ICurrentOrderCardProps {
+  ingredient:TingredientAndCount
+}
+
+export const CurrentOrderCard:FunctionComponent<ICurrentOrderCardProps> = ({ ingredient }) => {
   return (
     <div className={`${styles.ingr_container}` + " mr-6"}>
       <div className={styles.img_container}>

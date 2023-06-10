@@ -2,10 +2,11 @@ import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burge
 import styles from "./currrent-order-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getfeeeeeeeeeeeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
 import { getFeed } from "../../services/actions/ingredientList";
+import { useDispatch } from "../../hooks/customDispatch";
 
 export const CurrentOrderFeed = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ export const CurrentOrderFeed = () => {
   const { id } = useParams(); // взяли айдишник из ссылки
   const Orders = useSelector((store) => store.wsReducer.messages?.orders); /// нашли массив заказов
   const Order = Orders?.find((item) => item._id === id); /// нашли наш заказ
+  console.log(Order)
   const ingredientsStorage = useSelector((store) => store.ingredientList?.feed); /// нашли массив ингридиентов
   const orderIngredientsArr = Order?.ingredients?.map((element) =>
     ingredientsStorage?.find((item) => item._id === element)
@@ -47,13 +49,13 @@ export const CurrentOrderFeed = () => {
       <p className="text text_type_main-medium mt-10">{Order?.name}</p>
 
       
-{Order.status === "done" && <p className={
+       {Order?.status === "done" && <p className={
           `${styles.done_textcolor}` + " text text_type_main-default mt-3"
         }>Готов</p>}
-        {Order.status === "pending" && <p className={
+        {Order?.status === "pending" && <p className={
           `${styles.done_textcolor}` + " text text_type_main-default mt-3"
         }>Готовиться</p>}
-        {Order.status === "created" &&  <p className={
+        {Order?.status === "created" &&  <p className={
           `${styles.done_textcolor}` + " text text_type_main-default mt-3"
         }>Создан</p>}
         
@@ -65,7 +67,7 @@ export const CurrentOrderFeed = () => {
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>
-      <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(Order.createdAt)} />
+      <FormattedDate className="text text_type_main-default text_color_inactive" date={new Date(Order?.createdAt)} />
         <div className={styles.price_container}>
           <p className="text text_type_digits-default">{orderPrice}</p>
           <CurrencyIcon type="primary" />

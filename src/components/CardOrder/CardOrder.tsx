@@ -1,14 +1,19 @@
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./CardOrder.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../hooks/customUseSelector";
+import { FunctionComponent } from "react";
+import { TOrder, Tingredient, TingredientAndUnicID } from "../../services/types/types";
 
-export const CardOrder = ({ order, status }) => {
-  const ingredientsStorage = useSelector((store) => store.ingredientList?.feed);
-  const orderIngredientsArr = order.ingredients?.map((element) =>
-    ingredientsStorage?.find((item) => item._id === element)
+interface ICardOrderProps {
+  order: TOrder
+}
+
+export const CardOrder:FunctionComponent<ICardOrderProps> = ({ order }) => {
+  const ingredientsStorage = useSelector((store) => store.ingredientList.feed)
+  const orderIngredientsArr:any = order.ingredients?.map((element:string) =>
+    ingredientsStorage.find((item:Tingredient) => item._id === element)
   );
-
-  const orderPrice = orderIngredientsArr?.map((item) => item.price).reduce((partialSum, a) => partialSum + a, 0);
+ const orderPrice = orderIngredientsArr?.map((item:any) => item.price).reduce((partialSum:number, a:number) => partialSum + a, 0);
 
 
   return (
@@ -21,16 +26,16 @@ export const CardOrder = ({ order, status }) => {
       </div>
       <div className="mt-6 ml-6 mr-6">
         <p className="text text_type_main-medium">{order.name}</p>
-        {status === "done" && <p>Готов</p>}
-        {status === "pending" && <p>Готовиться</p>}
-        {status === "created" &&  <p>Создан</p>}
+        {order.status === "done" && <p>Готов</p>}
+        {order.status === "pending" && <p>Готовиться</p>}
+        {order.status === "created" &&  <p>Создан</p>}
         
       </div>
       <div className={`${styles.icons_price_container}` + " mt-6 ml-6 mr-6 mb-6"}
       >
         <div className={styles.price_container}>
           <div className={styles.img_array_container}>
-          {orderIngredientsArr.slice(0,5).map((element) => (
+          {orderIngredientsArr.slice(0,5).map((element:any) => (
          
             <div  className={`${styles.img_overlay} ${styles.img}`} >
                <img className={styles.img} src={element.image} />

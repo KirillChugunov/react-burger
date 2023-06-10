@@ -1,8 +1,8 @@
 import styles from "./OrderDetails.module.css";
-import { useSelector } from "react-redux";
 import logo from "./../../images/order accpeted/popup/done111.png";
 import { FunctionComponent } from "react";
 import { Preloader } from "../Preloader/preloader";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const OrderDetails: FunctionComponent = () => {
   const OrderNunber = useSelector((store: any) => store.order.orderNumber);

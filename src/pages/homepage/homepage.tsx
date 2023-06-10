@@ -4,7 +4,7 @@ import { BurgerIngredients } from "../../components/BurgerIngredients/BurgerIngr
 import { BurgerConstructor } from "../../components/BurgerConstructor/BurgerConstructor";
 import { Modal } from "../../components/Modal/modal";
 import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addItem } from "../../services/actions/currentburgeringredients";
 import {
     DELETE_CURRENT_INGREDIENT,
@@ -17,6 +17,7 @@ import { getFeed } from "../../services/actions/ingredientList";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
+import { useDispatch } from "../../hooks/customDispatch";
 
 
 export const HomePage: FunctionComponent = () => {

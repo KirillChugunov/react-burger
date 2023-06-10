@@ -6,7 +6,6 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { DraggableElement } from "../draggableElement/DragabbleElement";
 import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
@@ -14,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { v4 as uuidv4 } from "uuid";
 import { Preloader } from "../Preloader/preloader";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const BurgerIngredients: FunctionComponent = () => {
   const location = useLocation();

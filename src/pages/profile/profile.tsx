@@ -2,13 +2,13 @@
 import style from "./profile.module.css";
 import { FunctionComponent } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { sendLogOut } from "../../services/actions/authentification";
 import { deleteCookie } from "../../services/Coockie/deleteCoockie";
+import { useDispatch } from "../../hooks/customDispatch";
 
 export const ProfilePage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
 
   const handleLogOut = () => {
     deleteCookie("refreshToken");

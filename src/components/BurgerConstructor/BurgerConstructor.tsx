@@ -6,7 +6,6 @@ import {
   Button,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { DragnDropElement } from "../DragnDropElement/DragnDropElement";
 import {
   sortIngredientConstructor,
@@ -15,6 +14,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
 import { FunctionComponent } from "react";
+import { useDispatch } from "../../hooks/customDispatch";
+import { useSelector } from "../../hooks/customUseSelector";
 
 interface IBurgerConstructorProps {
   onDropHandler: Function;
