@@ -12,7 +12,7 @@ import {
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
 import { useNavigate } from "react-router-dom";
-import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
+import { Tingredient, TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
 import { FunctionComponent } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
@@ -72,8 +72,9 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
   };
 
   //////Обработчик удаления
-  function handleItemDelete(element: TingredientAndUnicID) {
+  function handleItemDelete(element:TingredientAndUnicID) {
     dispatch(deleteItem(element.unicID));
+    console.log(element.unicID)
   }
 
   const handleOrder = (): void => {

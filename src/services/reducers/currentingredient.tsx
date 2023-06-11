@@ -7,7 +7,7 @@ import {
   TCurrentIngredientState,
 } from "../types/types";
 
-const initialState: TCurrentIngredientState = null;
+const initialState: TCurrentIngredientState = {ingredient:null};
 
 export const currentIngredient = (
   state = initialState,

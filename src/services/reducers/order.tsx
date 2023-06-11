@@ -31,7 +31,6 @@ export const order = (state = initialState, action: TOrderActions) => {
         orderSent: true,
         // Сбрасываем статус наличия ошибок от предыдущего запроса
         // на случай, если он был и завершился с ошибкой
-        feedFailed: false,
       };
     }
     case GET_ORDER_SUCCESS: {

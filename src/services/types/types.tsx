@@ -68,23 +68,26 @@ export type TOrder = {
 };
 
 export type Tingredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
+  calories: number,
+  carbohydrates: number,
+  fat: number,
+  image: string,
+  image_large: string,
+  image_mobile: string,
+  name: string,
+  price: number,
+  proteins: number,
+  type:string,
+  __v: number,
+  _id: string,
+  unicID: string
 };
 
 export type TingredientAndUnicID = Tingredient & {
-  unicID: string;
   index?: number;
 };
 
-export type TingredientAndCount = Tingredient & {
+export type TingredientAndCount = TingredientAndUnicID & {
   count: number;
 };
 
