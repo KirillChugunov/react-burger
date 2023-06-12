@@ -1,12 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import {
   AUTH_FAILED,
   GET_TOKEN_ONLOAD,
   GET_USERINFO,
   GET_USER_ONLOAD,
   LOGIN,
+  LOGIN_FAILED,
   LOGOUT,
   REGISTRATION,
-} from "../actions/authentification";
+} from "../actions/authentication";
 import {
   TAuthentificationActions,
   TAuthentificationState,
@@ -20,10 +22,11 @@ const initialState: TAuthentificationState = {
   },
   accessToken: "",
   refreshToken: "",
-  logginCheck: false,
+  loginCheck: false,
+  loginFailed: false,
 };
 
-export const authentification = (
+export const authentication = (
   state = initialState,
   action: TAuthentificationActions
 ) => {
@@ -38,7 +41,7 @@ export const authentification = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        logginCheck: true,
+        loginCheck: true,
       };
 
     case LOGIN:
@@ -51,7 +54,8 @@ export const authentification = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        logginCheck: true,
+        loginCheck: true,
+        loginFailed: false,
       };
 
     case GET_TOKEN_ONLOAD:
@@ -60,7 +64,7 @@ export const authentification = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        logginCheck: false,
+        loginCheck: false,
       };
 
     case GET_USER_ONLOAD:
@@ -71,7 +75,7 @@ export const authentification = (
           email: action.email,
         },
         isLogin: true,
-        logginCheck: true,
+        loginCheck: true,
       };
 
     case GET_USERINFO:
@@ -82,7 +86,7 @@ export const authentification = (
           email: action.email,
         },
         isLogin: true,
-        logginCheck: true,
+        loginCheck: true,
       };
 
     case LOGOUT:
@@ -95,14 +99,14 @@ export const authentification = (
         },
         accessToken: "",
         refreshToken: "",
-        logginCheck: false,
+        loginCheck: false,
       };
 
     case AUTH_FAILED:
       return {
         ...state,
         isLogin: false,
-        logginCheck: true,
+        loginCheck: true,
       };
 
     case GET_USER_ONLOAD:
@@ -113,7 +117,14 @@ export const authentification = (
           name: action.email,
         },
         isLogin: true,
-        logginCheck: true,
+        loginCheck: true,
+      };
+
+    case LOGIN_FAILED:
+      return {
+        ...state,
+        loginFailed: true,
+        loginCheck: false,
       };
 
     default:

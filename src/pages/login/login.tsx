@@ -3,21 +3,26 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect } from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { checkLogin } from "../../services/actions/authentification";
+import { checkLogin } from "../../services/actions/authentication";
 import { useDispatch } from "../../hooks/customDispatch";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState("bob@example.com");
   const [password, setPassword] = React.useState("password");
   const dispatch: any = useDispatch();
+  const isLoginFailed = useSelector(
+    (store) => store.authentication.loginFailed
+  );
+  console.log(isLoginFailed);
 
   function handleLoginButton(email: string, password: string) {
-    navigate("/");
     dispatch(checkLogin(email, password));
+    navigate("/");
   }
 
   return (

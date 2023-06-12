@@ -5,10 +5,7 @@ import {
 import React from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  resetPassword,
-  requestNewPassword as restPassword,
-} from "../../services/Api/api";
+import { resetPassword } from "../../services/Api/api";
 
 export function PwdRecoveryPage() {
   const navigate = useNavigate();

@@ -1,7 +1,12 @@
 import React, { FunctionComponent, ReactNode, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
+import {
+  DragSourceMonitor,
+  DropTargetMonitor,
+  useDrag,
+  useDrop,
+} from "react-dnd";
 import PropTypes from "prop-types";
-import { TingredientAndUnicID } from "../../services/types/types";
+import { Tingredient, TingredientAndUnicID } from "../../services/types/types";
 
 interface IDragnDropElementProps {
   children: ReactNode;
@@ -28,7 +33,7 @@ export const DragnDropElement: FunctionComponent<IDragnDropElementProps> = ({
 
   const [spec, dropRef] = useDrop({
     accept: "dragged",
-    hover: (item: any, monitor: any) => {
+    hover: (item: TingredientAndUnicID, monitor: any) => {
       const dragIndex = item.index;
       const hoverIndex = index;
       const hoverBoundingRect: any = ref.current?.getBoundingClientRect();

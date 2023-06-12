@@ -6,13 +6,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./ProfileInputs.module.css";
 import React, { ChangeEvent, FunctionComponent } from "react";
-import { setUserInfo } from "../../services/actions/authentification";
+import { setUserInfo } from "../../services/actions/authentication";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 
 export const ProfileInputs: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((store: any) => store.authentification);
+  const userInfo = useSelector((store: any) => store.authentication);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [name, setName] = React.useState(userInfo.user.name);
   const [email, setEmail] = React.useState(userInfo.user.email);

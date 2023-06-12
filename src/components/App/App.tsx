@@ -17,7 +17,7 @@ import {
   AUTH_FAILED,
   authUserOnLoad,
   refreshAcsesToken,
-} from "../../services/actions/authentification";
+} from "../../services/actions/authentication";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
 import { useEffect } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
@@ -37,12 +37,11 @@ import type {} from "redux-thunk/extend-redux";
 import { useSelector } from "../../hooks/customUseSelector";
 
 export const App = (): JSX.Element | null => {
-  const isLoaded = useSelector((store) => store.authentification.logginCheck);
   const location = useLocation();
   const background = location.state && location.state.background;
   const dispatch = useDispatch();
-  const refreshToken: any = getCookie("refreshToken");
-  const accessToken: any = getCookie("accessToken");
+  const refreshToken: string | undefined = getCookie("refreshToken");
+  const accessToken: string | undefined = getCookie("accessToken");
 
   const CheckUser = (
     refreshToken: string | undefined,

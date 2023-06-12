@@ -1,12 +1,12 @@
-import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import styles from "./IngredientDetails.module.css";
 import { FunctionComponent } from "react";
 import { TingredientAndUnicID } from "../../services/types/types";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const IngredientsPage = (): JSX.Element | null => {
   const { id } = useParams();
-  const Ingredients = useSelector((store: any) => store.ingredientList.feed);
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
   const Ingredient = Ingredients.find(
     (item: TingredientAndUnicID) => item._id === id
   );
@@ -17,7 +17,7 @@ export const IngredientsPage = (): JSX.Element | null => {
           <img
             className={styles.img__container}
             src={Ingredient.image}
-            alt={`изображение ${Ingredients.name}`}
+            alt={`изображение ${Ingredient.name}`}
           ></img>
         </div>
         <div className="ml-4 mr-4 mb-4">

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, SetStateAction } from "react";
 import styles from "./BurgerIngredients.module.css";
 import {
   Tab,
@@ -20,14 +20,14 @@ export const BurgerIngredients: FunctionComponent = () => {
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
-    (store: any) => store.currentBurgerIngredients.ingredientsadded
+    (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const DraggedElementsAndBuns = useSelector(
-    (store: any) => store.currentBurgerIngredients
+    (store) => store.currentBurgerIngredients
   );
   ///Список ингредиентов с API
-  const Ingredients = useSelector((store: any) => store.ingredientList.feed);
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
   const [current, setCurrent] = React.useState("one");
   ////Рефы разметки для скролла
@@ -55,7 +55,7 @@ export const BurgerIngredients: FunctionComponent = () => {
 
   /////Функция для наполнения счетчика выбранных элементов
   function itemCount(element: TingredientAndUnicID): number {
-    let itemCount = [];
+    let itemCount;
     return (itemCount = DraggedElements.filter(
       (item: TingredientAndUnicID) => item._id === element._id
     ).length);
@@ -71,9 +71,12 @@ export const BurgerIngredients: FunctionComponent = () => {
 
   /////Функция скролла к конкретному блоку в зависимости от стейта.
 
-  const handleTabClick = (section: any, activeState: string) => {
+  const handleTabClick = (
+    section: React.RefObject<HTMLDivElement>,
+    activeState: string
+  ) => {
     setCurrent(activeState);
-    section.current.scrollIntoView({ behavior: "smooth" });
+    section.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   ////Рендер

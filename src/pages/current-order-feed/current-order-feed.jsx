@@ -10,11 +10,12 @@ import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
 import { getFeed } from "../../services/actions/ingredientList";
 import { useDispatch } from "../../hooks/customDispatch";
+import { wsUrl } from "../../services/Api/api";
 
 export const CurrentOrderFeed = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrdersFeed());
+    dispatch(getOrdersFeed(wsUrl.all));
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки

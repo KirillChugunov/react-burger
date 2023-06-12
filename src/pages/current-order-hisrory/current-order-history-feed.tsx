@@ -7,22 +7,22 @@ import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrder
 import { useParams } from "react-router-dom";
 import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
-import { getOrdersHistoryFeed } from "../../services/middleware-auth/wsmiddlewareActions-auth";
 import { useDispatch } from "../../hooks/customDispatch";
 import { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder, Tingredient } from "../../services/types/types";
 import { TingredientAndCount } from "../../services/types/types";
+import { wsUrl } from "../../services/Api/api";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrdersHistoryFeed());
+    dispatch(getOrdersFeed(wsUrl.auth));
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
-  const Orders = useSelector((store) => store.wsReducerAuth?.messages.orders); /// нашли массив заказов
+  const Orders = useSelector((store) => store.wsReducer?.messages.orders); /// нашли массив заказов
   const Order = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
   const ingredientsStorage = useSelector(
     (store) => store?.ingredientList?.feed

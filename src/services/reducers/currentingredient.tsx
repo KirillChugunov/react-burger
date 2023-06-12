@@ -7,7 +7,9 @@ import {
   TCurrentIngredientState,
 } from "../types/types";
 
-const initialState: TCurrentIngredientState = {ingredient:null};
+const initialState: TCurrentIngredientState = {
+  ingredient: {},
+};
 
 export const currentIngredient = (
   state = initialState,
@@ -17,7 +19,7 @@ export const currentIngredient = (
     case ADD_CURRENT_INGREDIENT:
       return { state: { ...action.ingredientAdded } };
     case DELETE_CURRENT_INGREDIENT:
-      return { state: null };
+      return { state: {} };
     default:
       return state;
   }

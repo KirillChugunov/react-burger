@@ -1,7 +1,7 @@
 import { AnyARecord } from "dns";
 import { FunctionComponent, ReactNode, useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "../../hooks/customUseSelector";
 
 interface IProtectedRouteElementProps {
   element: ReactNode;
@@ -10,10 +10,8 @@ interface IProtectedRouteElementProps {
 export const ProtectedRouteElement: FunctionComponent<
   IProtectedRouteElementProps
 > = ({ element }) => {
-  const userLogin = useSelector((store: any) => store.authentification.isLogin);
-  const isLoaded = useSelector(
-    (store: any) => store.authentification.logginCheck
-  );
+  const userLogin = useSelector((store) => store.authentication.isLogin);
+  const isLoaded = useSelector((store) => store.authentication.loginCheck);
 
   if (isLoaded === true) {
     return userLogin ? element : ((<Navigate to="/login" replace />) as any);

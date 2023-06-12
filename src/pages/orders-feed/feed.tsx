@@ -9,13 +9,14 @@ import { useDispatch } from "../../hooks/customDispatch";
 import React, { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
+import { wsUrl } from "../../services/Api/api";
 
 export const OrdersFeed: FunctionComponent = () => {
   const location = useLocation();
   const feed = useSelector((store) => store.wsReducer);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrdersFeed());
+    dispatch(getOrdersFeed(wsUrl.all));
   }, []);
 
   return feed.messages.orders ? (

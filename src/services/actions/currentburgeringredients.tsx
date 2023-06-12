@@ -5,10 +5,6 @@ export const DELETE_INGREDIENT: "DELETE_INGREDIENT" = "DELETE_INGREDIENT";
 export const SORT_ITEMS: "SORT_ITEMS" = "SORT_ITEMS";
 export const RESET_INGREDIENT: "RESET_INGREDIENT" = "RESET_INGREDIENT";
 
-
-
-
-
 export const sortIngredientConstructor = (indredients: Array<Object>) => ({
   type: SORT_ITEMS,
   indredients: indredients,

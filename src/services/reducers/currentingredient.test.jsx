@@ -1,10 +1,8 @@
 import * as types from "../actions/currentingredient";
-import {
-  arrayForTest, bunForTest,
- } from "../hardcodefortests";
+import { arrayForTest, bunForTest } from "../hardcodefortests";
 import { currentIngredient } from "./currentingredient";
 
-const InitSt = {}
+const InitSt = {};
 
 describe("currentingredient reducer", () => {
   it("should return the initial state", () => {
@@ -15,14 +13,11 @@ describe("currentingredient reducer", () => {
     expect(
       currentIngredient(InitSt, {
         type: types.ADD_CURRENT_INGREDIENT,
-        ingredientAdded:bunForTest
-
+        ingredientAdded: bunForTest,
       })
     ).toEqual({
-      state:{...bunForTest} 
-
-    }
-    );
+      state: { ...bunForTest },
+    });
   });
 
   it("should handle DELETE_CURRENT_INGREDIENT", () => {
@@ -31,12 +26,7 @@ describe("currentingredient reducer", () => {
         type: types.DELETE_CURRENT_INGREDIENT,
       })
     ).toEqual({
-      state:null
-    }
-    );
+      state: null,
+    });
   });
-
-
-
-  });
-
+});

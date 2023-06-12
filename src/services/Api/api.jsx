@@ -5,6 +5,12 @@ export const config = {
   headers: { "Content-Type": "application/json" },
 };
 
+export const wsUrl = {
+  all: "wss://norma.nomoreparties.space/orders/all",
+  auth:
+    "wss://norma.nomoreparties.space/orders?token=" +
+    `${getCookie("accessToken")?.replace("Bearer ", "")}`,
+};
 export function checkResponse(res) {
   if (res.ok) {
     return res.json();

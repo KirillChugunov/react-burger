@@ -1,4 +1,3 @@
-import { getOrdersHistoryFeed } from "../../services/middleware-auth/wsmiddlewareActions-auth";
 import { CardOrder } from "../CardOrder/CardOrder";
 import styles from "./OrdersHistoryFeed.module.css";
 import { useEffect, FunctionComponent } from "react";
@@ -6,16 +5,17 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
+import { wsUrl } from "../../services/Api/api";
+import { getCookie } from "../../services/Coockie/getCookie";
+import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 
 export const OrdersHistoryFeed: FunctionComponent = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const orderFeed = useSelector(
-    (store) => store.wsReducerAuth.messages?.orders
-  );
+  const orderFeed = useSelector((store) => store.wsReducer.messages?.orders);
 
   useEffect(() => {
-    dispatch(getOrdersHistoryFeed());
+    dispatch(getOrdersFeed(wsUrl.auth));
   }, []);
 
   return (

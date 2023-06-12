@@ -16,6 +16,7 @@ export const REGISTRATION: "REGISTRATION" = "REGISTRATION";
 export const GET_TOKEN_ONLOAD: "GET_TOKEN_ONLOAD" = "GET_TOKEN_ONLOAD";
 export const AUTH_FAILED: "AUTH_FAILED" = "AUTH_FAILED";
 export const SET_USERINFO: "SET_USERINFO" = "SET_USERINFO";
+export const LOGIN_FAILED: "LOGIN_FAILED" = "LOGIN_FAILED";
 
 export const authUserOnLoad: AppThunk = (accessToken: string) => {
   return function (dispatch) {
@@ -96,19 +97,22 @@ export const handleRegistration: AppThunk = (
 };
 export const checkLogin: AppThunk = (email: string, password: string) => {
   return function (dispatch: AppDispatch) {
-    requestLogin(email, password).then((res) => {
-      setCookie("accessToken", res.accessToken, { expires: 12000 });
-      setCookie("refreshToken", res.refreshToken, { expires: 12000 });
-      dispatch({
-        type: LOGIN,
-        name: res.user.name,
-        email: res.user.email,
-        accessToken: res.accessToken,
-        refreshToken: res.refreshToken,
-      });
-    });
+    requestLogin(email, password)
+      .then((res) => {
+        setCookie("accessToken", res.accessToken, { expires: 12000 });
+        setCookie("refreshToken", res.refreshToken, { expires: 12000 });
+        dispatch({
+          type: LOGIN,
+          name: res.user.name,
+          email: res.user.email,
+          accessToken: res.accessToken,
+          refreshToken: res.refreshToken,
+        });
+      })
+      .catch((error) => (console.log(error), dispatch({ type: LOGIN_FAILED })));
   };
 };
+
 export const getUserInfo: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     checkUserInfo().then((res) =>
