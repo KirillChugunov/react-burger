@@ -25,7 +25,7 @@ export const Modal: FunctionComponent<IModalProps> = ({
   useEffect(() => {
     function closeByEscape(evt: KeyboardEvent) {
       if (evt.key === "Escape") {
-        closePopup();
+        navigate(-1);
       }
     }
     document.addEventListener("keydown", closeByEscape);
@@ -35,10 +35,7 @@ export const Modal: FunctionComponent<IModalProps> = ({
   }, []);
 
   const handleClose = () => {
-    if (closePopup) {
-      closePopup();
-    }
-    navigate(-1);
+       navigate(-1);
   };
 
   return ReactDOM.createPortal(
@@ -50,8 +47,8 @@ export const Modal: FunctionComponent<IModalProps> = ({
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
           {title && <p className="text text_type_main-medium">{title}</p>}
           <div className={styles.closeIconContainer}>
-            <CloseIcon type="primary" onClick={handleClose} />
-          </div>
+                        <CloseIcon type="primary" onClick={handleClose}/>
+                      </div>
         </div>
         {children}
       </div>

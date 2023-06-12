@@ -12,6 +12,7 @@ import { BrowserRouter, Router } from "react-router-dom";
 import { socketMiddleware } from "./services/middleware/wsmiddleware";
 import { socketMiddlewareAuth } from "./services/middleware-auth/wsmiddleware-auth";
 
+
 export const store = createStore(
   rootReducer,
   composeWithDevTools(
@@ -22,6 +23,7 @@ export const store = createStore(
     )
   )
 );
+
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -36,6 +38,9 @@ root.render(
     </Provider>
   </BrowserRouter>
 );
+
+
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
