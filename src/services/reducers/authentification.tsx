@@ -7,8 +7,12 @@ import {
   LOGOUT,
   REGISTRATION,
 } from "../actions/authentification";
+import {
+  TAuthentificationActions,
+  TAuthentificationState,
+} from "../types/types";
 
-const initialState = {
+const initialState: TAuthentificationState = {
   isLogin: false,
   user: {
     email: "",
@@ -19,7 +23,10 @@ const initialState = {
   logginCheck: false,
 };
 
-export const authentification = (state = initialState, action) => {
+export const authentification = (
+  state = initialState,
+  action: TAuthentificationActions
+) => {
   switch (action.type) {
     case REGISTRATION:
       return {
@@ -52,7 +59,7 @@ export const authentification = (state = initialState, action) => {
         ...state,
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
-        isLogin: false,
+        isLogin: true,
         logginCheck: false,
       };
 

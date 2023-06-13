@@ -1,12 +1,15 @@
-import { FunctionComponent, ReactNode,  } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import styles from "./ModalOverlay.module.css";
 
 interface IModalOverlayProps {
-  closePopup:Function,
-  children:ReactNode
- }
+  closePopup: Function;
+  children: ReactNode;
+}
 
-export const ModalOverlay:FunctionComponent<IModalOverlayProps> = ({closePopup, children}) => {
+export const ModalOverlay: FunctionComponent<IModalOverlayProps> = ({
+  closePopup,
+  children,
+}) => {
   return (
     <div
       tabIndex={-1}
@@ -16,4 +19,4 @@ export const ModalOverlay:FunctionComponent<IModalOverlayProps> = ({closePopup, 
       {children}
     </div>
   );
-}
+};

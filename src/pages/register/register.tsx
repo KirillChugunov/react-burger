@@ -7,17 +7,21 @@ import {
 import React, { FunctionComponent } from "react";
 import styles from "./registerpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { handleRegistration } from "../../services/actions/authentification";
+import { useDispatch } from "../../hooks/customDispatch";
 
-export const RegisterPage:FunctionComponent = () => {
-  const dispatch:any = useDispatch();
+export const RegisterPage: FunctionComponent = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
   const [name, setName] = React.useState<string>("bob@example.com");
   const [email, setEmail] = React.useState<string>("bob@example.com");
   const [password, setPassword] = React.useState<string>("password");
 
-  function handleRegistrationButton(name:string, email:string, password:string) {
+  function handleRegistrationButton(
+    name: string,
+    email: string,
+    password: string
+  ) {
     dispatch(handleRegistration(name, email, password));
     navigate("/");
   }
@@ -81,4 +85,4 @@ export const RegisterPage:FunctionComponent = () => {
       </div>
     </div>
   );
-}
+};

@@ -7,21 +7,23 @@ import * as ReactDOM from "react-dom";
 import { useModal } from "../../hooks/useModal.js";
 import { useNavigate } from "react-router-dom";
 
-const modalRoot = document.getElementById("modal") as Element
-
+const modalRoot = document.getElementById("modal") as Element;
 
 interface IModalProps {
-  closePopup:Function,
-  children:ReactNode,
-  title?:string
- }
+  closePopup: Function;
+  children: ReactNode;
+  title?: string;
+}
 
-
-export const Modal:FunctionComponent<IModalProps> = ({closePopup, children, title}) => {
+export const Modal: FunctionComponent<IModalProps> = ({
+  closePopup,
+  children,
+  title,
+}) => {
   const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
   useEffect(() => {
-    function closeByEscape(evt:KeyboardEvent) {
+    function closeByEscape(evt: KeyboardEvent) {
       if (evt.key === "Escape") {
         closePopup();
       }
@@ -36,7 +38,7 @@ export const Modal:FunctionComponent<IModalProps> = ({closePopup, children, titl
     if (closePopup) {
       closePopup();
     }
-    navigate("/");
+    navigate(-1);
   };
 
   return ReactDOM.createPortal(
@@ -46,9 +48,7 @@ export const Modal:FunctionComponent<IModalProps> = ({closePopup, children, titl
         onClick={(e) => e.stopPropagation()}
       >
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
-          {title && (
-            <p className="text text_type_main-medium">{title}</p>
-          )}
+          {title && <p className="text text_type_main-medium">{title}</p>}
           <div className={styles.closeIconContainer}>
             <CloseIcon type="primary" onClick={handleClose} />
           </div>
@@ -58,5 +58,4 @@ export const Modal:FunctionComponent<IModalProps> = ({closePopup, children, titl
     </ModalOverlay>,
     modalRoot
   );
-}
-
+};

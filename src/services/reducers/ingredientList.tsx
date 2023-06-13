@@ -1,56 +1,48 @@
 import {
-  GET_IDS,
-  GET_ORDER,
-  GET_ORDER_FAILED,
-  GET_ORDER_SUCCESS,
-} from "./../actions/order";
+  GET_FEED,
+  GET_FEED_FAILED,
+  GET_FEED_SUCCESS,
+} from "../actions/ingredientList";
+import { TIngredientListActions, TIngredientListState } from "../types/types";
 
-const initialState = {
-  ingredientIDs: [],
-  orderNumber: "",
-  orderSent: false,
-  orderConfirmed: false,
-  orderFailed: false,
+const initialState: TIngredientListState = {
+  feedRequest: false,
+  feedFailed: false,
+  feed: [],
 };
 
-export const order = (state = initialState, action) => {
+export const ingredientList = (
+  state = initialState,
+  action: TIngredientListActions
+) => {
   switch (action.type) {
-    case GET_IDS: {
-      return {
-        ...state,
-        ingredientIDs: [...action.idsArr],
-      };
-    }
-  }
-  switch (action.type) {
-    case GET_ORDER: {
+    case GET_FEED: {
       return {
         ...state,
         // Запрос начал выполняться
-        orderSent: true,
+        feedRequest: true,
         // Сбрасываем статус наличия ошибок от предыдущего запроса
         // на случай, если он был и завершился с ошибкой
         feedFailed: false,
       };
     }
-    case GET_ORDER_SUCCESS: {
+    case GET_FEED_SUCCESS: {
       return {
         ...state,
         // Запрос выполнился успешно, помещаем полученные данные в хранилище
-        orderNumber: action.ordernumber,
+        feed: action.feed,
         // Запрос закончил своё выполнение
-        orderSent: false,
-        orderConfirmed: true,
+        feedRequest: false,
       };
     }
-    case GET_ORDER_FAILED: {
+    case GET_FEED_FAILED: {
       return {
         ...state,
         // Запрос выполнился с ошибкой,
         // выставляем соответсвующие значения в хранилище
-        orderFailed: true,
+        feedFailed: true,
         // Запрос закончил своё выполнение
-        orderSent: false,
+        feedRequest: false,
       };
     }
     default: {

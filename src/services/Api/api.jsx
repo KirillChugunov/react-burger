@@ -17,7 +17,10 @@ export const getIngredientsFromServer = () => request(`ingredients`);
 export const sendOrderToServer = (newObj) =>
   request(`orders`, {
     method: "POST",
-    headers: config.headers,
+    headers: {
+      "Content-Type": "application/json",
+      authorization: getCookie("accessToken"),
+    },
     body: JSON.stringify(newObj),
   });
 

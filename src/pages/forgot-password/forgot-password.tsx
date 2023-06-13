@@ -14,7 +14,7 @@ export function PwdRecoveryPage() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>(" ");
 
-  function handleResetPassword(email:string) {
+  function handleResetPassword(email: string) {
     resetPassword(email).then(
       (res) => (
         console.log(res),

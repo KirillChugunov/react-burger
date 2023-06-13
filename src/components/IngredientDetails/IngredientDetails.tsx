@@ -1,11 +1,12 @@
+import { useSelector } from "../../hooks/customUseSelector";
 import styles from "./IngredientDetails.module.css";
-import { FunctionComponent} from "react";
-import { useSelector } from "react-redux";
+import { FunctionComponent } from "react";
 
-  export const IngredientDetails:FunctionComponent = () => {
-  const info = useSelector((store:any) => store.currentIngredient.state);
-    return (
-      info && <div className={styles.ingredientDetails__container}>
+export const IngredientDetails: FunctionComponent = () => {
+  const info = useSelector((store: any) => store.currentIngredient.state);
+  return (
+    info && (
+      <div className={styles.ingredientDetails__container}>
         <div className={"ml-4 mr-4 mb-4"}>
           <img
             className={styles.img__container}
@@ -53,6 +54,6 @@ import { useSelector } from "react-redux";
           </div>
         </div>
       </div>
-    );
-  }
-
+    )
+  );
+};

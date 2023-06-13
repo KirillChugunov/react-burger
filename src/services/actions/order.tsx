@@ -1,18 +1,19 @@
 import { sendOrderToServer } from "../Api/api";
+import { AppDispatch, AppThunk } from "../types/types";
 import { RESET_INGREDIENT } from "./currentburgeringredients";
-export const GET_IDS = "GET_IDS";
-export const GET_ORDER = "GET_ORDER";
-export const GET_ORDER_FAILED = "GET_ORDER_FAILED";
-export const GET_ORDER_SUCCESS = "GET_ORDER_SUCCESS";
-export { sendOrderToServer } from "./../Api/api";
+export const GET_IDS: "GET_IDS" = "GET_IDS";
+export const GET_ORDER: "GET_ORDER" = "GET_ORDER";
+export const GET_ORDER_FAILED: "GET_ORDER_FAILED" = "GET_ORDER_FAILED";
+export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
+export { sendOrderToServer } from "../Api/api";
 
-export const getIDsArray = (IDs) => ({
+export const getIDsArray = (IDs: Array<string>) => ({
   type: GET_IDS,
   idsArr: IDs,
 });
 
-export function sentOrder(newObj) {
-  return function (dispatch) {
+export const sentOrder: AppThunk = (newObj: object) => {
+  return function (dispatch: AppDispatch) {
     dispatch({
       type: GET_ORDER,
     });
@@ -35,4 +36,4 @@ export function sentOrder(newObj) {
         });
       });
   };
-}
+};

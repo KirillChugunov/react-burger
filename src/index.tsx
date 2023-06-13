@@ -3,16 +3,24 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
 import { rootReducer } from "./services/reducers/rootReducer";
-import { compose, createStore, applyMiddleware } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import { BrowserRouter, Router } from "react-router-dom";
+import { socketMiddleware } from "./services/middleware/wsmiddleware";
+import { socketMiddlewareAuth } from "./services/middleware-auth/wsmiddleware-auth";
 
-const store = createStore(
+export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(thunk))
+  composeWithDevTools(
+    applyMiddleware(
+      thunk,
+      socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
+      socketMiddlewareAuth("wss://norma.nomoreparties.space/orders")
+    )
+  )
 );
 
 const root = ReactDOM.createRoot(

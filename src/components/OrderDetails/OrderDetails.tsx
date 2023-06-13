@@ -1,11 +1,12 @@
 import styles from "./OrderDetails.module.css";
-import { useSelector } from "react-redux";
 import logo from "./../../images/order accpeted/popup/done111.png";
 import { FunctionComponent } from "react";
+import { Preloader } from "../Preloader/preloader";
+import { useSelector } from "../../hooks/customUseSelector";
 
-export const OrderDetails:FunctionComponent = () => {
-  const OrderNunber = useSelector((store:any) => store.order.orderNumber);
-  return (
+export const OrderDetails: FunctionComponent = () => {
+  const OrderNunber = useSelector((store: any) => store.order.orderNumber);
+  return OrderNunber ? (
     <div className={`${styles.orderdetails__container}` + " mt-30 mb-30"}>
       <div className="mb-8">
         <p className="text text_type_digits-large">{OrderNunber}</p>
@@ -29,5 +30,7 @@ export const OrderDetails:FunctionComponent = () => {
         </p>
       </div>
     </div>
+  ) : (
+    <Preloader />
   );
-}
+};

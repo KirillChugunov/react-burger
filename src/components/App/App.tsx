@@ -16,8 +16,8 @@ import { HomePage } from "../../pages/homepage/homepage";
 import {
   AUTH_FAILED,
   authUserOnLoad,
+  refreshAcsesToken,
 } from "../../services/actions/authentification";
-import { useDispatch } from "react-redux";
 import { ProtectedRouteElement } from "../ProtectedRoute/ProtectedRouteElement";
 import { useEffect } from "react";
 import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
@@ -26,27 +26,38 @@ import { getFeed } from "../../services/actions/ingredientList";
 import { Modal } from "../Modal/modal";
 import { useModal } from "../../hooks/useModal";
 import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
+import { OrdersFeed } from "../../pages/orders-feed/feed";
+import { CurrentOrderFeed } from "../../pages/current-order-feed/current-order-feed";
+import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
+import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
+import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
+import { Preloader } from "../Preloader/preloader";
+import { useDispatch } from "../../hooks/customDispatch";
+import type {} from "redux-thunk/extend-redux";
+import { useSelector } from "../../hooks/customUseSelector";
 
-
-export const App = ():JSX.Element | null => {
+export const App = (): JSX.Element | null => {
+  const isLoaded = useSelector((store) => store.authentification.logginCheck);
   const location = useLocation();
   const background = location.state && location.state.background;
-  const dispatch:any = useDispatch();
-  const activeCoockie:string | undefined = getCookie("accessToken");
+  const dispatch = useDispatch();
+  const refreshToken: any = getCookie("refreshToken");
+  const accessToken: any = getCookie("accessToken");
 
-  useEffect(() => {
-    if (activeCoockie != null) {
-      console.log("нашел пользователя");
-      dispatch(authUserOnLoad());
-    } else {
-      console.log("залогинься");
-      dispatch({ type: AUTH_FAILED });
-    }
-  });
+  const CheckUser = (
+    refreshToken: string | undefined,
+    accessToken: string | undefined
+  ) => {
+    refreshToken === undefined && dispatch({ type: AUTH_FAILED });
+    refreshToken != undefined &&
+      accessToken != undefined &&
+      dispatch(authUserOnLoad(accessToken));
+    refreshToken != undefined &&
+      accessToken === undefined &&
+      dispatch(refreshAcsesToken());
+  };
 
-  useEffect(() => {
-    dispatch(getFeed());
-  }, []);
+  CheckUser(refreshToken, accessToken);
 
   const closePopup = () => {
     closeIngrModal();
@@ -57,19 +68,19 @@ export const App = ():JSX.Element | null => {
     });
   };
 
-  const {
-    closeModal: closeIngrModal,
- } = useModal();
-  const {
-    closeModal: closeOrderrModal,
-  } = useModal();
+  useEffect(() => {
+    dispatch(getFeed());
+  }, []);
 
+  const { closeModal: closeIngrModal } = useModal();
+  const { closeModal: closeOrderrModal } = useModal();
 
   return (
     <div className={styles.page}>
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/2" element={<Preloader />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
           path="/login"
@@ -90,7 +101,16 @@ export const App = ():JSX.Element | null => {
         <Route
           path="/profile"
           element={<ProtectedRouteElement element={<ProfilePage />} />}
+        >
+          <Route path="/profile/" element={<ProfileInputs />} />
+          <Route path="/profile/orders" element={<OrdersHistoryFeed />} />
+        </Route>
+        <Route path="/feed" element={<OrdersFeed />} />
+        <Route
+          path="/profile/orders/:id"
+          element={<CurrentOrderHistoryFeed />}
         />
+        <Route path="/feed/:id" element={<CurrentOrderFeed />} />
       </Routes>
 
       {background && (
@@ -105,10 +125,30 @@ export const App = ():JSX.Element | null => {
               ></Modal>
             }
           />
+
+          <Route
+            path="/feed/:id"
+            element={
+              <Modal
+                closePopup={closePopup}
+                children={<CurrentOrderFeed />}
+              ></Modal>
+            }
+          />
+
+          <Route
+            path="/profile/orders/:id"
+            element={
+              <Modal
+                closePopup={closePopup}
+                children={<CurrentOrderHistoryFeed />}
+              ></Modal>
+            }
+          />
         </Routes>
       )}
     </div>
   );
-}
+};
 
 export default App;
