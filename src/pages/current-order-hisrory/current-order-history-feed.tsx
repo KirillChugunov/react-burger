@@ -5,7 +5,7 @@ import {
 import styles from "./currrent-order-history-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { FunctionComponent } from "react";
@@ -14,12 +14,16 @@ import { TOrder, Tingredient, TingredientAndUnicID } from "../../services/types/
 import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
 import { ignoreIndefined } from "../../hooks/ignoreundefined";
+import { v4 as uuidv4 } from "uuid";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.auth));
+    dispatch(getOrdersFeed(wsUrl.auth))
+    return function cleanup() {
+      dispatch(stopOrdersFeed())
+    }
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
@@ -98,7 +102,7 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
         {unicIngredientsWithCount?.map((ingredient) => (
-          <CurrentOrderCard ingredient={ingredient} />
+          <CurrentOrderCard key={uuidv4()} ingredient={ingredient} />
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>

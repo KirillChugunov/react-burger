@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { CardOrder } from "../../components/CardOrder/CardOrder";
 import { OdersStats } from "../../components/OrdersStats/OrdersStats";
 import styles from "./feed.module.css";
-import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Preloader } from "../../components/Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
@@ -16,7 +16,10 @@ export const OrdersFeed: FunctionComponent = () => {
   const feed = useSelector((store) => store.wsReducer);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.all));
+    dispatch(getOrdersFeed(wsUrl.all))
+    return function cleanup() {
+      dispatch(stopOrdersFeed())
+    }
   }, []);
 
   return feed.messages.orders ? (
@@ -25,7 +28,7 @@ export const OrdersFeed: FunctionComponent = () => {
       <div className={styles.feed_container}>
         <div className={styles.orders_scroll_container}>
           {feed.messages.orders?.map((order: TOrder) => (
-            <Link
+            <Link key={order._id}
               state={{ background: location }}
               className={styles.link}
               to={`/feed/${order._id}`}

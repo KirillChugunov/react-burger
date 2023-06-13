@@ -18,7 +18,7 @@ export const OdersStats = (): JSX.Element | null => {
             <p className="text text_type_main-large mb-6">Готовы</p>
             <div className={styles.rdy_textcolor_container}>
               {doneOrders.map((order: TOrder) => (
-                <p className="text text_type_digits-default mb-2">
+                <p key={`${order._id}stats`} className="text text_type_digits-default mb-2">
                   {order.number}
                 </p>
               ))}
@@ -29,7 +29,7 @@ export const OdersStats = (): JSX.Element | null => {
             <p className=" text text_type_main-large mb-6">В работе</p>
             <div>
               {inProgressOrders.map((order: TOrder) => (
-                <p className="text text_type_digits-default mb-2">
+                <p key={`${order._id}stats`} className="text text_type_digits-default mb-2">
                   {order.number}
                 </p>
               ))}

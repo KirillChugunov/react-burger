@@ -11,6 +11,7 @@ import {
   TingredientAndUnicID,
 } from "../../services/types/types";
 import { ignoreIndefined } from "../../hooks/ignoreundefined";
+import { v4 as uuidv4 } from "uuid";
 
 interface ICardOrderProps {
   order: TOrder;
@@ -57,21 +58,21 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
       >
         <div className={styles.price_container}>
           <div className={styles.img_array_container}>
-            {orderIngredientsArr?.slice(0, 5).map((element: any) => (
-              <div className={`${styles.img_overlay} ${styles.img}`}>
+            {orderIngredientsArrCheked?.slice(0, 5).map((element: TingredientAndUnicID) => (
+              <div key={uuidv4()} className={`${styles.img_overlay} ${styles.img}`}>
                 <img className={styles.img} src={element.image} />
               </div>
             ))}
-            {orderIngredientsArr &&
-              orderIngredientsArr?.slice(5, orderIngredientsArr?.length)
+            {orderIngredientsArrCheked &&
+              orderIngredientsArrCheked?.slice(5, orderIngredientsArrCheked?.length)
                 ?.length > 0 && (
                 <div className={styles.rest_orders_container}>
                   <div className={styles.text_box}>
                     <p className={styles.text_opacity}>
                       {"+" +
-                        orderIngredientsArr?.slice(
+                        orderIngredientsArrCheked?.slice(
                           5,
-                          orderIngredientsArr.length
+                          orderIngredientsArrCheked.length
                         ).length}
                     </p>
                   </div>

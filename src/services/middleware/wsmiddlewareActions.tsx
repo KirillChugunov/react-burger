@@ -7,7 +7,7 @@ export const WS_CONNECTION_ERROR: "WS_CONNECTION_ERROR" = "WS_CONNECTION_ERROR";
 export const WS_CONNECTION_CLOSED: "WS_CONNECTION_CLOSED" =
   "WS_CONNECTION_CLOSED";
 export const WS_GET_MESSAGE: "WS_GET_MESSAGE" = "WS_GET_MESSAGE";
-export const WS_SEND_MESSAGE: "WS_SEND_MESSAGE" = "WS_SEND_MESSAGE";
+export const WS_CONNECTION_STOP: "WS_CONNECTION_STOP" = "WS_CONNECTION_STOP"
 
 export const getOrdersFeed: AppThunk = (url) => {
   return function (dispatch: AppDispatch) {
@@ -17,3 +17,12 @@ export const getOrdersFeed: AppThunk = (url) => {
     });
   };
 };
+
+export const stopOrdersFeed: AppThunk = () => {
+  return function (dispatch: AppDispatch) {
+    dispatch({
+      type: WS_CONNECTION_STOP
+    });
+  };
+};
+

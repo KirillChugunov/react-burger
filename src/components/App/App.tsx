@@ -43,6 +43,8 @@ export const App = (): JSX.Element | null => {
   const refreshToken: string | undefined = getCookie("refreshToken");
   const accessToken: string | undefined = getCookie("accessToken");
 
+
+
   const CheckUser = (
     refreshToken: string | undefined,
     accessToken: string | undefined
@@ -72,7 +74,12 @@ export const App = (): JSX.Element | null => {
   }, []);
 
   const { closeModal: closeIngrModal } = useModal();
-  const { closeModal: closeOrderrModal } = useModal();
+  const {
+    closeModal: closeOrderrModal,
+    isModalOpen: isOrderModalOpened,
+    openModal: openOrderModal,
+  } = useModal();
+
 
   return (
     <div className={styles.page}>
@@ -118,6 +125,7 @@ export const App = (): JSX.Element | null => {
             path="/ingredients/:id"
             element={
               <Modal
+                isOrderModalOpened={isOrderModalOpened}
                 closePopup={closePopup}
                 title={"Детали ингредиента"}
                 children={<IngredientsPage />}

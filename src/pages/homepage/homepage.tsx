@@ -11,7 +11,6 @@ import { getIDsArray, sentOrder } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
-import { getFeed } from "../../services/actions/ingredientList";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
@@ -21,11 +20,6 @@ export const HomePage: FunctionComponent = () => {
   const dispatch: any = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
   ///Берем кастомный хук
-  const {
-    closeModal: closeIngrModal,
-    isModalOpen: isIngrModalOpened,
-    openModal: openIngrModal,
-  } = useModal();
   const {
     closeModal: closeOrderrModal,
     isModalOpen: isOrderModalOpened,
@@ -60,13 +54,8 @@ export const HomePage: FunctionComponent = () => {
     dispatch(addItem(itemId));
   };
 
-  React.useEffect(() => {
-    dispatch(getFeed());
-  }, []);
-
   ////////Закрытие попапа
   const closePopup = () => {
-    closeIngrModal();
     closeOrderrModal();
     dispatch({
       type: DELETE_CURRENT_INGREDIENT,
@@ -89,7 +78,7 @@ export const HomePage: FunctionComponent = () => {
         </main>
       </DndProvider>
       {isOrderModalOpened ? (
-        <Modal closePopup={closePopup}>
+        <Modal isOrderModalOpened={isOrderModalOpened} closePopup={closePopup}>
           {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}

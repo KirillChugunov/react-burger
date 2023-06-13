@@ -37,9 +37,9 @@ import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
+  WS_CONNECTION_STOP,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
 } from "../middleware/wsmiddlewareActions";
 import type {} from "redux-thunk/extend-redux";
 
@@ -49,6 +49,17 @@ export type AppDispatch = typeof store.dispatch;
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
+
+export type TConfig = {
+  method?:string;
+  headers: THeaders
+  body?: string;
+};
+
+export type THeaders = {
+  "Content-Type":string  
+  authorization?:string 
+}
 
 export type TOrder = {
   createdAt: string;
@@ -270,6 +281,7 @@ export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
   readonly payload: string;
 }
+
 export interface IWSConnectionSuccess {
   readonly type: typeof WS_CONNECTION_SUCCESS;
   readonly payload: any;
@@ -286,15 +298,14 @@ export interface IWSConnectionGetMessage {
   readonly type: typeof WS_GET_MESSAGE;
   readonly payload: any;
 }
-export interface IWSConnectionSendMessage {
-  readonly type: typeof WS_SEND_MESSAGE;
-  readonly payload: any;
-}
-
 export type TwsmiddlewareState = {
   wsConnected: boolean;
   messages: Object;
 };
+
+export interface TWSConnectionStop {
+ readonly type: typeof WS_CONNECTION_STOP
+}
 
 export type TwsmiddlewareActions =
   | IWSConnectionStart
@@ -302,7 +313,9 @@ export type TwsmiddlewareActions =
   | IWSConnectionError
   | IWSConnectionClosed
   | IWSConnectionGetMessage
-  | IWSConnectionSendMessage;
+  | TWSConnectionStop
+
+
 
 export type TApplicationActions =
   | TOrderActions

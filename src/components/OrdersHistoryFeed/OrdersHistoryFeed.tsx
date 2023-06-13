@@ -6,7 +6,7 @@ import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
-import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 
 export const OrdersHistoryFeed: FunctionComponent = () => {
   const location = useLocation();
@@ -14,14 +14,17 @@ export const OrdersHistoryFeed: FunctionComponent = () => {
   const orderFeed = useSelector((store) => store.wsReducer.messages?.orders);
 
   useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.auth));
+    dispatch(getOrdersFeed(wsUrl.auth))
+    return function cleanup() {
+      dispatch(stopOrdersFeed())
+    }
   }, []);
 
   return (
     <div className={`${styles.orders_scroll_container}` + " mt-10"}>
       {orderFeed?.map((order: TOrder) => (
-        <Link
-          state={{ background: location }}
+        <Link key={order._id}
+           state={{ background: location }}
           className={styles.link}
           to={`/profile/orders/${order._id}`}
         >

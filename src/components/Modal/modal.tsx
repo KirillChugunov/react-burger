@@ -1,10 +1,8 @@
-import React, { FunctionComponent, ReactNode, useEffect } from "react";
+import { FunctionComponent, ReactNode, useEffect } from "react";
 import styles from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import * as ReactDOM from "react-dom";
-import { useModal } from "../../hooks/useModal.js";
 import { useNavigate } from "react-router-dom";
 
 const modalRoot = document.getElementById("modal") as Element;
@@ -13,12 +11,14 @@ interface IModalProps {
   closePopup: () => void
   children: ReactNode;
   title?: string;
+  isOrderModalOpened?:Boolean
 }
 
 export const Modal: FunctionComponent<IModalProps> = ({
   closePopup,
   children,
   title,
+  isOrderModalOpened
 }) => {
   const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
@@ -48,7 +48,7 @@ export const Modal: FunctionComponent<IModalProps> = ({
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
           {title && <p className="text text_type_main-medium">{title}</p>}
           <div className={styles.closeIconContainer}>
-            <CloseIcon type="primary" onClick={handleClose} />
+            <CloseIcon type="primary" onClick={isOrderModalOpened ? closePopup : handleClose} />
           </div>
         </div>
         {children}

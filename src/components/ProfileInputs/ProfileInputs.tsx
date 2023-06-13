@@ -12,7 +12,7 @@ import { useSelector } from "../../hooks/customUseSelector";
 
 export const ProfileInputs: FunctionComponent = () => {
   const dispatch = useDispatch();
-  const userInfo = useSelector((store: any) => store.authentication);
+  const userInfo = useSelector((store) => store.authentication);
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [name, setName] = React.useState<string>(userInfo.user.name);
   const [email, setEmail] = React.useState<string>(userInfo.user.email);

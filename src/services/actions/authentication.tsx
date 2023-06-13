@@ -6,6 +6,7 @@ import {
   requestRegistrationNewUser,
   requestUserInfoChange,
 } from "../Api/api";
+import { getCookie } from "../Coockie/getCookie";
 import { setCookie } from "../Coockie/setCookie";
 import { AppDispatch, AppThunk } from "../types/types";
 export const GET_USER_ONLOAD: "GET_USER_ONLOAD" = "GET_USER_ONLOAD";
@@ -20,7 +21,7 @@ export const LOGIN_FAILED: "LOGIN_FAILED" = "LOGIN_FAILED";
 
 export const authUserOnLoad: AppThunk = (accessToken: string) => {
   return function (dispatch) {
-    checkUserInfo(accessToken)
+    checkUserInfo()
       .then((res) =>
         dispatch({
           type: GET_USER_ONLOAD,

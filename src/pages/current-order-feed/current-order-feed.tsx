@@ -5,18 +5,22 @@ import {
 import styles from "./currrent-order-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { wsUrl } from "../../services/Api/api";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder, TingredientAndUnicID } from "../../services/types/types";
 import { ignoreIndefined } from "../../hooks/ignoreundefined";
+import { v4 as uuidv4 } from "uuid";
 
 export const CurrentOrderFeed = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.all));
+    useEffect(() => {
+    dispatch(getOrdersFeed(wsUrl.all))
+    return () => {
+      dispatch(stopOrdersFeed())
+    }
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
@@ -46,8 +50,7 @@ export const CurrentOrderFeed = () => {
     ?.map((item) => item.price)
     .reduce((partialSum, a) => partialSum + a, 0);
 
-  return (
-    <div className={styles.current_order_feed_container}>
+  return ( Orders && <div className={styles.current_order_feed_container}>
       <p
         className={
           `${styles.order_number_container}` + " text text_type_digits-default"
@@ -88,7 +91,7 @@ export const CurrentOrderFeed = () => {
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
         {unicIngredientsWithCount?.map((ingredient) => (
-          <CurrentOrderCard ingredient={ingredient} />
+          <CurrentOrderCard key={uuidv4()} ingredient={ingredient} />
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>
