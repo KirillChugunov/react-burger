@@ -6,7 +6,6 @@ import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
-import { getCookie } from "../../services/Coockie/getCookie";
 import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 
 export const OrdersHistoryFeed: FunctionComponent = () => {

@@ -21,8 +21,8 @@ import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 
 interface IBurgerConstructorProps {
-  onDropHandler: Function;
-  handleOrderButton: Function;
+  onDropHandler: Function ;
+  handleOrderButton: () => void;
 }
 
 export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({

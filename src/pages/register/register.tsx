@@ -17,11 +17,12 @@ export const RegisterPage: FunctionComponent = () => {
   const [email, setEmail] = React.useState<string>("bob@example.com");
   const [password, setPassword] = React.useState<string>("password");
 
-  function handleRegistrationButton(
+  function handleRegistrationButton(e:React.FormEvent<HTMLFormElement>,
     name: string,
     email: string,
     password: string
   ) {
+    e.preventDefault();
     dispatch(handleRegistration(name, email, password));
     navigate("/");
   }
@@ -33,6 +34,7 @@ export const RegisterPage: FunctionComponent = () => {
       >
         Регистрация
       </h1>
+      <form onSubmit={(e) => handleRegistrationButton(e, name, email, password)}>
       <div className={styles.input_container}>
         <div className="mt-6">
           <Input
@@ -69,11 +71,10 @@ export const RegisterPage: FunctionComponent = () => {
         </div>
         <div className="mt-6">
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
-            onClick={() => handleRegistrationButton(name, email, password)}
-          >
+                >
             Зарегистрироваться
           </Button>
         </div>
@@ -83,6 +84,7 @@ export const RegisterPage: FunctionComponent = () => {
           </p>
         </div>
       </div>
+      </form>
     </div>
   );
 };

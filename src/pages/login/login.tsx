@@ -12,15 +12,16 @@ import { useSelector } from "../../hooks/customUseSelector";
 
 export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = React.useState("bob@example.com");
-  const [password, setPassword] = React.useState("password");
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
   const dispatch: any = useDispatch();
   const isLoginFailed = useSelector(
     (store) => store.authentication.loginFailed
   );
   console.log(isLoginFailed);
 
-  function handleLoginButton(email: string, password: string) {
+  function handleLoginButton(e:React.FormEvent<HTMLFormElement>, email: string, password: string) {
+    e.preventDefault();
     dispatch(checkLogin(email, password));
     navigate("/");
   }
@@ -32,19 +33,20 @@ export const LoginPage: FunctionComponent = () => {
       >
         Вход
       </h1>
-      <div className={styles.input_container}>
-        <div className="mt-6">
+      <form className={styles.input_container} onSubmit={(e) => handleLoginButton(e, email, password)}>
+          <div className="mt-6">
           <EmailInput
+            placeholder="example@yandex.ru"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             name={"email"}
             isIcon={false}
           />
         </div>
-      </div>
       <div className={styles.input_container}>
         <div className="mt-6">
           <PasswordInput
+            placeholder="password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             name={"password"}
@@ -53,11 +55,10 @@ export const LoginPage: FunctionComponent = () => {
         </div>
         <div className="mt-6">
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
-            onClick={() => handleLoginButton(email, password)}
-          >
+              >
             Войти
           </Button>
         </div>
@@ -73,6 +74,7 @@ export const LoginPage: FunctionComponent = () => {
           </Link>
         </div>
       </div>
+      </form>
     </div>
   );
 };

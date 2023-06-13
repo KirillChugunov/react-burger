@@ -10,9 +10,10 @@ import { useEffect } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
-import { TOrder, Tingredient } from "../../services/types/types";
+import { TOrder, Tingredient, TingredientAndUnicID } from "../../services/types/types";
 import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
+import { ignoreIndefined } from "../../hooks/ignoreundefined";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
@@ -23,13 +24,18 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
 
   const { id } = useParams(); // взяли айдишник из ссылки
   const Orders = useSelector((store) => store.wsReducer?.messages.orders); /// нашли массив заказов
-  const Order = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
+  const Order:TOrder = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
   const ingredientsStorage = useSelector(
     (store) => store?.ingredientList?.feed
   ); /// нашли массив ингридиентов
-  const orderIngredientsArr = Order?.ingredients?.map((element: string) =>
+  const orderIngredients:Array<TingredientAndUnicID | undefined> = Order?.ingredients?.map((element: string) =>
     ingredientsStorage?.find((item) => item._id === element)
   ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
+
+  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
+    (element) => ignoreIndefined(element)
+  );
+
 
   const unicIngredients = orderIngredientsArr?.filter(function (
     x: any,
@@ -39,8 +45,8 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
     return a.indexOf(x) === i;
   }); //// новый массив для рендера из уникальныъ элементов
 
-  const unicIngredientsWithCount = unicIngredients?.map(
-    (element: Tingredient) => ({
+  const unicIngredientsWithCount:Array<TingredientAndCount>= unicIngredients?.map(
+    (element) => ({
       ...element,
       count: orderIngredientsArr?.filter(
         (item: Tingredient) => item._id === element._id
@@ -91,7 +97,7 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       )}
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
-        {unicIngredientsWithCount?.map((ingredient: TingredientAndCount) => (
+        {unicIngredientsWithCount?.map((ingredient) => (
           <CurrentOrderCard ingredient={ingredient} />
         ))}
       </div>

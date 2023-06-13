@@ -10,6 +10,7 @@ import {
   Tingredient,
   TingredientAndUnicID,
 } from "../../services/types/types";
+import { ignoreIndefined } from "../../hooks/ignoreundefined";
 
 interface ICardOrderProps {
   order: TOrder;
@@ -17,17 +18,21 @@ interface ICardOrderProps {
 
 export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
   const ingredientsStorage = useSelector((store) => store.ingredientList.feed);
-
-  const orderIngredientsArr = order.ingredients
-    ?.map((element: string) =>
-      ingredientsStorage?.find(
-        (item: TingredientAndUnicID) => item._id === element
+  const orderIngredientsArr: Array<TingredientAndUnicID | undefined> =
+    order.ingredients
+      ?.map((element: string) =>
+        ingredientsStorage.find(
+          (item: TingredientAndUnicID) => item._id === element
+        )
       )
-    )
-    ?.filter(Boolean) as Array<TingredientAndUnicID> | undefined;
+      .filter(Boolean);
 
-  const orderPrice = orderIngredientsArr
-    ?.map((item: TingredientAndUnicID) => item.price)
+  const orderIngredientsArrCheked:Array<TingredientAndUnicID> = orderIngredientsArr.map((element) =>
+    ignoreIndefined(element)
+  );
+
+  const orderPrice = orderIngredientsArrCheked
+    ?.map((element: TingredientAndUnicID) => element.price)
     .reduce((partialSum: number, a: number) => partialSum + a, 0);
 
   return (

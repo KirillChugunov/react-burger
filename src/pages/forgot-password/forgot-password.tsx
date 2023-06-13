@@ -11,7 +11,8 @@ export function PwdRecoveryPage() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>(" ");
 
-  function handleResetPassword(email: string) {
+  function handleResetPassword(e:React.FormEvent<HTMLDivElement>, email: string) {
+    e.preventDefault()
     resetPassword(email).then(
       (res) => (
         console.log(res),
@@ -29,7 +30,8 @@ export function PwdRecoveryPage() {
       >
         Восстановление пароля
       </h1>
-      <div className={styles.input_container}>
+      <form>
+      <div className={styles.input_container} onSubmit={(e) => handleResetPassword(e, email)}>
         <div className="mt-6">
           <EmailInput
             onChange={(e) => setEmail(e.target.value)}
@@ -41,14 +43,14 @@ export function PwdRecoveryPage() {
       </div>
       <div className="mt-6">
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
-          onClick={() => handleResetPassword(email)}
-        >
+            >
           Восстановить
         </Button>
       </div>
+      </form>
       <div className="mt-20">
         <p className="text text_type_main-default">
           Вспомнили пароль? <Link to={"/login"}>Войти</Link>

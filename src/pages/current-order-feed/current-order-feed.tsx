@@ -5,12 +5,13 @@ import {
 import styles from "./currrent-order-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
-import { getFeed } from "../../services/actions/ingredientList";
 import { useDispatch } from "../../hooks/customDispatch";
 import { wsUrl } from "../../services/Api/api";
+import { useSelector } from "../../hooks/customUseSelector";
+import { TOrder, TingredientAndUnicID } from "../../services/types/types";
+import { ignoreIndefined } from "../../hooks/ignoreundefined";
 
 export const CurrentOrderFeed = () => {
   const dispatch = useDispatch();
@@ -20,13 +21,18 @@ export const CurrentOrderFeed = () => {
 
   const { id } = useParams(); // взяли айдишник из ссылки
   const Orders = useSelector((store) => store.wsReducer.messages?.orders); /// нашли массив заказов
-  const Order = Orders?.find((item) => item._id === id); /// нашли наш заказ
+  const Order: TOrder = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
   const ingredientsStorage = useSelector((store) => store.ingredientList?.feed); /// нашли массив ингридиентов
-  const orderIngredientsArr = Order?.ingredients?.map((element) =>
-    ingredientsStorage?.find((item) => item._id === element)
-  ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
+  const orderIngredients: Array<TingredientAndUnicID | undefined> =
+    Order?.ingredients.map((element) =>
+      ingredientsStorage?.find((item) => item._id === element)
+    );
+  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
+    (element) => ignoreIndefined(element)
+  ); //// убрали из массива ингридентов undefined значения если были
+  /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
-  const unicIngredients = orderIngredientsArr?.filter(function (x, i, a) {
+ const unicIngredients = orderIngredientsArr?.filter(function (x, i, a) {
     return a.indexOf(x) === i;
   }); //// новый массив для рендера из уникальныъ элементов
 

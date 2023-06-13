@@ -14,10 +14,10 @@ export const ProfileInputs: FunctionComponent = () => {
   const dispatch = useDispatch();
   const userInfo = useSelector((store: any) => store.authentication);
   const inputRef = React.useRef<HTMLInputElement>(null);
-  const [name, setName] = React.useState(userInfo.user.name);
-  const [email, setEmail] = React.useState(userInfo.user.email);
-  const [password, setPassword] = React.useState("password");
-  const [showButtons, setShowButtons] = React.useState(false);
+  const [name, setName] = React.useState<string>(userInfo.user.name);
+  const [email, setEmail] = React.useState<string>(userInfo.user.email);
+  const [password, setPassword] = React.useState<string>("");
+  const [showButtons, setShowButtons] = React.useState<Boolean>(false);
 
   function handleChange(
     event: ChangeEvent<HTMLInputElement>,
@@ -27,20 +27,23 @@ export const ProfileInputs: FunctionComponent = () => {
     setShowButtons(true);
   }
 
-  function handleSave(email: string, name: string, password: string) {
+  function handleSave(e:React.FormEvent<HTMLFormElement> ,email: string, name: string, password: string) {
+    e.preventDefault();
     dispatch(setUserInfo(email, name, password));
     setShowButtons(false);
   }
 
-  function handleCancel() {
+  function handleCancel(e:React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
     setName(userInfo.user.name);
     setEmail(userInfo.user.email);
-    setPassword("password");
+    setPassword("");
     setShowButtons(false);
   }
 
   return (
     <div>
+      <form onSubmit={(e) =>handleSave(e, email, name, password)} onReset={(e) => handleCancel(e)}>
       <div className={`${style.input_container}` + " mt-6"}>
         <Input
           type={"text"}
@@ -77,23 +80,22 @@ export const ProfileInputs: FunctionComponent = () => {
       {showButtons ? (
         <div className={`${style.button_container}` + " mt-6"}>
           <Button
-            htmlType="button"
+            htmlType="reset"
             type="secondary"
             size="medium"
-            onClick={() => handleCancel()}
-          >
+           >
             Отмена
           </Button>
           <Button
-            htmlType="button"
+            htmlType="submit"
             type="primary"
             size="medium"
-            onClick={() => handleSave(email, name, password)}
           >
             Сохранить
           </Button>
         </div>
       ) : null}
+      </form>
     </div>
   );
 };

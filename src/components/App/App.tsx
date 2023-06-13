@@ -34,7 +34,7 @@ import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/curre
 import { Preloader } from "../Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
 import type {} from "redux-thunk/extend-redux";
-import { useSelector } from "../../hooks/customUseSelector";
+
 
 export const App = (): JSX.Element | null => {
   const location = useLocation();

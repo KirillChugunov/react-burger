@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const modalRoot = document.getElementById("modal") as Element;
 
 interface IModalProps {
-  closePopup: Function;
+  closePopup: () => void
   children: ReactNode;
   title?: string;
 }

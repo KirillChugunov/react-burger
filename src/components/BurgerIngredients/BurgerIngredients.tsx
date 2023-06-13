@@ -1,4 +1,4 @@
-import React, { FunctionComponent, SetStateAction } from "react";
+import React, { FunctionComponent } from "react";
 import styles from "./BurgerIngredients.module.css";
 import {
   Tab,
@@ -29,7 +29,7 @@ export const BurgerIngredients: FunctionComponent = () => {
   ///Список ингредиентов с API
   const Ingredients = useSelector((store) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState<String>("one")
   ////Рефы разметки для скролла
   const bunRef = useRef<HTMLDivElement>(null);
   const sauseRef = useRef<HTMLDivElement>(null);
