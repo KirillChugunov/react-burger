@@ -15,9 +15,7 @@ export const OrdersHistoryFeed: FunctionComponent = () => {
 
   useEffect(() => {
     dispatch(getOrdersFeed(wsUrl.auth))
-    return function cleanup() {
-      dispatch(stopOrdersFeed())
-    }
+    return () =>  {dispatch(stopOrdersFeed())}
   }, []);
 
   return (

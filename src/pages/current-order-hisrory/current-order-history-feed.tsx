@@ -13,7 +13,7 @@ import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder, Tingredient, TingredientAndUnicID } from "../../services/types/types";
 import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
-import { ignoreIndefined } from "../../hooks/ignoreundefined";
+import { ignoreUndefined } from "../../hooks/ignoreundefined";
 import { v4 as uuidv4 } from "uuid";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
@@ -37,7 +37,7 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
   const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
-    (element) => ignoreIndefined(element)
+    (element) => ignoreUndefined(element)
   );
 
 

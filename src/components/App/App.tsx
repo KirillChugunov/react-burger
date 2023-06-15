@@ -34,6 +34,7 @@ import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/curre
 import { Preloader } from "../Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
 import type {} from "redux-thunk/extend-redux";
+import { useSelector } from "../../hooks/customUseSelector";
 
 
 export const App = (): JSX.Element | null => {
@@ -42,7 +43,7 @@ export const App = (): JSX.Element | null => {
   const dispatch = useDispatch();
   const refreshToken: string | undefined = getCookie("refreshToken");
   const accessToken: string | undefined = getCookie("accessToken");
-
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
 
 
   const CheckUser = (
@@ -58,7 +59,11 @@ export const App = (): JSX.Element | null => {
       dispatch(refreshAcsesToken());
   };
 
-  CheckUser(refreshToken, accessToken);
+  useEffect(() => {
+    CheckUser(refreshToken, accessToken);
+  }, []);
+
+
 
   const closePopup = () => {
     closeIngrModal();

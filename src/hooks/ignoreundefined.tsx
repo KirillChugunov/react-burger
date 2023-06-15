@@ -1,5 +1,5 @@
 
-export function ignoreIndefined(element: any) {
+export function ignoreUndefined(element: any) {
   if (typeof element != "undefined") {
     return element;
   }

@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import styles from "./AppHeader.module.css";
 import {
   Logo,

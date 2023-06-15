@@ -96,22 +96,17 @@ export const handleRegistration: AppThunk = (
     );
   };
 };
-export const checkLogin: AppThunk = (email: string, password: string) => {
+export const checkLogin: AppThunk = (email: string, password: string, name:string, accessToken:string, refreshToken:string) => {
   return function (dispatch: AppDispatch) {
-    requestLogin(email, password)
-      .then((res) => {
-        setCookie("accessToken", res.accessToken, { expires: 12000 });
-        setCookie("refreshToken", res.refreshToken, { expires: 12000 });
-        dispatch({
+      dispatch({
           type: LOGIN,
-          name: res.user.name,
-          email: res.user.email,
-          accessToken: res.accessToken,
-          refreshToken: res.refreshToken,
+          name: name,
+          email: email,
+          accessToken: accessToken,
+          refreshToken: refreshToken,
+          isLogin:true
         });
-      })
-      .catch((error) => (console.log(error), dispatch({ type: LOGIN_FAILED })));
-  };
+      }
 };
 
 export const getUserInfo: AppThunk = () => {

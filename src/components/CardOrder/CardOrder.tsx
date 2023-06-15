@@ -4,13 +4,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./CardOrder.module.css";
 import { useSelector } from "../../hooks/customUseSelector";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import {
   TOrder,
   Tingredient,
   TingredientAndUnicID,
 } from "../../services/types/types";
-import { ignoreIndefined } from "../../hooks/ignoreundefined";
+import { ignoreUndefined } from "../../hooks/ignoreundefined";
 import { v4 as uuidv4 } from "uuid";
 
 interface ICardOrderProps {
@@ -18,6 +18,7 @@ interface ICardOrderProps {
 }
 
 export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
+
   const ingredientsStorage = useSelector((store) => store.ingredientList.feed);
   const orderIngredientsArr: Array<TingredientAndUnicID | undefined> =
     order.ingredients
@@ -29,7 +30,7 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
       .filter(Boolean);
 
   const orderIngredientsArrCheked:Array<TingredientAndUnicID> = orderIngredientsArr.map((element) =>
-    ignoreIndefined(element)
+  ignoreUndefined(element)
   );
 
   const orderPrice = orderIngredientsArrCheked

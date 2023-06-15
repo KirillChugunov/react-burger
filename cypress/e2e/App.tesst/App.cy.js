@@ -54,5 +54,11 @@ describe("тестирование главной страницы", () => {
     );
     cy.get("button").contains("Оформить заказ").click()
     cy.location("pathname").should("eq", "/login");
+    cy.get('input[name="email"]').type("14lightmain@gmail.com").should('have.value','14lightmain@gmail.com')
+    cy.get('input[name="password"]').type("28051488iI.").should('have.value','28051488iI.')
+    cy.get("button").contains("Войти").click()
+    cy.get("button").contains("Оформить заказ").click()
+    cy.get(".modal_closeIconContainer__r1DOr").should("exist");
+    cy.get(".modal_closeIconContainer__r1DOr").children().click();
+})
   });
-});

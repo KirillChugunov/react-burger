@@ -1,23 +1,34 @@
 import * as types from "../actions/authentication";
-import { authentification } from "./authentication";
+import { authentication } from "./authentication";
 
-describe("authentification reducer", () => {
-  it("should return the initial state", () => {
-    expect(authentification(undefined, {})).toEqual({
-      isLogin: false,
-      user: {
-        email: "",
-        name: "",
-      },
-      accessToken: "",
-      refreshToken: "",
-      loginCheck: false,
+const InitSt = {  isLogin: false,
+  user: {
+    email: "",
+    name: "",
+  },
+  accessToken: "",
+  refreshToken: "",
+  loginCheck: false,
+  loginFailed: false};
+
+  describe("currentBurgerIngredients reducer", () => {
+    it("should return the initial state", () => {
+      expect(authentication(InitSt, {})).toEqual({
+        isLogin: false,
+        user: {
+          email: "",
+          name: "",
+        },
+        accessToken: "",
+        refreshToken: "",
+        loginCheck: false,
+        loginFailed: false
+      });
     });
-  });
-
+  
   it("should handle REGISTRATION", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.REGISTRATION,
         name: "testname",
         email: "testemail",
@@ -41,17 +52,14 @@ describe("authentification reducer", () => {
 
   it("should handle LOGIN", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.LOGIN,
         name: "testname",
         email: "testemail",
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
-        isLogin: true,
-        loginCheck: true,
-      })
+     })
     ).toEqual({
-      isLogin: false,
       user: {
         name: "testname",
         email: "testemail",
@@ -60,12 +68,13 @@ describe("authentification reducer", () => {
       refreshToken: "testrefreshToken",
       isLogin: true,
       loginCheck: true,
+      loginFailed: false,
     });
   });
 
   it("should handle GET_TOKEN_ONLOAD", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.GET_TOKEN_ONLOAD,
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
@@ -83,7 +92,7 @@ describe("authentification reducer", () => {
 
   it("should handle GET_USER_ONLOAD", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.GET_USER_ONLOAD,
         name: "testname",
         email: "testemail",
@@ -102,7 +111,7 @@ describe("authentification reducer", () => {
 
   it("should handle GET_USERINFO", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.GET_USERINFO,
         name: "testname",
         email: "testemail",
@@ -121,7 +130,7 @@ describe("authentification reducer", () => {
 
   it("should handle LOGOUT", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.LOGOUT,
       })
     ).toEqual({
@@ -138,7 +147,7 @@ describe("authentification reducer", () => {
 
   it("should handle AUTH_FAILED", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.AUTH_FAILED,
       })
     ).toEqual({
@@ -149,7 +158,7 @@ describe("authentification reducer", () => {
 
   it("should handle GET_USER_ONLOAD", () => {
     expect(
-      authentification([], {
+      authentication([], {
         type: types.GET_USER_ONLOAD,
         isLogin: true,
         loginCheck: true,

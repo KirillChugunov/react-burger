@@ -26,7 +26,7 @@ describe("currentingredient reducer", () => {
         type: types.DELETE_CURRENT_INGREDIENT,
       })
     ).toEqual({
-      state: null,
+      state: {},
     });
   });
 });

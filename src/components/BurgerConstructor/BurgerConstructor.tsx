@@ -77,8 +77,7 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
   //////Обработчик удаления
   function handleItemDelete(element: TingredientAndUnicID) {
     dispatch(deleteItem(element.unicID));
-    console.log(element.unicID);
-  }
+   }
 
   const handleOrder = (): void => {
     if (userLogin) {

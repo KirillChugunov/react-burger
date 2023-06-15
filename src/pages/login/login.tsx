@@ -3,27 +3,58 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { FunctionComponent, useEffect } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { checkLogin } from "../../services/actions/authentication";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
+import { requestLogin } from "../../services/Api/api";
+import { setCookie } from "../../services/Coockie/setCookie";
 
 export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const dispatch: any = useDispatch();
-  const isLoginFailed = useSelector(
-    (store) => store.authentication.loginFailed
-  );
-  console.log(isLoginFailed);
+  const [error, setError] = useState<Boolean>(false);
+  const [textError, setTextError] = useState<String>("");
 
-  function handleLoginButton(e:React.FormEvent<HTMLFormElement>, email: string, password: string) {
+  function handleLoginSuccess(
+    name: string,
+    email: string,
+    password: string,
+    accessToken: string,
+    refreshToken: string
+  ) {
+    navigate("/")
+    setError(false)
+    setTextError("")
+    dispatch(checkLogin(email, password, name, accessToken, refreshToken))
+    setCookie("accessToken", accessToken, { expires: 12000 })
+    setCookie("refreshToken", refreshToken, { expires: 12000 })
+  }
+  function handleLoginButton(
+    e: React.FormEvent<HTMLFormElement>,
+    email: string,
+    password: string
+  ) {
     e.preventDefault();
-    dispatch(checkLogin(email, password));
-    navigate("/");
+    requestLogin(email, password)
+      .then((res) => {
+          handleLoginSuccess(
+            res.user.name,
+            res.user.email,
+            password,
+            res.accessToken,
+            res.refreshToken
+          )
+         }
+      )
+      .catch((err) => {
+        setError(true);
+        setTextError(err);
+      });
   }
 
   return (
@@ -33,8 +64,11 @@ export const LoginPage: FunctionComponent = () => {
       >
         Вход
       </h1>
-      <form className={styles.input_container} onSubmit={(e) => handleLoginButton(e, email, password)}>
-          <div className="mt-6">
+      <form
+        className={styles.input_container}
+        onSubmit={(e) => handleLoginButton(e, email, password)}
+      >
+        <div className="mt-6">
           <EmailInput
             placeholder="example@yandex.ru"
             onChange={(e) => setEmail(e.target.value)}
@@ -43,37 +77,34 @@ export const LoginPage: FunctionComponent = () => {
             isIcon={false}
           />
         </div>
-      <div className={styles.input_container}>
-        <div className="mt-6">
-          <PasswordInput
-            placeholder="password"
-            onChange={(e) => setPassword(e.target.value)}
-            value={password}
-            name={"password"}
-            extraClass="mb-2"
-          />
+        <div className={styles.input_container}>
+          <div className="mt-6">
+            <PasswordInput
+              placeholder="password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              name={"password"}
+              extraClass="mb-2"
+            />
+          </div>
+          {error && <p>Логин или пароль не верный</p>}
+          <div className="mt-6">
+            <Button htmlType="submit" type="primary" size="medium">
+              Войти
+            </Button>
+          </div>
+          <div className="mt-20">
+            <p className="text text_type_main-default">
+              Вы - новый пользователь?
+              <Link to="/register">Зарегистрироваться</Link>
+            </p>
+          </div>
+          <div className="mt-4">
+            <Link className="text text_type_main-default" to="/forgot-password">
+              Забыли пароль?
+            </Link>
+          </div>
         </div>
-        <div className="mt-6">
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-              >
-            Войти
-          </Button>
-        </div>
-        <div className="mt-20">
-          <p className="text text_type_main-default">
-            Вы - новый пользователь?
-            <Link to="/register">Зарегистрироваться</Link>
-          </p>
-        </div>
-        <div className="mt-4">
-          <Link className="text text_type_main-default" to="/forgot-password">
-            Забыли пароль?
-          </Link>
-        </div>
-      </div>
       </form>
     </div>
   );

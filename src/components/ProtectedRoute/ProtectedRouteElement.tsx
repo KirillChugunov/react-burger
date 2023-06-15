@@ -11,9 +11,7 @@ export const ProtectedRouteElement: FunctionComponent<
   IProtectedRouteElementProps
 > = ({ element }) => {
   const userLogin = useSelector((store) => store.authentication.isLogin);
-  const isLoaded = useSelector((store) => store.authentication.loginCheck);
-
-  if (isLoaded === true) {
+ 
     return userLogin ? element : ((<Navigate to="/login" replace />) as any);
-  }
+  
 };

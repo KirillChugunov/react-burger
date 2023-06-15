@@ -4,7 +4,6 @@ import { BurgerIngredients } from "../../components/BurgerIngredients/BurgerIngr
 import { BurgerConstructor } from "../../components/BurgerConstructor/BurgerConstructor";
 import { Modal } from "../../components/Modal/modal";
 import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
-import { useSelector } from "react-redux";
 import { addItem } from "../../services/actions/currentburgeringredients";
 import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 import { getIDsArray, sentOrder } from "../../services/actions/order";
@@ -15,9 +14,10 @@ import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { useDispatch } from "../../hooks/customDispatch";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const HomePage: FunctionComponent = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
   ///Берем кастомный хук
   const {
@@ -31,16 +31,17 @@ export const HomePage: FunctionComponent = () => {
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store: any) => store.currentBurgerIngredients
+    (store) => store.currentBurgerIngredients
   );
 
   ////////////////Обработчик кнопки заказа
   function handleOrderButton() {
     const idsForOrder = [
-      draggedElementsAndBuns.bun._id,
+      draggedElementsAndBuns.bun != null && draggedElementsAndBuns.bun._id,
       ...draggedElements.map((item: TingredientAndUnicID) => item._id),
-      draggedElementsAndBuns.bun._id,
+      draggedElementsAndBuns.bun != null && draggedElementsAndBuns.bun._id,
     ];
+    
     dispatch(getIDsArray(idsForOrder));
     const newObj: any = {};
     newObj.ingredients = idsForOrder;

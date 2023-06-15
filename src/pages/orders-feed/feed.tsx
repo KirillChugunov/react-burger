@@ -16,15 +16,16 @@ export const OrdersFeed: FunctionComponent = () => {
   const feed = useSelector((store) => store.wsReducer);
   const dispatch = useDispatch();
   useEffect(() => {
+  
     dispatch(getOrdersFeed(wsUrl.all))
     return function cleanup() {
       dispatch(stopOrdersFeed())
-    }
+        }
   }, []);
 
-  return feed.messages.orders ? (
-    <section>
-      <p className="text text_type_main-large mb-5 mt-10">Лента заказов</p>
+  return (
+      <section>
+          <p className="text text_type_main-large mb-5 mt-10">Лента заказов</p>
       <div className={styles.feed_container}>
         <div className={styles.orders_scroll_container}>
           {feed.messages.orders?.map((order: TOrder) => (
@@ -37,13 +38,9 @@ export const OrdersFeed: FunctionComponent = () => {
             </Link>
           ))}
         </div>
-        <Outlet />
-        <div>
+         <div>
           <OdersStats />
         </div>
       </div>
-    </section>
-  ) : (
-    <Preloader />
-  );
-};
+    </section> 
+  )}
