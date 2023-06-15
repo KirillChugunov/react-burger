@@ -91,7 +91,6 @@ export const App = (): JSX.Element | null => {
       <AppHeader />
       <Routes location={background || location}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/2" element={<Preloader />} />
         <Route path="/ingredients/:id" element={<IngredientsPage />} />
         <Route
           path="/login"
