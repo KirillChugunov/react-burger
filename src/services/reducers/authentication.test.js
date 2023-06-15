@@ -1,6 +1,7 @@
 import * as types from "../actions/authentication";
 import { authentication } from "./authentication";
 
+
 const InitSt = {  isLogin: false,
   user: {
     email: "",
@@ -58,6 +59,7 @@ const InitSt = {  isLogin: false,
         email: "testemail",
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
+        isLogin: true,
      })
     ).toEqual({
       user: {

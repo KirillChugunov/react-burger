@@ -31,8 +31,6 @@ export const LoginPage: FunctionComponent = () => {
     setError(false)
     setTextError("")
     dispatch(checkLogin(email, password, name, accessToken, refreshToken))
-    setCookie("accessToken", accessToken, { expires: 12000 })
-    setCookie("refreshToken", refreshToken, { expires: 12000 })
   }
   function handleLoginButton(
     e: React.FormEvent<HTMLFormElement>,
