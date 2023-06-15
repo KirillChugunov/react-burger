@@ -1,4 +1,4 @@
-import { store } from "./../../index";
+import { store } from "../../index";
 import {
   AUTH_FAILED,
   GET_TOKEN_ONLOAD,
