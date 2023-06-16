@@ -5,23 +5,16 @@ import {
   sortedArrayForTest,
 } from "../hardcodefortests";
 import { currentBurgerIngredients } from "./currentburgeringredients";
-
-const InitSt = {
-  bun: null,
-  ingredientsadded: [],
-};
+import { initialState } from "./currentburgeringredients";
 
 describe("currentBurgerIngredients reducer", () => {
   it("should return the initial state", () => {
-    expect(currentBurgerIngredients(InitSt, {})).toEqual({
-      bun: null,
-      ingredientsadded: [],
-    });
+    expect(currentBurgerIngredients(initialState, {})).toEqual(initialState);
   });
 
   it("should handle RESET_INGREDIENT", () => {
     expect(
-      currentBurgerIngredients([], {
+      currentBurgerIngredients(initialState, {
         type: types.RESET_INGREDIENT,
       })
     ).toEqual({
@@ -32,12 +25,12 @@ describe("currentBurgerIngredients reducer", () => {
 
   it("should handle ADD_INGREDIENT-bun", () => {
     expect(
-      currentBurgerIngredients(InitSt, {
+      currentBurgerIngredients(initialState, {
         type: types.ADD_INGREDIENT,
         ingredientsadded: bunForTest,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       bun: bunForTest,
       ingredientsadded: [],
     });
@@ -45,24 +38,24 @@ describe("currentBurgerIngredients reducer", () => {
 
   it("should handle ADD_INGREDIENT", () => {
     expect(
-      currentBurgerIngredients(InitSt, {
+      currentBurgerIngredients(initialState, {
         type: types.ADD_INGREDIENT,
         ingredientsadded: mainForTest,
       })
     ).toEqual({
-      ...InitSt,
-      ingredientsadded: [...InitSt.ingredientsadded, mainForTest],
+      ...initialState,
+      ingredientsadded: [...initialState.ingredientsadded, mainForTest],
     });
   });
 
   it("should handle SORT_ITEMS", () => {
     expect(
-      currentBurgerIngredients(InitSt, {
+      currentBurgerIngredients(initialState, {
         type: types.SORT_ITEMS,
         indredients: sortedArrayForTest,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       ingredientsadded: sortedArrayForTest,
     });
   });

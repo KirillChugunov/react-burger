@@ -8,9 +8,7 @@ export const config = {
 
 export const wsUrl = {
   all: "wss://norma.nomoreparties.space/orders/all",
-  auth:
-    "wss://norma.nomoreparties.space/orders?token=" +
-    `${getCookie("accessToken")?.replace("Bearer ", "")}`,
+  auth:"wss://norma.nomoreparties.space/orders?token="
 };
 
 export const checkResponse = (res:Response):Promise<any> => {

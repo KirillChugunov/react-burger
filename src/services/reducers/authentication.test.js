@@ -1,35 +1,14 @@
 import * as types from "../actions/authentication";
-import { authentication } from "./authentication";
+import { authentication, initialState } from "./authentication";
 
+describe("authentication reducer", () => {
+  it("should return the initial state", () => {
+    expect(authentication(initialState, {})).toEqual(initialState);
+  });
 
-const InitSt = {  isLogin: false,
-  user: {
-    email: "",
-    name: "",
-  },
-  accessToken: "",
-  refreshToken: "",
-  loginCheck: false,
-  loginFailed: false};
-
-  describe("currentBurgerIngredients reducer", () => {
-    it("should return the initial state", () => {
-      expect(authentication(InitSt, {})).toEqual({
-        isLogin: false,
-        user: {
-          email: "",
-          name: "",
-        },
-        accessToken: "",
-        refreshToken: "",
-        loginCheck: false,
-        loginFailed: false
-      });
-    });
-  
   it("should handle REGISTRATION", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.REGISTRATION,
         name: "testname",
         email: "testemail",
@@ -37,6 +16,7 @@ const InitSt = {  isLogin: false,
         refreshToken: "testrefreshToken",
         isLogin: true,
         loginCheck: true,
+        loginFailed: false,
       })
     ).toEqual({
       isLogin: false,
@@ -48,19 +28,20 @@ const InitSt = {  isLogin: false,
       refreshToken: "testrefreshToken",
       isLogin: true,
       loginCheck: true,
+      loginFailed: false,
     });
   });
 
   it("should handle LOGIN", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.LOGIN,
         name: "testname",
         email: "testemail",
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
         isLogin: true,
-     })
+      })
     ).toEqual({
       user: {
         name: "testname",
@@ -76,7 +57,7 @@ const InitSt = {  isLogin: false,
 
   it("should handle GET_TOKEN_ONLOAD", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.GET_TOKEN_ONLOAD,
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
@@ -89,12 +70,17 @@ const InitSt = {  isLogin: false,
       refreshToken: "testrefreshToken",
       isLogin: true,
       loginCheck: false,
+      user: {
+        email: "",
+        name: "",
+      },
+      loginFailed: false,
     });
   });
 
   it("should handle GET_USER_ONLOAD", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.GET_USER_ONLOAD,
         name: "testname",
         email: "testemail",
@@ -102,18 +88,22 @@ const InitSt = {  isLogin: false,
         loginCheck: true,
       })
     ).toEqual({
+      accessToken: "",
+      refreshToken: "",
+      loginFailed: false,
       user: {
         name: "testname",
         email: "testemail",
       },
       isLogin: true,
       loginCheck: true,
+      loginFailed: false,
     });
   });
 
   it("should handle GET_USERINFO", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.GET_USERINFO,
         name: "testname",
         email: "testemail",
@@ -127,40 +117,51 @@ const InitSt = {  isLogin: false,
       },
       isLogin: true,
       loginCheck: true,
+      accessToken: "",
+      refreshToken: "",
+      loginFailed: false,
     });
   });
 
   it("should handle LOGOUT", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.LOGOUT,
       })
     ).toEqual({
+      isLogin: false,
       user: {
-        name: "",
         email: "",
+        name: "",
       },
       accessToken: "",
       refreshToken: "",
-      isLogin: false,
       loginCheck: false,
+      loginFailed: false,
     });
   });
 
   it("should handle AUTH_FAILED", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.AUTH_FAILED,
       })
     ).toEqual({
       isLogin: false,
+      user: {
+        email: "",
+        name: "",
+      },
+      accessToken: "",
+      refreshToken: "",
       loginCheck: true,
+      loginFailed: false,
     });
   });
 
   it("should handle GET_USER_ONLOAD", () => {
     expect(
-      authentication([], {
+      authentication(initialState, {
         type: types.GET_USER_ONLOAD,
         isLogin: true,
         loginCheck: true,
@@ -168,13 +169,16 @@ const InitSt = {  isLogin: false,
         email: "testemail",
       })
     ).toEqual({
-      isLogin: false,
       user: {
         name: "testname",
         email: "testemail",
       },
       isLogin: true,
       loginCheck: true,
+      accessToken: "",
+      refreshToken: "",
+      loginCheck: true,
+      loginFailed: false,
     });
   });
 });

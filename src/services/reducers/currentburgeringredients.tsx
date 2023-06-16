@@ -10,7 +10,7 @@ import {
   TCurrentBurgerIngredientState,
 } from "../types/types";
 
-const initialState: TCurrentBurgerIngredientState = {
+export const initialState: TCurrentBurgerIngredientState = {
   bun: null,
   ingredientsadded: [],
 };

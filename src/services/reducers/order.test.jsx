@@ -1,18 +1,10 @@
 import * as types from "../actions/order";
 import { idsArray } from "../hardcodefortests";
-import { order } from "./order";
-
-const InitSt = {
-  ingredientIDs: [],
-  orderNumber: "",
-  orderSent: false,
-  orderConfirmed: false,
-  orderFailed: false,
-};
+import { order, initialState } from "./order";
 
 describe("ingredientList reducer", () => {
   it("should return the initial state", () => {
-    expect(order(InitSt, {})).toEqual({
+    expect(order(initialState, {})).toEqual({
       ingredientIDs: [],
       orderNumber: "",
       orderSent: false,
@@ -23,12 +15,12 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_IDS", () => {
     expect(
-      order(InitSt, {
+      order(initialState, {
         type: types.GET_IDS,
         idsArr: idsArray,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       ingredientIDs: [...idsArray],
       orderNumber: "",
       orderSent: false,
@@ -39,12 +31,12 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_ORDER", () => {
     expect(
-      order(InitSt, {
+      order(initialState, {
         type: types.GET_ORDER,
         orderSent: true,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       ingredientIDs: [],
       orderNumber: "",
       orderSent: true,
@@ -55,14 +47,14 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_ORDER_SUCCESS", () => {
     expect(
-      order(InitSt, {
+      order(initialState, {
         type: types.GET_ORDER_SUCCESS,
         ordernumber: "number",
         orderSent: false,
         orderConfirmed: true,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       ingredientIDs: [],
       orderNumber: "number",
       orderSent: false,
@@ -73,13 +65,13 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_ORDER_FAILED", () => {
     expect(
-      order(InitSt, {
+      order(initialState, {
         type: types.GET_ORDER_FAILED,
         orderFailed: true,
         orderSent: false,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       orderSent: false,
       orderFailed: true,
     });

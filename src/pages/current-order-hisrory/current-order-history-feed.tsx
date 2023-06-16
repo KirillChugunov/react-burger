@@ -15,12 +15,13 @@ import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
 import { ignoreUndefined } from "../../hooks/ignoreundefined";
 import { v4 as uuidv4 } from "uuid";
+import { getCookie } from "../../services/Coockie/getCookie";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.auth))
+    dispatch(getOrdersFeed(`${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`))
     return function cleanup() {
       dispatch(stopOrdersFeed())
     }

@@ -7,6 +7,7 @@ import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
 import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import { getCookie } from "../../services/Coockie/getCookie";
 
 export const OrdersHistoryFeed: FunctionComponent = () => {
   const location = useLocation();
@@ -14,9 +15,11 @@ export const OrdersHistoryFeed: FunctionComponent = () => {
   const orderFeed = useSelector((store) => store.wsReducer.messages?.orders);
 
   useEffect(() => {
-    dispatch(getOrdersFeed(wsUrl.auth))
-    return () =>  {dispatch(stopOrdersFeed())}
+    dispatch(getOrdersFeed(`${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`))
+    // return () =>  {dispatch(stopOrdersFeed())}
   }, []);
+
+  console.log(`${wsUrl.auth}+${getCookie("accessToken")?.replace("Bearer ", "")}`)
 
   return (
     <div className={`${styles.orders_scroll_container}` + " mt-10"}>

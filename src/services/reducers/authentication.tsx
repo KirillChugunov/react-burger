@@ -13,7 +13,7 @@ import {
   TAuthentificationState,
 } from "../types/types";
 
-const initialState: TAuthentificationState = {
+export const initialState: TAuthentificationState = {
   isLogin: false,
   user: {
     email: "",

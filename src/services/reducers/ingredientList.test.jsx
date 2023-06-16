@@ -1,16 +1,10 @@
 import * as types from "../actions/ingredientList";
 import { arrayForTest } from "../hardcodefortests";
-import { ingredientList } from "./ingredientList";
-
-const InitSt = {
-  feedRequest: false,
-  feedFailed: false,
-  feed: [],
-};
+import { ingredientList, initialState } from "./ingredientList";
 
 describe("ingredientList reducer", () => {
   it("should return the initial state", () => {
-    expect(ingredientList(InitSt, {})).toEqual({
+    expect(ingredientList(initialState, {})).toEqual({
       feedRequest: false,
       feedFailed: false,
       feed: [],
@@ -19,11 +13,11 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_FEED", () => {
     expect(
-      ingredientList(InitSt, {
+      ingredientList(initialState, {
         type: types.GET_FEED,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       feedRequest: true,
       feedFailed: false,
     });
@@ -31,13 +25,13 @@ describe("ingredientList reducer", () => {
 
   it("should handle GET_FEED_SUCCESS", () => {
     expect(
-      ingredientList(InitSt, {
+      ingredientList(initialState, {
         type: types.GET_FEED_SUCCESS,
         feed: arrayForTest,
         feedRequest: false,
       })
     ).toEqual({
-      ...InitSt,
+      ...initialState,
       feed: arrayForTest,
       feedRequest: false,
     });

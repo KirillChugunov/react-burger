@@ -11,7 +11,7 @@ import {
   sortIngredientConstructor,
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import {
   Tingredient,
   TingredientAndUnicID as TingredientAndUnicID,
@@ -173,6 +173,7 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
           </div>
         </div>
       </div>
+      <Outlet />
     </section>
   );
 };
