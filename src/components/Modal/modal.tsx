@@ -12,6 +12,7 @@ interface IModalProps {
   children: ReactNode;
   title?: string;
   isOrderModalOpened?: Boolean;
+  isIngrModalOpened?:Boolean;
 }
 
 export const Modal: FunctionComponent<IModalProps> = ({
@@ -41,7 +42,7 @@ console.log(isOrderModalOpened)
   };
 
   return ReactDOM.createPortal(
-    <ModalOverlay closePopup={closePopup}>
+    <ModalOverlay closePopup={closePopup} handleClose={handleClose} isOrderModalOpened={isOrderModalOpened}>
       <div
         className={styles.modal__container}
         onClick={(e) => e.stopPropagation()}

@@ -95,6 +95,8 @@ export const handleRegistration: AppThunk = (
         email: res.user.email,
         accessToken: res.accessToken,
         refreshToken: res.refreshToken,
+        isLogin: true,
+        loginCheck: true,
       })
     );
   };

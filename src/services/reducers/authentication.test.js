@@ -19,7 +19,6 @@ describe("authentication reducer", () => {
         loginFailed: false,
       })
     ).toEqual({
-      isLogin: false,
       user: {
         name: "testname",
         email: "testemail",
@@ -41,6 +40,7 @@ describe("authentication reducer", () => {
         accessToken: "testAcsessToken",
         refreshToken: "testrefreshToken",
         isLogin: true,
+        loginCheck: true,
       })
     ).toEqual({
       user: {
@@ -65,11 +65,10 @@ describe("authentication reducer", () => {
         loginCheck: false,
       })
     ).toEqual({
-      isLogin: false,
       accessToken: "testAcsessToken",
       refreshToken: "testrefreshToken",
       isLogin: true,
-      loginCheck: false,
+      loginCheck: true,
       user: {
         email: "",
         name: "",
@@ -127,6 +126,7 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.LOGOUT,
+        loginCheck:true 
       })
     ).toEqual({
       isLogin: false,
@@ -136,7 +136,7 @@ describe("authentication reducer", () => {
       },
       accessToken: "",
       refreshToken: "",
-      loginCheck: false,
+      loginCheck: true,
       loginFailed: false,
     });
   });
@@ -145,6 +145,7 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.AUTH_FAILED,
+        loginCheck:true 
       })
     ).toEqual({
       isLogin: false,

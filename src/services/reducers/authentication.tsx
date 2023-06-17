@@ -40,7 +40,7 @@ export const authentication = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        loginCheck: false,
+        loginCheck: true,
       };
 
     case LOGIN:

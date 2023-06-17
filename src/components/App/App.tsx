@@ -75,11 +75,8 @@ export const App = (): JSX.Element | null => {
   }, []);
 
   const { closeModal: closeIngrModal } = useModal();
-  const {
-    closeModal: closeOrderrModal,
-    isModalOpen: isOrderModalOpened,
-    openModal: openOrderModal,
-  } = useModal();
+  const { closeModal: closeOrderrModal, isModalOpen: isOrderModalOpened, openModal: openOrderModal} = useModal();
+
 
   return (
     <div className={styles.page}>
