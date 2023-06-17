@@ -36,7 +36,6 @@ import { useDispatch } from "../../hooks/customDispatch";
 import type {} from "redux-thunk/extend-redux";
 import { useSelector } from "../../hooks/customUseSelector";
 
-
 export const App = (): JSX.Element | null => {
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -44,7 +43,6 @@ export const App = (): JSX.Element | null => {
   const refreshToken: string | undefined = getCookie("refreshToken");
   const accessToken: string | undefined = getCookie("accessToken");
   const Ingredients = useSelector((store) => store.ingredientList.feed);
-
 
   const CheckUser = (
     refreshToken: string | undefined,
@@ -62,8 +60,6 @@ export const App = (): JSX.Element | null => {
   useEffect(() => {
     CheckUser(refreshToken, accessToken);
   }, []);
-
-
 
   const closePopup = () => {
     closeIngrModal();
@@ -84,7 +80,6 @@ export const App = (): JSX.Element | null => {
     isModalOpen: isOrderModalOpened,
     openModal: openOrderModal,
   } = useModal();
-
 
   return (
     <div className={styles.page}>

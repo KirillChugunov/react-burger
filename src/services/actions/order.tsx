@@ -7,7 +7,7 @@ export const GET_ORDER_FAILED: "GET_ORDER_FAILED" = "GET_ORDER_FAILED";
 export const GET_ORDER_SUCCESS: "GET_ORDER_SUCCESS" = "GET_ORDER_SUCCESS";
 export { sendOrderToServer } from "../Api/api";
 
-export const getIDsArray = (IDs: Array<string>) => ({
+export const getIDsArray = (IDs: Array<String>) => ({
   type: GET_IDS,
   idsArr: IDs,
 });

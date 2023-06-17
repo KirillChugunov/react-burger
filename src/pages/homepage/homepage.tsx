@@ -12,7 +12,7 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
-import { TingredientAndUnicID } from "../../services/types/types";
+import { ArrayObj, TingredientAndUnicID } from "../../services/types/types";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 
@@ -27,7 +27,7 @@ export const HomePage: FunctionComponent = () => {
   } = useModal();
 
   const draggedElements = useSelector(
-    (store: any) => store.currentBurgerIngredients.ingredientsadded
+    (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
@@ -36,15 +36,19 @@ export const HomePage: FunctionComponent = () => {
 
   ////////////////Обработчик кнопки заказа
   function handleOrderButton() {
-    const idsForOrder = [
-      draggedElementsAndBuns.bun != null && draggedElementsAndBuns.bun._id,
-      ...draggedElements.map((item: TingredientAndUnicID) => item._id),
-      draggedElementsAndBuns.bun != null && draggedElementsAndBuns.bun._id,
-    ];
-    
+    let idsForOrder: Array<String> = [];
+    if (draggedElementsAndBuns.bun != null) {
+      idsForOrder = [
+        draggedElementsAndBuns.bun._id,
+        ...draggedElements.map((item: TingredientAndUnicID) => item._id),
+        draggedElementsAndBuns.bun._id,
+      ];
+    }
+    console.log(idsForOrder);
     dispatch(getIDsArray(idsForOrder));
-    const newObj: any = {};
+    const newObj: ArrayObj = {};
     newObj.ingredients = idsForOrder;
+    console.log(newObj.ingredients);
     dispatch(sentOrder(newObj));
     openOrderModal();
   }

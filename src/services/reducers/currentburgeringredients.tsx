@@ -8,6 +8,7 @@ import {
 import {
   TCurrentBurgerIngredientActions,
   TCurrentBurgerIngredientState,
+  TingredientAndUnicID,
 } from "../types/types";
 
 export const initialState: TCurrentBurgerIngredientState = {
@@ -30,7 +31,7 @@ export const currentBurgerIngredients = (
       return {
         ...state,
         ingredientsadded: state.ingredientsadded.filter(
-          (element: any) => element.unicID !== action.unicID
+          (element: TingredientAndUnicID) => element.unicID !== action.unicID
         ),
       };
 

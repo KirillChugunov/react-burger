@@ -29,7 +29,7 @@ export const BurgerIngredients: FunctionComponent = () => {
   ///Список ингредиентов с API
   const Ingredients = useSelector((store) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
-  const [current, setCurrent] = React.useState<String>("one")
+  const [current, setCurrent] = React.useState<String>("one");
   ////Рефы разметки для скролла
   const bunRef = useRef<HTMLDivElement>(null);
   const sauseRef = useRef<HTMLDivElement>(null);

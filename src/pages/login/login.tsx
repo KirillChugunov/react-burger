@@ -8,15 +8,13 @@ import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { checkLogin } from "../../services/actions/authentication";
 import { useDispatch } from "../../hooks/customDispatch";
-import { useSelector } from "../../hooks/customUseSelector";
 import { requestLogin } from "../../services/Api/api";
-import { setCookie } from "../../services/Coockie/setCookie";
 
 export const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const [error, setError] = useState<Boolean>(false);
   const [textError, setTextError] = useState<String>("");
 
@@ -27,10 +25,10 @@ export const LoginPage: FunctionComponent = () => {
     accessToken: string,
     refreshToken: string
   ) {
-    navigate("/")
-    setError(false)
-    setTextError("")
-    dispatch(checkLogin(email, password, name, accessToken, refreshToken))
+    navigate("/");
+    setError(false);
+    setTextError("");
+    dispatch(checkLogin(email, password, name, accessToken, refreshToken));
   }
   function handleLoginButton(
     e: React.FormEvent<HTMLFormElement>,
@@ -40,15 +38,14 @@ export const LoginPage: FunctionComponent = () => {
     e.preventDefault();
     requestLogin(email, password)
       .then((res) => {
-          handleLoginSuccess(
-            res.user.name,
-            res.user.email,
-            password,
-            res.accessToken,
-            res.refreshToken
-          )
-         }
-      )
+        handleLoginSuccess(
+          res.user.name,
+          res.user.email,
+          password,
+          res.accessToken,
+          res.refreshToken
+        );
+      })
       .catch((err) => {
         setError(true);
         setTextError(err);

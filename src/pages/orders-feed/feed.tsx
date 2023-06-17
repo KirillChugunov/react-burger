@@ -2,7 +2,10 @@ import { useEffect } from "react";
 import { CardOrder } from "../../components/CardOrder/CardOrder";
 import { OdersStats } from "../../components/OrdersStats/OrdersStats";
 import styles from "./feed.module.css";
-import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import {
+  getOrdersFeed,
+  stopOrdersFeed,
+} from "../../services/middleware/wsmiddlewareActions";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Preloader } from "../../components/Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
@@ -16,20 +19,20 @@ export const OrdersFeed: FunctionComponent = () => {
   const feed = useSelector((store) => store.wsReducer);
   const dispatch = useDispatch();
   useEffect(() => {
-  
-    dispatch(getOrdersFeed(wsUrl.all))
+    dispatch(getOrdersFeed(wsUrl.all));
     return function cleanup() {
-      dispatch(stopOrdersFeed())
-        }
+      dispatch(stopOrdersFeed());
+    };
   }, []);
 
   return (
-      <section>
-          <p className="text text_type_main-large mb-5 mt-10">Лента заказов</p>
+    <section>
+      <p className="text text_type_main-large mb-5 mt-10">Лента заказов</p>
       <div className={styles.feed_container}>
         <div className={styles.orders_scroll_container}>
           {feed.messages.orders?.map((order: TOrder) => (
-            <Link key={order._id}
+            <Link
+              key={order._id}
               state={{ background: location }}
               className={styles.link}
               to={`/feed/${order._id}`}
@@ -38,9 +41,10 @@ export const OrdersFeed: FunctionComponent = () => {
             </Link>
           ))}
         </div>
-         <div>
+        <div>
           <OdersStats />
         </div>
       </div>
-    </section> 
-  )}
+    </section>
+  );
+};

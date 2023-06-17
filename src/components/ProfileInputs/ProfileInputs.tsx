@@ -27,14 +27,19 @@ export const ProfileInputs: FunctionComponent = () => {
     setShowButtons(true);
   }
 
-  function handleSave(e:React.FormEvent<HTMLFormElement> ,email: string, name: string, password: string) {
+  function handleSave(
+    e: React.FormEvent<HTMLFormElement>,
+    email: string,
+    name: string,
+    password: string
+  ) {
     e.preventDefault();
     dispatch(setUserInfo(email, name, password));
     setShowButtons(false);
   }
 
-  function handleCancel(e:React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+  function handleCancel(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setName(userInfo.user.name);
     setEmail(userInfo.user.email);
     setPassword("");
@@ -43,58 +48,53 @@ export const ProfileInputs: FunctionComponent = () => {
 
   return (
     <div>
-      <form onSubmit={(e) =>handleSave(e, email, name, password)} onReset={(e) => handleCancel(e)}>
-      <div className={`${style.input_container}` + " mt-6"}>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={(e) => handleChange(e, setName)}
-          icon={"EditIcon"}
-          value={name}
-          name={"name"}
-          error={false}
-          ref={inputRef}
-          errorText={"Ошибка"}
-          size={"default"}
-          extraClass="ml-1"
-        />
-      </div>
-      <div className="mt-6">
-        <EmailInput
-          onChange={(e) => handleChange(e, setEmail)}
-          value={email}
-          name={"email"}
-          placeholder="Логин"
-          isIcon={true}
-          extraClass="mb-2"
-        />
-      </div>
-      <div className="mt-6">
-        <PasswordInput
-          onChange={(e) => handleChange(e, setPassword)}
-          value={password}
-          name={"password"}
-          icon="EditIcon"
-        />
-      </div>
-      {showButtons ? (
-        <div className={`${style.button_container}` + " mt-6"}>
-          <Button
-            htmlType="reset"
-            type="secondary"
-            size="medium"
-           >
-            Отмена
-          </Button>
-          <Button
-            htmlType="submit"
-            type="primary"
-            size="medium"
-          >
-            Сохранить
-          </Button>
+      <form
+        onSubmit={(e) => handleSave(e, email, name, password)}
+        onReset={(e) => handleCancel(e)}
+      >
+        <div className={`${style.input_container}` + " mt-6"}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={(e) => handleChange(e, setName)}
+            icon={"EditIcon"}
+            value={name}
+            name={"name"}
+            error={false}
+            ref={inputRef}
+            errorText={"Ошибка"}
+            size={"default"}
+            extraClass="ml-1"
+          />
         </div>
-      ) : null}
+        <div className="mt-6">
+          <EmailInput
+            onChange={(e) => handleChange(e, setEmail)}
+            value={email}
+            name={"email"}
+            placeholder="Логин"
+            isIcon={true}
+            extraClass="mb-2"
+          />
+        </div>
+        <div className="mt-6">
+          <PasswordInput
+            onChange={(e) => handleChange(e, setPassword)}
+            value={password}
+            name={"password"}
+            icon="EditIcon"
+          />
+        </div>
+        {showButtons ? (
+          <div className={`${style.button_container}` + " mt-6"}>
+            <Button htmlType="reset" type="secondary" size="medium">
+              Отмена
+            </Button>
+            <Button htmlType="submit" type="primary" size="medium">
+              Сохранить
+            </Button>
+          </div>
+        ) : null}
       </form>
     </div>
   );

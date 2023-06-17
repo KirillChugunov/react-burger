@@ -11,8 +11,11 @@ export function PwdRecoveryPage() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>(" ");
 
-  function handleResetPassword(e:React.FormEvent<HTMLDivElement>, email: string) {
-    e.preventDefault()
+  function handleResetPassword(
+    e: React.FormEvent<HTMLDivElement>,
+    email: string
+  ) {
+    e.preventDefault();
     resetPassword(email).then(
       (res) => (
         console.log(res),
@@ -31,25 +34,24 @@ export function PwdRecoveryPage() {
         Восстановление пароля
       </h1>
       <form>
-      <div className={styles.input_container} onSubmit={(e) => handleResetPassword(e, email)}>
-        <div className="mt-6">
-          <EmailInput
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            name={"email"}
-            isIcon={false}
-          />
+        <div
+          className={styles.input_container}
+          onSubmit={(e) => handleResetPassword(e, email)}
+        >
+          <div className="mt-6">
+            <EmailInput
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              name={"email"}
+              isIcon={false}
+            />
+          </div>
         </div>
-      </div>
-      <div className="mt-6">
-        <Button
-          htmlType="submit"
-          type="primary"
-          size="medium"
-            >
-          Восстановить
-        </Button>
-      </div>
+        <div className="mt-6">
+          <Button htmlType="submit" type="primary" size="medium">
+            Восстановить
+          </Button>
+        </div>
       </form>
       <div className="mt-20">
         <p className="text text_type_main-default">

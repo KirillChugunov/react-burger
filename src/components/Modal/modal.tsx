@@ -8,25 +8,26 @@ import { useNavigate } from "react-router-dom";
 const modalRoot = document.getElementById("modal") as Element;
 
 interface IModalProps {
-  closePopup: () => void
+  closePopup: () => void;
   children: ReactNode;
   title?: string;
-  isOrderModalOpened?:Boolean
+  isOrderModalOpened?: Boolean;
 }
 
 export const Modal: FunctionComponent<IModalProps> = ({
   closePopup,
   children,
   title,
-  isOrderModalOpened
+  isOrderModalOpened,
 }) => {
   const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
+console.log(isOrderModalOpened)
 
   useEffect(() => {
     function closeByEscape(evt: KeyboardEvent) {
       if (evt.key === "Escape") {
-        navigate(-1);
+        isOrderModalOpened ? closePopup() : handleClose()
       }
     }
     document.addEventListener("keydown", closeByEscape);
@@ -48,7 +49,10 @@ export const Modal: FunctionComponent<IModalProps> = ({
         <div className={`${styles.modal__heading}` + " ml-10 mr-10 mb-0 mt-10"}>
           {title && <p className="text text_type_main-medium">{title}</p>}
           <div className={styles.closeIconContainer}>
-            <CloseIcon type="primary" onClick={isOrderModalOpened ? closePopup : handleClose} />
+            <CloseIcon
+              type="primary"
+              onClick={isOrderModalOpened ? closePopup : handleClose}
+            />
           </div>
         </div>
         {children}

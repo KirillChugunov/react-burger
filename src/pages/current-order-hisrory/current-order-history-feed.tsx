@@ -5,12 +5,19 @@ import {
 import styles from "./currrent-order-history-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { getOrdersFeed, stopOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import {
+  getOrdersFeed,
+  stopOrdersFeed,
+} from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
-import { TOrder, Tingredient, TingredientAndUnicID } from "../../services/types/types";
+import {
+  TOrder,
+  Tingredient,
+  TingredientAndUnicID,
+} from "../../services/types/types";
 import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
 import { ignoreUndefined } from "../../hooks/ignoreundefined";
@@ -21,43 +28,46 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrdersFeed(`${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`))
+    dispatch(
+      getOrdersFeed(
+        `${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`
+      )
+    );
     return function cleanup() {
-      dispatch(stopOrdersFeed())
-    }
+      dispatch(stopOrdersFeed());
+    };
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
   const Orders = useSelector((store) => store.wsReducer?.messages.orders); /// нашли массив заказов
-  const Order:TOrder = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
+  const Order: TOrder = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
   const ingredientsStorage = useSelector(
     (store) => store?.ingredientList?.feed
   ); /// нашли массив ингридиентов
-  const orderIngredients:Array<TingredientAndUnicID | undefined> = Order?.ingredients?.map((element: string) =>
-    ingredientsStorage?.find((item) => item._id === element)
-  ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
+  const orderIngredients: Array<TingredientAndUnicID | undefined> =
+    Order?.ingredients?.map((element: string) =>
+      ingredientsStorage?.find((item) => item._id === element)
+    ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
   const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
     (element) => ignoreUndefined(element)
   );
 
-
   const unicIngredients = orderIngredientsArr?.filter(function (
-    x: any,
-    i: any,
-    a: any
+    x: TingredientAndUnicID,
+    i: number,
+    a: Array<TingredientAndUnicID>
   ) {
     return a.indexOf(x) === i;
   }); //// новый массив для рендера из уникальныъ элементов
 
-  const unicIngredientsWithCount:Array<TingredientAndCount>= unicIngredients?.map(
-    (element) => ({
+  const unicIngredientsWithCount: Array<TingredientAndCount> =
+    unicIngredients?.map((element) => ({
       ...element,
       count: orderIngredientsArr?.filter(
         (item: Tingredient) => item._id === element._id
       ).length,
-    })
-  ); /// добавили к объектам массива уникальных элементов новое свойство для отрисовки количества и расчета стоимости
+    })); /// добавили к объектам массива уникальных элементов новое свойство для отрисовки количества и расчета стоимости
 
   const orderPrice = orderIngredientsArr
     ?.map((item: Tingredient) => item.price)

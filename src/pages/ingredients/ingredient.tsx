@@ -7,7 +7,7 @@ import { useSelector } from "../../hooks/customUseSelector";
 export const IngredientsPage = (): JSX.Element | null => {
   const { id } = useParams();
   const Ingredients = useSelector((store) => store.ingredientList.feed);
-  const Ingredient:TingredientAndUnicID | undefined = Ingredients.find(
+  const Ingredient: TingredientAndUnicID | undefined = Ingredients.find(
     (item: TingredientAndUnicID) => item._id === id
   );
   if (id && Ingredient) {

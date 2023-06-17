@@ -50,6 +50,10 @@ export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
 
+export type ArrayObj = {
+  ingredients?:Array<String>
+}
+
 export type TConfig = {
   method?:string;
   headers: THeaders
@@ -102,7 +106,7 @@ export type TTextString = {
 ///////////////Oder
 export interface IGetIds {
   readonly type: typeof GET_IDS;
-  readonly idsArr: any;
+  readonly idsArr: Array<String>;
 }
 
 export interface IGetOrders {
@@ -140,7 +144,7 @@ export interface IAddIngredient {
 
 export interface IDeleteIngredient {
   readonly type: typeof DELETE_INGREDIENT;
-  readonly unicID: TingredientAndUnicID;
+  readonly unicID: string;
 }
 
 export interface ISortItems {
@@ -248,7 +252,7 @@ export type TCurrentIngredientActions =
   | IDeleteCurrentIngredient;
 
 export type TCurrentIngredientState = {
-  ingredient: any;
+  ingredient: Object;
 };
 
 ///////////////////////////////////ingredientList

@@ -18,7 +18,6 @@ interface ICardOrderProps {
 }
 
 export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
-
   const ingredientsStorage = useSelector((store) => store.ingredientList.feed);
   const orderIngredientsArr: Array<TingredientAndUnicID | undefined> =
     order.ingredients
@@ -29,9 +28,8 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
       )
       .filter(Boolean);
 
-  const orderIngredientsArrCheked:Array<TingredientAndUnicID> = orderIngredientsArr.map((element) =>
-  ignoreUndefined(element)
-  );
+  const orderIngredientsArrCheked: Array<TingredientAndUnicID> =
+    orderIngredientsArr.map((element) => ignoreUndefined(element));
 
   const orderPrice = orderIngredientsArrCheked
     ?.map((element: TingredientAndUnicID) => element.price)
@@ -59,14 +57,21 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
       >
         <div className={styles.price_container}>
           <div className={styles.img_array_container}>
-            {orderIngredientsArrCheked?.slice(0, 5).map((element: TingredientAndUnicID) => (
-              <div key={uuidv4()} className={`${styles.img_overlay} ${styles.img}`}>
-                <img className={styles.img} src={element.image} />
-              </div>
-            ))}
+            {orderIngredientsArrCheked
+              ?.slice(0, 5)
+              .map((element: TingredientAndUnicID) => (
+                <div
+                  key={uuidv4()}
+                  className={`${styles.img_overlay} ${styles.img}`}
+                >
+                  <img className={styles.img} src={element.image} />
+                </div>
+              ))}
             {orderIngredientsArrCheked &&
-              orderIngredientsArrCheked?.slice(5, orderIngredientsArrCheked?.length)
-                ?.length > 0 && (
+              orderIngredientsArrCheked?.slice(
+                5,
+                orderIngredientsArrCheked?.length
+              )?.length > 0 && (
                 <div className={styles.rest_orders_container}>
                   <div className={styles.text_box}>
                     <p className={styles.text_opacity}>

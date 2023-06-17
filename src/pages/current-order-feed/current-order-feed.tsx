@@ -24,7 +24,7 @@ export const CurrentOrderFeed = () => {
   useEffect(() => {
     dispatch(getOrdersFeed(wsUrl.all));
     return () => {
-       dispatch(stopOrdersFeed());
+      dispatch(stopOrdersFeed());
     };
   }, []);
 

@@ -96,19 +96,25 @@ export const handleRegistration: AppThunk = (
     );
   };
 };
-export const checkLogin: AppThunk = (email: string, password: string, name:string, accessToken:string, refreshToken:string) => {
+export const checkLogin: AppThunk = (
+  email: string,
+  password: string,
+  name: string,
+  accessToken: string,
+  refreshToken: string
+) => {
   return function (dispatch: AppDispatch) {
-    setCookie("accessToken", accessToken, { expires: 12000 })
-    setCookie("refreshToken", refreshToken, { expires: 12000 })
-      dispatch({
-          type: LOGIN,
-          name: name,
-          email: email,
-          accessToken: accessToken,
-          refreshToken: refreshToken,
-          isLogin:true
-        });
-      }
+    setCookie("accessToken", accessToken, { expires: 12000 });
+    setCookie("refreshToken", refreshToken, { expires: 12000 });
+    dispatch({
+      type: LOGIN,
+      name: name,
+      email: email,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      isLogin: true,
+    });
+  };
 };
 
 export const getUserInfo: AppThunk = () => {

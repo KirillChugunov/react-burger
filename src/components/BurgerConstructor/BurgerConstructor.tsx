@@ -21,7 +21,7 @@ import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 
 interface IBurgerConstructorProps {
-  onDropHandler: Function ;
+  onDropHandler: Function;
   handleOrderButton: () => void;
 }
 
@@ -77,7 +77,7 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
   //////Обработчик удаления
   function handleItemDelete(element: TingredientAndUnicID) {
     dispatch(deleteItem(element.unicID));
-   }
+  }
 
   const handleOrder = (): void => {
     if (userLogin) {

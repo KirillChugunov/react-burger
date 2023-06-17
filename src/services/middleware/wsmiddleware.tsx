@@ -1,6 +1,13 @@
 import { Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState, TwsmiddlewareActions } from "../types/types";
-import { WS_CONNECTION_CLOSED, WS_CONNECTION_ERROR, WS_CONNECTION_START, WS_CONNECTION_STOP, WS_CONNECTION_SUCCESS, WS_GET_MESSAGE } from "./wsmiddlewareActions";
+import {
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_START,
+  WS_CONNECTION_STOP,
+  WS_CONNECTION_SUCCESS,
+  WS_GET_MESSAGE,
+} from "./wsmiddlewareActions";
 
 export const socketMiddleware = (): Middleware => {
   return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -14,8 +21,9 @@ export const socketMiddleware = (): Middleware => {
         // объект класса WebSocket
         socket = new WebSocket(action.payload);
       }
-      if (type === WS_CONNECTION_STOP)
-       {socket?.close(1000, 'Соединение закрыто') }
+      if (type === WS_CONNECTION_STOP) {
+        socket?.close(1000, "Соединение закрыто");
+      }
 
       if (socket) {
         // функция, которая вызывается при открытии сокета

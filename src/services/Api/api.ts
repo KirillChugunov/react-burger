@@ -8,20 +8,19 @@ export const config = {
 
 export const wsUrl = {
   all: "wss://norma.nomoreparties.space/orders/all",
-  auth:"wss://norma.nomoreparties.space/orders?token="
+  auth: "wss://norma.nomoreparties.space/orders?token=",
 };
 
-export const checkResponse = (res:Response):Promise<any> => {
+export const checkResponse = <T>(res: Response): Promise<T> => {
   if (res.ok) {
     return res.json();
   }
   return Promise.reject(`${res.status} - error`);
-}
-
+};
 
 export const getIngredientsFromServer = () => request(`ingredients`);
 
-export const sendOrderToServer = (newObj:object) =>
+export const sendOrderToServer = (newObj: object):Promise<any>  =>
   request(`orders`, {
     method: "POST",
     headers: {
@@ -31,26 +30,32 @@ export const sendOrderToServer = (newObj:object) =>
     body: JSON.stringify(newObj),
   });
 
-export const request = (endpoint:string, options?:TConfig):Promise<any> => {
+export const request = (endpoint: string, options?: TConfig): Promise<any> => {
   return fetch(`${config.baseUrl}/${endpoint}`, options).then(checkResponse);
-}
+};
 
-
-export const resetPassword = (email:string):Promise<any> =>
+export const resetPassword = (email: string): Promise<any> =>
   request("password-reset", {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({ email: email }),
   });
 
-export const requestNewPassword = (password:string, token:string):Promise<any> =>
+export const requestNewPassword = (
+  password: string,
+  token: string
+): Promise<any> =>
   request("password-reset/reset", {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({ password: password, token: token }),
   });
 
-export const requestRegistrationNewUser = (name:string, email:string, password:string):Promise<any> =>
+export const requestRegistrationNewUser = (
+  name: string,
+  email: string,
+  password: string
+): Promise<any> =>
   request("auth/register", {
     method: "POST",
     headers: config.headers,
@@ -61,14 +66,14 @@ export const requestRegistrationNewUser = (name:string, email:string, password:s
     }),
   });
 
-export const requestLogin = (email:string, password:string):Promise<any> =>
+export const requestLogin = (email: string, password: string): Promise<any> =>
   request("auth/login", {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({ email: email, password: password }),
   });
 
-export const checkUserInfo = ():Promise<any> =>
+export const checkUserInfo = (): Promise<any> =>
   request("auth/user", {
     headers: {
       "Content-Type": "application/json",
@@ -76,21 +81,25 @@ export const checkUserInfo = ():Promise<any> =>
     },
   });
 
-export const getAuthCoockie = ():Promise<any> =>
+export const getAuthCoockie = (): Promise<any> =>
   request("auth/token", {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({ token: getCookie("refreshToken") }),
   });
 
-export const requestLogout = ():Promise<any> =>
+export const requestLogout = (): Promise<any> =>
   request("auth/logout", {
     method: "POST",
     headers: config.headers,
     body: JSON.stringify({ token: getCookie("refreshToken") }),
   });
 
-export const requestUserInfoChange = (email:string, name:string, password:string):Promise<any> =>
+export const requestUserInfoChange = (
+  email: string,
+  name: string,
+  password: string
+): Promise<any> =>
   request("auth/user", {
     method: "PATCH",
     headers: {
