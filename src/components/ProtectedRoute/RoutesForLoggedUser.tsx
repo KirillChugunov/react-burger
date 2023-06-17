@@ -11,16 +11,11 @@ export const RouteForLoggedUser = ({
 }: IRouteForLoggedUserProps): JSX.Element | null => {
   const userLogin = useSelector((store) => store.authentication.isLogin);
   const loginCheck = useSelector((store) => store.authentication.loginCheck);
-  const prevLocation = useLocation().state.from;
+  const prevLocation = useLocation().state?.from;
   console.log(prevLocation);
-
   return loginCheck ? (
     userLogin ? (
-      prevLocation ? (
-        <Navigate to={prevLocation} />
-      ) : (
-        <Navigate to={"/"} />
-      )
+      <Navigate to={prevLocation ? prevLocation : "/"} />
     ) : (
       element
     )

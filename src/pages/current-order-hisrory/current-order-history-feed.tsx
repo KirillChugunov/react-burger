@@ -21,7 +21,6 @@ import {
 import { TingredientAndCount } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";
 import { ignoreUndefined } from "../../hooks/ignoreundefined";
-import { v4 as uuidv4 } from "uuid";
 import { getCookie } from "../../services/Coockie/getCookie";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
@@ -49,9 +48,8 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       ingredientsStorage?.find((item) => item._id === element)
     ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
-  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients?.map(
-    (element) => ignoreUndefined(element)
-  );
+  const orderIngredientsArr: Array<TingredientAndUnicID> =
+    orderIngredients?.map((element) => ignoreUndefined(element));
 
   const unicIngredients = orderIngredientsArr?.filter(function (
     x: TingredientAndUnicID,
@@ -113,7 +111,7 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
         {unicIngredientsWithCount?.map((ingredient) => (
-          <CurrentOrderCard key={uuidv4()} ingredient={ingredient} />
+          <CurrentOrderCard key={ingredient._id} ingredient={ingredient} />
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>

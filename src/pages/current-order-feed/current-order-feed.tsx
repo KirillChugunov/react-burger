@@ -15,7 +15,6 @@ import { wsUrl } from "../../services/Api/api";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder, TingredientAndUnicID } from "../../services/types/types";
 import { ignoreUndefined } from "../../hooks/ignoreundefined";
-import { v4 as uuidv4 } from "uuid";
 
 export const CurrentOrderFeed = () => {
   const Orders = useSelector((store) => store.wsReducer.messages?.orders); /// нашли массив заказов
@@ -35,9 +34,8 @@ export const CurrentOrderFeed = () => {
     Order?.ingredients.map((element) =>
       ingredientsStorage?.find((item) => item._id === element)
     );
-  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients?.map(
-    (element) => ignoreUndefined(element)
-  ); //// убрали из массива ингридентов undefined значения если были
+  const orderIngredientsArr: Array<TingredientAndUnicID> =
+    orderIngredients?.map((element) => ignoreUndefined(element)); //// убрали из массива ингридентов undefined значения если были
   /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
   const unicIngredients = orderIngredientsArr?.filter(function (x, i, a) {
@@ -98,7 +96,7 @@ export const CurrentOrderFeed = () => {
         <p className="text text_type_main-medium mt-15">Состав:</p>
         <div className={`${styles.cards_container}` + " mt-6"}>
           {unicIngredientsWithCount?.map((ingredient) => (
-            <CurrentOrderCard key={uuidv4()} ingredient={ingredient} />
+            <CurrentOrderCard key={ingredient._id} ingredient={ingredient} />
           ))}
         </div>
         <div className={`${styles.total_container}` + " mt-10"}>

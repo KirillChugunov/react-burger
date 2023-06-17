@@ -18,9 +18,7 @@ export const LoginPage: FunctionComponent = () => {
   const [error, setError] = useState<Boolean>(false);
   const [textError, setTextError] = useState<String>("");
 
-const prevLocation = useLocation().state?.from
-
-
+  const prevLocation = useLocation().state?.from;
 
   function handleLoginSuccess(
     name: string,

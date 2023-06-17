@@ -27,7 +27,7 @@ export const authUserOnLoad: AppThunk = (accessToken: string) => {
           type: GET_USER_ONLOAD,
           name: res.user.name,
           email: res.user.email,
-          loginCheck:true,    
+          loginCheck: true,
         })
       )
       .catch(
@@ -47,7 +47,7 @@ export const authUserOnLoad: AppThunk = (accessToken: string) => {
                 type: GET_TOKEN_ONLOAD,
                 accessToken: res.accessToken,
                 refreshToken: res.refreshToken,
-                loginCheck:true 
+                loginCheck: true,
               }),
               console.log("аксес токен протух, я обновил")
             )
@@ -74,7 +74,7 @@ export const refreshAcsesToken: AppThunk = () => {
           type: GET_TOKEN_ONLOAD,
           accessToken: res.accessToken,
           refreshToken: res.refreshToken,
-          loginCheck:true 
+          loginCheck: true,
         }),
         console.log("получил аксес токен")
       )
@@ -118,7 +118,7 @@ export const checkLogin: AppThunk = (
       accessToken: accessToken,
       refreshToken: refreshToken,
       isLogin: true,
-      loginCheck:true 
+      loginCheck: true,
     });
   };
 };
@@ -157,7 +157,7 @@ export const sendLogOut: AppThunk = () => {
     requestLogout().then((res) =>
       dispatch({
         type: LOGOUT,
-        loginCheck:true 
+        loginCheck: true,
       })
     );
   };

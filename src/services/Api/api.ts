@@ -20,7 +20,7 @@ export const checkResponse = <T>(res: Response): Promise<T> => {
 
 export const getIngredientsFromServer = () => request(`ingredients`);
 
-export const sendOrderToServer = (newObj: object):Promise<any>  =>
+export const sendOrderToServer = (newObj: object): Promise<any> =>
   request(`orders`, {
     method: "POST",
     headers: {

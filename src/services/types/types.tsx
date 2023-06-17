@@ -51,19 +51,19 @@ export type AppThunk<TReturn = void> = ActionCreator<
 >;
 
 export type ArrayObj = {
-  ingredients?:Array<String>
-}
+  ingredients?: Array<String>;
+};
 
 export type TConfig = {
-  method?:string;
-  headers: THeaders
+  method?: string;
+  headers: THeaders;
   body?: string;
 };
 
 export type THeaders = {
-  "Content-Type":string  
-  authorization?:string 
-}
+  "Content-Type": string;
+  authorization?: string;
+};
 
 export type TOrder = {
   createdAt: string;
@@ -309,7 +309,7 @@ export type TwsmiddlewareState = {
 };
 
 export interface TWSConnectionStop {
- readonly type: typeof WS_CONNECTION_STOP
+  readonly type: typeof WS_CONNECTION_STOP;
 }
 
 export type TwsmiddlewareActions =
@@ -318,9 +318,7 @@ export type TwsmiddlewareActions =
   | IWSConnectionError
   | IWSConnectionClosed
   | IWSConnectionGetMessage
-  | TWSConnectionStop
-
-
+  | TWSConnectionStop;
 
 export type TApplicationActions =
   | TOrderActions

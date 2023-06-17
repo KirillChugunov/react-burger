@@ -35,6 +35,12 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
     ?.map((element: TingredientAndUnicID) => element.price)
     .reduce((partialSum: number, a: number) => partialSum + a, 0);
 
+  const orderIngredientsArrChekedandUnidIC: Array<TingredientAndUnicID> =
+    orderIngredientsArrCheked.map((element) => ({
+      ...element,
+      unicID: uuidv4(),
+    }));
+
   return (
     <div className={styles.cardorder_container}>
       <div className={`${styles.number_date_container}` + " mt-6 ml-6 mr-6"}>
@@ -57,35 +63,35 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
       >
         <div className={styles.price_container}>
           <div className={styles.img_array_container}>
-            {orderIngredientsArrCheked
+            {orderIngredientsArrChekedandUnidIC
               ?.slice(0, 5)
               .map((element: TingredientAndUnicID) => (
                 <div
-                  key={uuidv4()}
+                  key={element.unicID}
                   className={`${styles.img_overlay} ${styles.img}`}
                 >
                   <img className={styles.img} src={element.image} />
                 </div>
               ))}
-            {orderIngredientsArrCheked &&
-              orderIngredientsArrCheked?.slice(
+            {orderIngredientsArrChekedandUnidIC &&
+              orderIngredientsArrChekedandUnidIC?.slice(
                 5,
-                orderIngredientsArrCheked?.length
+                orderIngredientsArrChekedandUnidIC?.length
               )?.length > 0 && (
                 <div className={styles.rest_orders_container}>
                   <div className={styles.text_box}>
                     <p className={styles.text_opacity}>
                       {"+" +
-                        orderIngredientsArrCheked?.slice(
+                        orderIngredientsArrChekedandUnidIC?.slice(
                           5,
-                          orderIngredientsArrCheked.length
+                          orderIngredientsArrChekedandUnidIC.length
                         ).length}
                     </p>
                   </div>
                   <div className={`${styles.img_overlay} ${styles.img}`}>
                     <img
                       className={styles.img_opacity}
-                      src={orderIngredientsArr[5]?.image}
+                      src={orderIngredientsArrChekedandUnidIC[5]?.image}
                     />
                   </div>
                 </div>

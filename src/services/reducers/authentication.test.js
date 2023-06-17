@@ -126,7 +126,7 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.LOGOUT,
-        loginCheck:true 
+        loginCheck: true,
       })
     ).toEqual({
       isLogin: false,
@@ -145,7 +145,7 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.AUTH_FAILED,
-        loginCheck:true 
+        loginCheck: true,
       })
     ).toEqual({
       isLogin: false,
