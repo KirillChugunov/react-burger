@@ -12,7 +12,7 @@ interface IModalProps {
   children: ReactNode;
   title?: string;
   isOrderModalOpened?: Boolean;
-  isIngrModalOpened?:Boolean;
+  isIngrModalOpened?: Boolean;
 }
 
 export const Modal: FunctionComponent<IModalProps> = ({
@@ -23,12 +23,11 @@ export const Modal: FunctionComponent<IModalProps> = ({
 }) => {
   const navigate = useNavigate();
   ////////ЗАкрытие попапов на Esc
-console.log(isOrderModalOpened)
 
   useEffect(() => {
     function closeByEscape(evt: KeyboardEvent) {
       if (evt.key === "Escape") {
-        isOrderModalOpened ? closePopup() : handleClose()
+        isOrderModalOpened ? closePopup() : handleClose();
       }
     }
     document.addEventListener("keydown", closeByEscape);
@@ -42,7 +41,11 @@ console.log(isOrderModalOpened)
   };
 
   return ReactDOM.createPortal(
-    <ModalOverlay closePopup={closePopup} handleClose={handleClose} isOrderModalOpened={isOrderModalOpened}>
+    <ModalOverlay
+      closePopup={closePopup}
+      handleClose={handleClose}
+      isOrderModalOpened={isOrderModalOpened}
+    >
       <div
         className={styles.modal__container}
         onClick={(e) => e.stopPropagation()}

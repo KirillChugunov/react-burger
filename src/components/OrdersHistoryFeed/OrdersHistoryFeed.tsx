@@ -26,10 +26,6 @@ export const OrdersHistoryFeed: FunctionComponent = () => {
     // return () =>  {dispatch(stopOrdersFeed())}
   }, []);
 
-  console.log(
-    `${wsUrl.auth}+${getCookie("accessToken")?.replace("Bearer ", "")}`
-  );
-
   return (
     <div className={`${styles.orders_scroll_container}` + " mt-10"}>
       {orderFeed?.map((order: TOrder) => (

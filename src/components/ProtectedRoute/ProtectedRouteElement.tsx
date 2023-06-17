@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "../../hooks/customUseSelector";
 
 interface IProtectedRouteElementProps {
@@ -8,8 +8,15 @@ interface IProtectedRouteElementProps {
 export const ProtectedRouteElement = ({
   element,
 }: IProtectedRouteElementProps): JSX.Element | null => {
+  const location = useLocation().pathname;
   const userLogin = useSelector((store) => store?.authentication?.isLogin);
   const loginCheck = useSelector((store) => store.authentication.loginCheck);
-  console.log(loginCheck)
-  return loginCheck ? userLogin ? element : <Navigate to="/login" replace /> : null
+
+  return loginCheck ? (
+    userLogin ? (
+      element
+    ) : (
+      <Navigate to={"/login"} state={{ from: location }} />
+    )
+  ) : null;
 };

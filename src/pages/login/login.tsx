@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import styles from "./loginpage.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../../services/actions/authentication";
 import { useDispatch } from "../../hooks/customDispatch";
 import { requestLogin } from "../../services/Api/api";
@@ -18,6 +18,10 @@ export const LoginPage: FunctionComponent = () => {
   const [error, setError] = useState<Boolean>(false);
   const [textError, setTextError] = useState<String>("");
 
+const prevLocation = useLocation().state?.from
+
+
+
   function handleLoginSuccess(
     name: string,
     email: string,
@@ -25,7 +29,7 @@ export const LoginPage: FunctionComponent = () => {
     accessToken: string,
     refreshToken: string
   ) {
-    navigate("/");
+    navigate(prevLocation, prevLocation);
     setError(false);
     setTextError("");
     dispatch(checkLogin(email, password, name, accessToken, refreshToken));

@@ -44,11 +44,9 @@ export const HomePage: FunctionComponent = () => {
         draggedElementsAndBuns.bun._id,
       ];
     }
-    console.log(idsForOrder);
     dispatch(getIDsArray(idsForOrder));
     const newObj: ArrayObj = {};
     newObj.ingredients = idsForOrder;
-    console.log(newObj.ingredients);
     dispatch(sentOrder(newObj));
     openOrderModal();
   }

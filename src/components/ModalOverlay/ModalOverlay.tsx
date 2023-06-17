@@ -4,23 +4,21 @@ import styles from "./ModalOverlay.module.css";
 interface IModalOverlayProps {
   closePopup: Function;
   children: ReactNode;
-  handleClose:Function
-  isOrderModalOpened?:Boolean
+  handleClose: Function;
+  isOrderModalOpened?: Boolean;
 }
 
 export const ModalOverlay: FunctionComponent<IModalOverlayProps> = ({
   closePopup,
   children,
   handleClose,
-  isOrderModalOpened
+  isOrderModalOpened,
 }) => {
-  console.log(closePopup)
-  console.log(handleClose)
   return (
     <div
       tabIndex={-1}
       className={styles.modal__overlay_visible}
-      onClick={() => isOrderModalOpened ? closePopup() : handleClose()}
+      onClick={() => (isOrderModalOpened ? closePopup() : handleClose())}
     >
       {children}
     </div>
