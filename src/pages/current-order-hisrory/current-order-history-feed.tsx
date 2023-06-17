@@ -49,7 +49,7 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       ingredientsStorage?.find((item) => item._id === element)
     ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
 
-  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
+  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients?.map(
     (element) => ignoreUndefined(element)
   );
 

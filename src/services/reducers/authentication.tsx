@@ -40,7 +40,7 @@ export const authentication = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        loginCheck: true,
+        loginCheck: false,
       };
 
     case LOGIN:
@@ -63,7 +63,7 @@ export const authentication = (
         accessToken: action.accessToken,
         refreshToken: action.refreshToken,
         isLogin: true,
-        loginCheck: false,
+        loginCheck:true 
       };
 
     case GET_USER_ONLOAD:
@@ -98,7 +98,7 @@ export const authentication = (
         },
         accessToken: "",
         refreshToken: "",
-        loginCheck: false,
+        loginCheck:true 
       };
 
     case AUTH_FAILED:

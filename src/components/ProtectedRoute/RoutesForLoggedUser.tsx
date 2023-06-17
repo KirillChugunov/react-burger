@@ -10,6 +10,6 @@ export const RouteForLoggedUser = ({
   element,
 }: IRouteForLoggedUserProps): JSX.Element | null => {
   const userLogin = useSelector((store) => store.authentication.isLogin);
-
-  return userLogin ? <Navigate to="/" replace /> : element;
+  const loginCheck = useSelector((store) => store.authentication.loginCheck);
+  return loginCheck ? userLogin ? <Navigate to="/" replace /> : element : null
 };

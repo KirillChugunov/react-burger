@@ -35,7 +35,7 @@ export const CurrentOrderFeed = () => {
     Order?.ingredients.map((element) =>
       ingredientsStorage?.find((item) => item._id === element)
     );
-  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients.map(
+  const orderIngredientsArr: Array<TingredientAndUnicID> = orderIngredients?.map(
     (element) => ignoreUndefined(element)
   ); //// убрали из массива ингридентов undefined значения если были
   /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив

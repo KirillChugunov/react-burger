@@ -172,6 +172,7 @@ export interface IGetUserOnLoad {
   readonly type: typeof GET_USER_ONLOAD;
   readonly name: string;
   readonly email: string;
+  readonly loginCheck: boolean;
 }
 export interface ILogin {
   readonly type: typeof LOGIN;

@@ -1,10 +1,3 @@
-import { AnyARecord } from "dns";
-import {
-  FunctionComponent,
-  JSXElementConstructor,
-  ReactNode,
-  useEffect,
-} from "react";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "../../hooks/customUseSelector";
 
@@ -16,5 +9,7 @@ export const ProtectedRouteElement = ({
   element,
 }: IProtectedRouteElementProps): JSX.Element | null => {
   const userLogin = useSelector((store) => store?.authentication?.isLogin);
-  return userLogin ? element : <Navigate to="/login" replace />;
+  const loginCheck = useSelector((store) => store.authentication.loginCheck);
+  console.log(loginCheck)
+  return loginCheck ? userLogin ? element : <Navigate to="/login" replace /> : null
 };
