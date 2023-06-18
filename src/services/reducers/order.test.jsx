@@ -4,7 +4,7 @@ import { order, initialState } from "./order";
 
 describe("ingredientList reducer", () => {
   it("should return the initial state", () => {
-    expect(order(initialState, {})).toEqual({
+    expect(order(undefined, {})).toEqual({
       ingredientIDs: [],
       orderNumber: "",
       orderSent: false,
@@ -22,11 +22,7 @@ describe("ingredientList reducer", () => {
     ).toEqual({
       ...initialState,
       ingredientIDs: [...idsArray],
-      orderNumber: "",
-      orderSent: false,
-      orderConfirmed: false,
-      orderFailed: false,
-    });
+   });
   });
 
   it("should handle GET_ORDER", () => {
@@ -37,12 +33,8 @@ describe("ingredientList reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      ingredientIDs: [],
-      orderNumber: "",
-      orderSent: true,
-      orderConfirmed: false,
-      orderFailed: false,
-    });
+       orderSent: true,
+     });
   });
 
   it("should handle GET_ORDER_SUCCESS", () => {
@@ -55,12 +47,10 @@ describe("ingredientList reducer", () => {
       })
     ).toEqual({
       ...initialState,
-      ingredientIDs: [],
       orderNumber: "number",
       orderSent: false,
       orderConfirmed: true,
-      orderFailed: false,
-    });
+     });
   });
 
   it("should handle GET_ORDER_FAILED", () => {

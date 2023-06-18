@@ -1,54 +1,57 @@
 import * as types from "../actions/authentication";
+import { refreshToken, testAcsessToken, testEmail, testName } from "../hardcodefortests";
 import { authentication, initialState } from "./authentication";
+
 
 describe("authentication reducer", () => {
   it("should return the initial state", () => {
-    expect(authentication(initialState, {})).toEqual(initialState);
+    expect(authentication(undefined, {})).toEqual(initialState);
   });
 
   it("should handle REGISTRATION", () => {
     expect(
       authentication(initialState, {
         type: types.REGISTRATION,
-        name: "testname",
-        email: "testemail",
-        accessToken: "testAcsessToken",
-        refreshToken: "testrefreshToken",
+        name: testName,
+        email: testEmail,
+        accessToken: testAcsessToken,
+        refreshToken: refreshToken,
         isLogin: true,
         loginCheck: true,
         loginFailed: false,
       })
     ).toEqual({
+      ...initialState,
       user: {
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       },
-      accessToken: "testAcsessToken",
-      refreshToken: "testrefreshToken",
+      accessToken: testAcsessToken,
+      refreshToken: refreshToken,
       isLogin: true,
       loginCheck: true,
-      loginFailed: false,
-    });
+     });
   });
 
   it("should handle LOGIN", () => {
     expect(
       authentication(initialState, {
         type: types.LOGIN,
-        name: "testname",
-        email: "testemail",
-        accessToken: "testAcsessToken",
-        refreshToken: "testrefreshToken",
+        name: testName,
+        email: testEmail,
+        accessToken: testAcsessToken,
+        refreshToken: refreshToken,
         isLogin: true,
         loginCheck: true,
       })
     ).toEqual({
+      ...initialState,
       user: {
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       },
-      accessToken: "testAcsessToken",
-      refreshToken: "testrefreshToken",
+      accessToken: testAcsessToken,
+      refreshToken: refreshToken,
       isLogin: true,
       loginCheck: true,
       loginFailed: false,
@@ -59,21 +62,17 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.GET_TOKEN_ONLOAD,
-        accessToken: "testAcsessToken",
-        refreshToken: "testrefreshToken",
+        accessToken: testAcsessToken,
+        refreshToken: refreshToken,
         isLogin: true,
         loginCheck: false,
       })
     ).toEqual({
-      accessToken: "testAcsessToken",
-      refreshToken: "testrefreshToken",
+      ...initialState,
+      accessToken: testAcsessToken,
+      refreshToken: refreshToken,
       isLogin: true,
       loginCheck: true,
-      user: {
-        email: "",
-        name: "",
-      },
-      loginFailed: false,
     });
   });
 
@@ -81,45 +80,40 @@ describe("authentication reducer", () => {
     expect(
       authentication(initialState, {
         type: types.GET_USER_ONLOAD,
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
         isLogin: true,
         loginCheck: true,
       })
     ).toEqual({
-      accessToken: "",
-      refreshToken: "",
-      loginFailed: false,
+      ...initialState,
       user: {
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       },
       isLogin: true,
       loginCheck: true,
-      loginFailed: false,
-    });
+     });
   });
 
   it("should handle GET_USERINFO", () => {
     expect(
       authentication(initialState, {
         type: types.GET_USERINFO,
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
         isLogin: true,
         loginCheck: true,
       })
     ).toEqual({
+      ...initialState,
       user: {
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       },
       isLogin: true,
       loginCheck: true,
-      accessToken: "",
-      refreshToken: "",
-      loginFailed: false,
-    });
+     });
   });
 
   it("should handle LOGOUT", () => {
@@ -129,6 +123,7 @@ describe("authentication reducer", () => {
         loginCheck: true,
       })
     ).toEqual({
+      ...initialState,
       isLogin: false,
       user: {
         email: "",
@@ -137,8 +132,7 @@ describe("authentication reducer", () => {
       accessToken: "",
       refreshToken: "",
       loginCheck: true,
-      loginFailed: false,
-    });
+     });
   });
 
   it("should handle AUTH_FAILED", () => {
@@ -148,15 +142,9 @@ describe("authentication reducer", () => {
         loginCheck: true,
       })
     ).toEqual({
+      ...initialState,
       isLogin: false,
-      user: {
-        email: "",
-        name: "",
-      },
-      accessToken: "",
-      refreshToken: "",
       loginCheck: true,
-      loginFailed: false,
     });
   });
 
@@ -166,20 +154,29 @@ describe("authentication reducer", () => {
         type: types.GET_USER_ONLOAD,
         isLogin: true,
         loginCheck: true,
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       })
     ).toEqual({
+      ...initialState,
       user: {
-        name: "testname",
-        email: "testemail",
+        name: testName,
+        email: testEmail,
       },
       isLogin: true,
       loginCheck: true,
-      accessToken: "",
-      refreshToken: "",
-      loginCheck: true,
-      loginFailed: false,
+    });
+  });
+
+  it("should handle LOGIN_FAILED", () => {
+    expect(
+      authentication(initialState, {
+        type: types.LOGIN_FAILED,
+      })
+    ).toEqual({
+      ...initialState,
+      loginFailed: true,
+      loginCheck: false,
     });
   });
 });

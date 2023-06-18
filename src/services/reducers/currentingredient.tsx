@@ -17,9 +17,9 @@ export const currentIngredient = (
 ) => {
   switch (action.type) {
     case ADD_CURRENT_INGREDIENT:
-      return { state: { ...action.ingredientAdded } };
+      return { ...state, ingredient: { ...action.ingredientAdded } };
     case DELETE_CURRENT_INGREDIENT:
-      return { state: {} };
+      return { ...state, ingredient: {} };
     default:
       return state;
   }

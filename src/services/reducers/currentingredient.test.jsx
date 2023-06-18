@@ -4,7 +4,7 @@ import { currentIngredient, initialState } from "./currentingredient";
 
 describe("currentingredient reducer", () => {
   it("should return the initial state", () => {
-    expect(currentIngredient(initialState, {})).toEqual(initialState);
+    expect(currentIngredient(undefined, {})).toEqual(initialState);
   });
 
   it("should handle ADD_CURRENT_INGREDIENT", () => {
@@ -14,7 +14,8 @@ describe("currentingredient reducer", () => {
         ingredientAdded: bunForTest,
       })
     ).toEqual({
-      state: { ...bunForTest },
+      ...initialState,
+      ingredient: { ...bunForTest },
     });
   });
 
@@ -24,7 +25,8 @@ describe("currentingredient reducer", () => {
         type: types.DELETE_CURRENT_INGREDIENT,
       })
     ).toEqual({
-      state: {},
+      ...initialState,
+      ingredient: {},
     });
   });
 });

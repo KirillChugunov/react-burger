@@ -4,7 +4,7 @@ import { ingredientList, initialState } from "./ingredientList";
 
 describe("ingredientList reducer", () => {
   it("should return the initial state", () => {
-    expect(ingredientList(initialState, {})).toEqual({
+    expect(ingredientList(undefined, {})).toEqual({
       feedRequest: false,
       feedFailed: false,
       feed: [],

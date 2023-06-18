@@ -56,3 +56,9 @@ export const idsArray = [
   "id1111111111111",
   "id222222222222222222222",
 ];
+
+export const testName = "testname"
+export const testEmail = "testemail"
+export const testAcsessToken = "testAcsessToken"
+export const refreshToken = "testrefreshToken"
+

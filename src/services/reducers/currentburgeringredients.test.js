@@ -9,7 +9,7 @@ import { initialState } from "./currentburgeringredients";
 
 describe("currentBurgerIngredients reducer", () => {
   it("should return the initial state", () => {
-    expect(currentBurgerIngredients(initialState, {})).toEqual(initialState);
+    expect(currentBurgerIngredients(undefined, {})).toEqual(initialState);
   });
 
   it("should handle RESET_INGREDIENT", () => {
@@ -18,6 +18,7 @@ describe("currentBurgerIngredients reducer", () => {
         type: types.RESET_INGREDIENT,
       })
     ).toEqual({
+      ...initialState,
       bun: null,
       ingredientsadded: [],
     });
