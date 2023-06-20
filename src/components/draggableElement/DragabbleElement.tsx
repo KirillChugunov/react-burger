@@ -1,6 +1,5 @@
-import React, { FunctionComponent, ReactNode } from "react";
+import { FunctionComponent, ReactNode } from "react";
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
 import { TingredientAndUnicID } from "../../services/types/types";
 
 interface IDraggableElementProps {

@@ -1,6 +1,5 @@
-import { Link, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import styles from "./IngredientDetails.module.css";
-import { FunctionComponent } from "react";
 import { TingredientAndUnicID } from "../../services/types/types";
 import { useSelector } from "../../hooks/customUseSelector";
 

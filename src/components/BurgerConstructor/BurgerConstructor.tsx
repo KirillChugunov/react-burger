@@ -12,10 +12,7 @@ import {
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
 import { Outlet, useNavigate } from "react-router-dom";
-import {
-  Tingredient,
-  TingredientAndUnicID as TingredientAndUnicID,
-} from "../../services/types/types";
+import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
 import { FunctionComponent } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";

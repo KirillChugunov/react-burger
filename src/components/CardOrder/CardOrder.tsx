@@ -4,12 +4,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./CardOrder.module.css";
 import { useSelector } from "../../hooks/customUseSelector";
-import { FunctionComponent, useEffect } from "react";
-import {
-  TOrder,
-  Tingredient,
-  TingredientAndUnicID,
-} from "../../services/types/types";
+import { FunctionComponent } from "react";
+import { TOrder, TingredientAndUnicID } from "../../services/types/types";
 import { ignoreUndefined } from "../../hooks/ignoreundefined";
 import { v4 as uuidv4 } from "uuid";
 
@@ -70,7 +66,11 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
                   key={element.unicID}
                   className={`${styles.img_overlay} ${styles.img}`}
                 >
-                  <img className={styles.img} src={element.image} />
+                  <img
+                    className={styles.img}
+                    src={element.image}
+                    alt={`изображение ${element.name}`}
+                  />
                 </div>
               ))}
             {orderIngredientsArrChekedandUnidIC &&
@@ -90,6 +90,7 @@ export const CardOrder: FunctionComponent<ICardOrderProps> = ({ order }) => {
                   </div>
                   <div className={`${styles.img_overlay} ${styles.img}`}>
                     <img
+                      alt={`изображение ${orderIngredientsArrChekedandUnidIC[5].name}`}
                       className={styles.img_opacity}
                       src={orderIngredientsArrChekedandUnidIC[5]?.image}
                     />

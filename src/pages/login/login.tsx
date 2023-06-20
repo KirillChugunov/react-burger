@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import styles from "./loginpage.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { checkLogin } from "../../services/actions/authentication";

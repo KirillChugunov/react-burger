@@ -23,7 +23,9 @@ export const OrdersHistoryFeed: FunctionComponent = () => {
         `${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`
       )
     );
-    // return () =>  {dispatch(stopOrdersFeed())}
+    return () => {
+      dispatch(stopOrdersFeed());
+    };
   }, []);
 
   return (

@@ -1,11 +1,6 @@
 import { AppHeader } from "../AppHeader/AppHeader";
 import styles from "./App.module.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useLocation,
-} from "react-router-dom";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { LoginPage } from "../../pages/login/login";
 import { RegisterPage } from "../../pages/register/register";
 import { PwdRecoveryPage } from "../../pages/forgot-password/forgot-password";
@@ -24,17 +19,13 @@ import { RouteForLoggedUser } from "../ProtectedRoute/RoutesForLoggedUser";
 import { getCookie } from "../../services/Coockie/getCookie";
 import { getFeed } from "../../services/actions/ingredientList";
 import { Modal } from "../Modal/modal";
-import { useModal } from "../../hooks/useModal";
-import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 import { OrdersFeed } from "../../pages/orders-feed/feed";
 import { CurrentOrderFeed } from "../../pages/current-order-feed/current-order-feed";
 import { ProfileInputs } from "../ProfileInputs/ProfileInputs";
 import { OrdersHistoryFeed } from "../OrdersHistoryFeed/OrdersHistoryFeed";
 import { CurrentOrderHistoryFeed } from "../../pages/current-order-hisrory/current-order-history-feed";
-import { Preloader } from "../Preloader/preloader";
 import { useDispatch } from "../../hooks/customDispatch";
 import type {} from "redux-thunk/extend-redux";
-import { useSelector } from "../../hooks/customUseSelector";
 
 export const App = (): JSX.Element | null => {
   const location = useLocation();
@@ -42,17 +33,17 @@ export const App = (): JSX.Element | null => {
   const dispatch = useDispatch();
   const refreshToken: string | undefined = getCookie("refreshToken");
   const accessToken: string | undefined = getCookie("accessToken");
-  const Ingredients = useSelector((store) => store.ingredientList.feed);
+  const navigate = useNavigate();
 
   const CheckUser = (
     refreshToken: string | undefined,
     accessToken: string | undefined
   ) => {
     refreshToken === undefined && dispatch({ type: AUTH_FAILED });
-    refreshToken != undefined &&
-      accessToken != undefined &&
+    refreshToken !== undefined &&
+      accessToken !== undefined &&
       dispatch(authUserOnLoad(accessToken));
-    refreshToken != undefined &&
+    refreshToken !== undefined &&
       accessToken === undefined &&
       dispatch(refreshAcsesToken());
   };
@@ -61,25 +52,13 @@ export const App = (): JSX.Element | null => {
     CheckUser(refreshToken, accessToken);
   }, []);
 
-  const closePopup = () => {
-    closeIngrModal();
-    closeOrderrModal();
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-      item: "",
-    });
-  };
-
   useEffect(() => {
     dispatch(getFeed());
   }, []);
 
-  const { closeModal: closeIngrModal } = useModal();
-  const {
-    closeModal: closeOrderrModal,
-    isModalOpen: isOrderModalOpened,
-    openModal: openOrderModal,
-  } = useModal();
+  const closeRouteModal = () => {
+    navigate(-1);
+  };
 
   return (
     <div className={styles.page}>
@@ -124,8 +103,7 @@ export const App = (): JSX.Element | null => {
             path="/ingredients/:id"
             element={
               <Modal
-                isOrderModalOpened={isOrderModalOpened}
-                closePopup={closePopup}
+                closePopup={closeRouteModal}
                 title={"Детали ингредиента"}
                 children={<IngredientsPage />}
               ></Modal>
@@ -136,7 +114,7 @@ export const App = (): JSX.Element | null => {
             path="/feed/:id"
             element={
               <Modal
-                closePopup={closePopup}
+                closePopup={closeRouteModal}
                 children={<CurrentOrderFeed />}
               ></Modal>
             }
@@ -146,7 +124,7 @@ export const App = (): JSX.Element | null => {
             path="/profile/orders/:id"
             element={
               <Modal
-                closePopup={closePopup}
+                closePopup={closeRouteModal}
                 children={<CurrentOrderHistoryFeed />}
               ></Modal>
             }

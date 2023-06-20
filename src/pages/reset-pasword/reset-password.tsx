@@ -3,7 +3,7 @@ import {
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { FunctionComponent } from "react";
+import React from "react";
 import styles from "./loginpage.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { requestNewPassword } from "../../services/Api/api";

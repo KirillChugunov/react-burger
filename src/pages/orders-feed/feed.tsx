@@ -6,10 +6,9 @@ import {
   getOrdersFeed,
   stopOrdersFeed,
 } from "../../services/middleware/wsmiddlewareActions";
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { Preloader } from "../../components/Preloader/preloader";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "../../hooks/customDispatch";
-import React, { FunctionComponent } from "react";
+import  { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
 import { wsUrl } from "../../services/Api/api";

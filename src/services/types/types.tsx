@@ -17,10 +17,6 @@ import {
   SORT_ITEMS,
 } from "../actions/currentburgeringredients";
 import {
-  ADD_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
-} from "../actions/currentingredient";
-import {
   GET_FEED,
   GET_FEED_FAILED,
   GET_FEED_SUCCESS,
@@ -237,24 +233,6 @@ export type TAuthentificationState = {
   loginFailed: boolean;
 };
 
-//////////////////currentingredient
-
-export interface IAddCurrentIngredient {
-  readonly type: typeof ADD_CURRENT_INGREDIENT;
-  readonly ingredientAdded: TingredientAndUnicID;
-}
-
-export interface IDeleteCurrentIngredient {
-  readonly type: typeof DELETE_CURRENT_INGREDIENT;
-}
-
-export type TCurrentIngredientActions =
-  | IAddCurrentIngredient
-  | IDeleteCurrentIngredient;
-
-export type TCurrentIngredientState = {
-  ingredient: Object;
-};
 
 ///////////////////////////////////ingredientList
 
@@ -324,6 +302,5 @@ export type TApplicationActions =
   | TOrderActions
   | TCurrentBurgerIngredientActions
   | TAuthentificationActions
-  | TCurrentIngredientActions
   | TIngredientListActions
   | TwsmiddlewareActions;

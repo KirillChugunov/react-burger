@@ -1,22 +1,6 @@
-import React, {
-  DetailedHTMLProps,
-  FunctionComponent,
-  HTMLAttributes,
-  JSXElementConstructor,
-  LegacyRef,
-  ReactElement,
-  ReactNode,
-  useRef,
-} from "react";
-import {
-  DragSourceMonitor,
-  DropTargetHookSpec,
-  DropTargetMonitor,
-  useDrag,
-  useDrop,
-} from "react-dnd";
-import PropTypes from "prop-types";
-import { Tingredient, TingredientAndUnicID } from "../../services/types/types";
+import { FunctionComponent, ReactNode, useRef } from "react";
+import { DropTargetMonitor, useDrag, useDrop } from "react-dnd";
+import { TingredientAndUnicID } from "../../services/types/types";
 
 interface IDragnDropElementProps {
   children: ReactNode;

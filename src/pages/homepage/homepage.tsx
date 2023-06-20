@@ -5,7 +5,6 @@ import { BurgerConstructor } from "../../components/BurgerConstructor/BurgerCons
 import { Modal } from "../../components/Modal/modal";
 import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
 import { addItem } from "../../services/actions/currentburgeringredients";
-import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 import { getIDsArray, sentOrder } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -60,10 +59,6 @@ export const HomePage: FunctionComponent = () => {
   ////////Закрытие попапа
   const closePopup = () => {
     closeOrderrModal();
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-      item: "",
-    });
   };
 
   ////////Рендер приложения
