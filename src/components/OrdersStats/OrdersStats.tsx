@@ -1,14 +1,13 @@
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
 import styles from "./OrdersStats.module.css";
-import { FunctionComponent } from "react";
 
 export const OdersStats = (): JSX.Element | null => {
   const feed = useSelector((store) => store.wsReducer);
-  const doneOrders = feed.messages.orders?.filter(
+  const doneOrders: Array<TOrder> = feed.messages.orders?.filter(
     (item: TOrder) => item.status === "done"
   );
-  const inProgressOrders = feed.messages.orders?.filter(
+  const inProgressOrders: Array<TOrder> = feed.messages.orders?.filter(
     (item: TOrder) => item.status === "pending"
   );
   return (
@@ -19,7 +18,10 @@ export const OdersStats = (): JSX.Element | null => {
             <p className="text text_type_main-large mb-6">Готовы</p>
             <div className={styles.rdy_textcolor_container}>
               {doneOrders.map((order: TOrder) => (
-                <p className="text text_type_digits-default mb-2">
+                <p
+                  key={`${order._id}stats`}
+                  className="text text_type_digits-default mb-2"
+                >
                   {order.number}
                 </p>
               ))}
@@ -30,7 +32,10 @@ export const OdersStats = (): JSX.Element | null => {
             <p className=" text text_type_main-large mb-6">В работе</p>
             <div>
               {inProgressOrders.map((order: TOrder) => (
-                <p className="text text_type_digits-default mb-2">
+                <p
+                  key={`${order._id}stats`}
+                  className="text text_type_digits-default mb-2"
+                >
                   {order.number}
                 </p>
               ))}

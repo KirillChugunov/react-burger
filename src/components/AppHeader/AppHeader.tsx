@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import { FunctionComponent } from "react";
 import styles from "./AppHeader.module.css";
 import {
   Logo,
@@ -10,9 +10,7 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "../../hooks/customUseSelector";
 
 export const AppHeader: FunctionComponent = () => {
-  const userLogin: Boolean = useSelector(
-    (store: any) => store.authentification.isLogin
-  );
+  const userLogin = useSelector((store) => store.authentication.isLogin);
   return (
     <header className={styles.header}>
       <nav className={styles.header__navigation}>

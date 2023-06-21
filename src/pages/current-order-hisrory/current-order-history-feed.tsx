@@ -5,48 +5,67 @@ import {
 import styles from "./currrent-order-history-feed.module.css";
 import { CurrentOrderCard } from "../../components/CurrentOrderCard/CurrentOrderCard";
 import { useParams } from "react-router-dom";
-import { getOrdersFeed } from "../../services/middleware/wsmiddlewareActions";
+import {
+  getOrdersFeed,
+  stopOrdersFeed,
+} from "../../services/middleware/wsmiddlewareActions";
 import { useEffect } from "react";
-import { getOrdersHistoryFeed } from "../../services/middleware-auth/wsmiddlewareActions-auth";
 import { useDispatch } from "../../hooks/customDispatch";
 import { FunctionComponent } from "react";
 import { useSelector } from "../../hooks/customUseSelector";
-import { TOrder, Tingredient } from "../../services/types/types";
+import {
+  TOrder,
+  Tingredient,
+  TingredientAndUnicID,
+} from "../../services/types/types";
 import { TingredientAndCount } from "../../services/types/types";
+import { wsUrl } from "../../services/Api/api";
+import { ignoreUndefined } from "../../hooks/ignoreundefined";
+import { getCookie } from "../../services/Coockie/getCookie";
 
 export const CurrentOrderHistoryFeed: FunctionComponent = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOrdersHistoryFeed());
+    dispatch(
+      getOrdersFeed(
+        `${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`
+      )
+    );
+    return function cleanup() {
+      dispatch(stopOrdersFeed());
+    };
   }, []);
 
   const { id } = useParams(); // взяли айдишник из ссылки
-  const Orders = useSelector((store) => store.wsReducerAuth?.messages.orders); /// нашли массив заказов
-  const Order = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
+  const Orders = useSelector((store) => store.wsReducer?.messages.orders); /// нашли массив заказов
+  const Order: TOrder = Orders?.find((item: TOrder) => item._id === id); /// нашли наш заказ
   const ingredientsStorage = useSelector(
     (store) => store?.ingredientList?.feed
   ); /// нашли массив ингридиентов
-  const orderIngredientsArr = Order?.ingredients?.map((element: string) =>
-    ingredientsStorage?.find((item) => item._id === element)
-  ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
+  const orderIngredients: Array<TingredientAndUnicID | undefined> =
+    Order?.ingredients?.map((element: string) =>
+      ingredientsStorage?.find((item) => item._id === element)
+    ); /// вытащили из массива ингредиентов элементы, соответствующие текстовым айдишникам в заказе и создали из них новый массив
+
+  const orderIngredientsArr: Array<TingredientAndUnicID> =
+    orderIngredients?.map((element) => ignoreUndefined(element));
 
   const unicIngredients = orderIngredientsArr?.filter(function (
-    x: any,
-    i: any,
-    a: any
+    x: TingredientAndUnicID,
+    i: number,
+    a: Array<TingredientAndUnicID>
   ) {
     return a.indexOf(x) === i;
   }); //// новый массив для рендера из уникальныъ элементов
 
-  const unicIngredientsWithCount = unicIngredients?.map(
-    (element: Tingredient) => ({
+  const unicIngredientsWithCount: Array<TingredientAndCount> =
+    unicIngredients?.map((element) => ({
       ...element,
       count: orderIngredientsArr?.filter(
         (item: Tingredient) => item._id === element._id
       ).length,
-    })
-  ); /// добавили к объектам массива уникальных элементов новое свойство для отрисовки количества и расчета стоимости
+    })); /// добавили к объектам массива уникальных элементов новое свойство для отрисовки количества и расчета стоимости
 
   const orderPrice = orderIngredientsArr
     ?.map((item: Tingredient) => item.price)
@@ -91,8 +110,8 @@ export const CurrentOrderHistoryFeed: FunctionComponent = () => {
       )}
       <p className="text text_type_main-medium mt-15">Состав:</p>
       <div className={`${styles.cards_container}` + " mt-6"}>
-        {unicIngredientsWithCount?.map((ingredient: TingredientAndCount) => (
-          <CurrentOrderCard ingredient={ingredient} />
+        {unicIngredientsWithCount?.map((ingredient) => (
+          <CurrentOrderCard key={ingredient._id} ingredient={ingredient} />
         ))}
       </div>
       <div className={`${styles.total_container}` + " mt-10"}>

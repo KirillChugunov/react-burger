@@ -1,6 +1,5 @@
-import React, { FunctionComponent, ReactNode, useRef } from "react";
-import { useDrag, useDrop } from "react-dnd";
-import PropTypes from "prop-types";
+import { FunctionComponent, ReactNode, useRef } from "react";
+import { DropTargetMonitor, useDrag, useDrop } from "react-dnd";
 import { TingredientAndUnicID } from "../../services/types/types";
 
 interface IDragnDropElementProps {
@@ -28,13 +27,15 @@ export const DragnDropElement: FunctionComponent<IDragnDropElementProps> = ({
 
   const [spec, dropRef] = useDrop({
     accept: "dragged",
-    hover: (item: any, monitor: any) => {
+    hover: (item: TingredientAndUnicID, monitor: DropTargetMonitor) => {
       const dragIndex = item.index;
       const hoverIndex = index;
-      const hoverBoundingRect: any = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect: DOMRect | undefined =
+        ref?.current?.getBoundingClientRect();
       const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const hoverActualY = monitor.getClientOffset().y - hoverBoundingRect.top;
+        (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
+      const hoverActualY =
+        monitor.getClientOffset()!.y - hoverBoundingRect!.top;
 
       // if dragging down, continue only when hover is smaller than middle Y
       if (dragIndex < hoverIndex && hoverActualY < hoverMiddleY) return;
@@ -47,7 +48,9 @@ export const DragnDropElement: FunctionComponent<IDragnDropElementProps> = ({
   });
 
   const ref = useRef<HTMLElement>(null);
+
   const dragDropRef: any = dragRef(dropRef(ref));
+
   const opacity = isDragging ? 0 : 1;
 
   return <div ref={dragDropRef}>{children}</div>;

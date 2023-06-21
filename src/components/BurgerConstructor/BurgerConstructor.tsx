@@ -11,7 +11,7 @@ import {
   sortIngredientConstructor,
   deleteItem,
 } from "../../services/actions/currentburgeringredients";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { TingredientAndUnicID as TingredientAndUnicID } from "../../services/types/types";
 import { FunctionComponent } from "react";
 import { useDispatch } from "../../hooks/customDispatch";
@@ -19,25 +19,25 @@ import { useSelector } from "../../hooks/customUseSelector";
 
 interface IBurgerConstructorProps {
   onDropHandler: Function;
-  handleOrderButton: Function;
+  handleOrderButton: () => void;
 }
 
 export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
   onDropHandler,
   handleOrderButton,
 }) => {
-  const userLogin = useSelector((store: any) => store.authentification.isLogin);
+  const userLogin = useSelector((store) => store.authentication.isLogin);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const draggedElements = useSelector(
-    (store: any) => store.currentBurgerIngredients.ingredientsadded
+    (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store: any) => store.currentBurgerIngredients
+    (store) => store.currentBurgerIngredients
   );
 
   /////Калькулятор цены заказа для отображения
@@ -90,7 +90,7 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
         className={`${styles.BurgerIngredients__container}` + " mt-25"}
         ref={dropRef}
       >
-        {draggedElementsAndBuns.bun != null && (
+        {draggedElementsAndBuns.bun && (
           <div className="pl-8">
             <ConstructorElement
               type="top"
@@ -98,7 +98,10 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
               text={`${draggedElementsAndBuns.bun.name}(верх)`}
               price={draggedElementsAndBuns.bun.price}
               thumbnail={draggedElementsAndBuns.bun.image}
-              handleClose={() => handleItemDelete(draggedElementsAndBuns.bun)}
+              handleClose={() =>
+                draggedElementsAndBuns.bun &&
+                handleItemDelete(draggedElementsAndBuns.bun)
+              }
               key={draggedElementsAndBuns.bun.unicID}
             />
           </div>
@@ -139,7 +142,10 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
               text={`${draggedElementsAndBuns.bun.name}(низ)`}
               price={draggedElementsAndBuns.bun.price}
               thumbnail={draggedElementsAndBuns.bun.image}
-              handleClose={() => handleItemDelete(draggedElementsAndBuns.bun)}
+              handleClose={() =>
+                draggedElementsAndBuns.bun &&
+                handleItemDelete(draggedElementsAndBuns.bun)
+              }
               key={draggedElementsAndBuns.bun.unicID}
             />
           </div>
@@ -164,6 +170,7 @@ export const BurgerConstructor: FunctionComponent<IBurgerConstructorProps> = ({
           </div>
         </div>
       </div>
+      <Outlet />
     </section>
   );
 };

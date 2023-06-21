@@ -1,18 +1,22 @@
-import { FunctionComponent, ReactNode, useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "../../hooks/customUseSelector";
 
 interface IRouteForLoggedUserProps {
-  element: ReactNode;
+  element: JSX.Element;
 }
 
-export const RouteForLoggedUser: FunctionComponent<
-  IRouteForLoggedUserProps
-> = ({ element }) => {
-  const userLogin = useSelector((store) => store.authentification.isLogin);
-  const isLoaded = useSelector((store) => store.authentification.logginCheck);
-
-  if (isLoaded === true) {
-    return !userLogin ? element : ((<Navigate to="/login" replace />) as any);
-  }
+export const RouteForLoggedUser = ({
+  element,
+}: IRouteForLoggedUserProps): JSX.Element | null => {
+  const userLogin = useSelector((store) => store.authentication.isLogin);
+  const loginCheck = useSelector((store) => store.authentication.loginCheck);
+  const prevLocation = useLocation().state?.from;
+  console.log(prevLocation);
+  return loginCheck ? (
+    userLogin ? (
+      <Navigate to={prevLocation ? prevLocation : "/"} />
+    ) : (
+      element
+    )
+  ) : null;
 };

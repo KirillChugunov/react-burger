@@ -4,28 +4,21 @@ import { BurgerIngredients } from "../../components/BurgerIngredients/BurgerIngr
 import { BurgerConstructor } from "../../components/BurgerConstructor/BurgerConstructor";
 import { Modal } from "../../components/Modal/modal";
 import { OrderDetails } from "../../components/OrderDetails/OrderDetails";
-import { useSelector } from "react-redux";
 import { addItem } from "../../services/actions/currentburgeringredients";
-import { DELETE_CURRENT_INGREDIENT } from "../../services/actions/currentingredient";
 import { getIDsArray, sentOrder } from "../../services/actions/order";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
-import { getFeed } from "../../services/actions/ingredientList";
 import { useModal } from "../../hooks/useModal";
 import { Outlet } from "react-router-dom";
-import { TingredientAndUnicID } from "../../services/types/types";
+import { ArrayObj, TingredientAndUnicID } from "../../services/types/types";
 import { useDispatch } from "../../hooks/customDispatch";
+import { useSelector } from "../../hooks/customUseSelector";
 
 export const HomePage: FunctionComponent = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   /////////////////////////////////////////////////////////////Стейты:
   ///Берем кастомный хук
-  const {
-    closeModal: closeIngrModal,
-    isModalOpen: isIngrModalOpened,
-    openModal: openIngrModal,
-  } = useModal();
   const {
     closeModal: closeOrderrModal,
     isModalOpen: isOrderModalOpened,
@@ -33,22 +26,25 @@ export const HomePage: FunctionComponent = () => {
   } = useModal();
 
   const draggedElements = useSelector(
-    (store: any) => store.currentBurgerIngredients.ingredientsadded
+    (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const draggedElementsAndBuns = useSelector(
-    (store: any) => store.currentBurgerIngredients
+    (store) => store.currentBurgerIngredients
   );
 
   ////////////////Обработчик кнопки заказа
   function handleOrderButton() {
-    const idsForOrder = [
-      draggedElementsAndBuns.bun._id,
-      ...draggedElements.map((item: TingredientAndUnicID) => item._id),
-      draggedElementsAndBuns.bun._id,
-    ];
+    let idsForOrder: Array<String> = [];
+    if (draggedElementsAndBuns.bun != null) {
+      idsForOrder = [
+        draggedElementsAndBuns.bun._id,
+        ...draggedElements.map((item: TingredientAndUnicID) => item._id),
+        draggedElementsAndBuns.bun._id,
+      ];
+    }
     dispatch(getIDsArray(idsForOrder));
-    const newObj: any = {};
+    const newObj: ArrayObj = {};
     newObj.ingredients = idsForOrder;
     dispatch(sentOrder(newObj));
     openOrderModal();
@@ -60,18 +56,9 @@ export const HomePage: FunctionComponent = () => {
     dispatch(addItem(itemId));
   };
 
-  React.useEffect(() => {
-    dispatch(getFeed());
-  }, []);
-
   ////////Закрытие попапа
   const closePopup = () => {
-    closeIngrModal();
     closeOrderrModal();
-    dispatch({
-      type: DELETE_CURRENT_INGREDIENT,
-      item: "",
-    });
   };
 
   ////////Рендер приложения
@@ -89,7 +76,7 @@ export const HomePage: FunctionComponent = () => {
         </main>
       </DndProvider>
       {isOrderModalOpened ? (
-        <Modal closePopup={closePopup}>
+        <Modal isOrderModalOpened={isOrderModalOpened} closePopup={closePopup}>
           {isOrderModalOpened === true && <OrderDetails />}
         </Modal>
       ) : null}

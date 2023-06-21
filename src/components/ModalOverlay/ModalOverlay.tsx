@@ -4,6 +4,7 @@ import styles from "./ModalOverlay.module.css";
 interface IModalOverlayProps {
   closePopup: Function;
   children: ReactNode;
+  isOrderModalOpened?: Boolean;
 }
 
 export const ModalOverlay: FunctionComponent<IModalOverlayProps> = ({
@@ -14,7 +15,7 @@ export const ModalOverlay: FunctionComponent<IModalOverlayProps> = ({
     <div
       tabIndex={-1}
       className={styles.modal__overlay_visible}
-      onClick={() => closePopup}
+      onClick={() => closePopup()}
     >
       {children}
     </div>

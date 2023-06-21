@@ -5,16 +5,17 @@ import {
 import React from "react";
 import styles from "./loginpage.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  resetPassword,
-  requestNewPassword as restPassword,
-} from "../../services/Api/api";
+import { resetPassword } from "../../services/Api/api";
 
 export function PwdRecoveryPage() {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>(" ");
 
-  function handleResetPassword(email: string) {
+  function handleResetPassword(
+    e: React.FormEvent<HTMLDivElement>,
+    email: string
+  ) {
+    e.preventDefault();
     resetPassword(email).then(
       (res) => (
         console.log(res),
@@ -32,26 +33,26 @@ export function PwdRecoveryPage() {
       >
         Восстановление пароля
       </h1>
-      <div className={styles.input_container}>
-        <div className="mt-6">
-          <EmailInput
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-            name={"email"}
-            isIcon={false}
-          />
-        </div>
-      </div>
-      <div className="mt-6">
-        <Button
-          htmlType="button"
-          type="primary"
-          size="medium"
-          onClick={() => handleResetPassword(email)}
+      <form>
+        <div
+          className={styles.input_container}
+          onSubmit={(e) => handleResetPassword(e, email)}
         >
-          Восстановить
-        </Button>
-      </div>
+          <div className="mt-6">
+            <EmailInput
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              name={"email"}
+              isIcon={false}
+            />
+          </div>
+        </div>
+        <div className="mt-6">
+          <Button htmlType="submit" type="primary" size="medium">
+            Восстановить
+          </Button>
+        </div>
+      </form>
       <div className="mt-20">
         <p className="text text_type_main-default">
           Вспомнили пароль? <Link to={"/login"}>Войти</Link>

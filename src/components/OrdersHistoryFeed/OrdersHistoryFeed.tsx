@@ -1,4 +1,3 @@
-import { getOrdersHistoryFeed } from "../../services/middleware-auth/wsmiddlewareActions-auth";
 import { CardOrder } from "../CardOrder/CardOrder";
 import styles from "./OrdersHistoryFeed.module.css";
 import { useEffect, FunctionComponent } from "react";
@@ -6,22 +5,34 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "../../hooks/customDispatch";
 import { useSelector } from "../../hooks/customUseSelector";
 import { TOrder } from "../../services/types/types";
+import { wsUrl } from "../../services/Api/api";
+import {
+  getOrdersFeed,
+  stopOrdersFeed,
+} from "../../services/middleware/wsmiddlewareActions";
+import { getCookie } from "../../services/Coockie/getCookie";
 
 export const OrdersHistoryFeed: FunctionComponent = () => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const orderFeed = useSelector(
-    (store) => store.wsReducerAuth.messages?.orders
-  );
+  const orderFeed = useSelector((store) => store.wsReducer.messages?.orders);
 
   useEffect(() => {
-    dispatch(getOrdersHistoryFeed());
+    dispatch(
+      getOrdersFeed(
+        `${wsUrl.auth}${getCookie("accessToken")?.replace("Bearer ", "")}`
+      )
+    );
+    return () => {
+      dispatch(stopOrdersFeed());
+    };
   }, []);
 
   return (
     <div className={`${styles.orders_scroll_container}` + " mt-10"}>
       {orderFeed?.map((order: TOrder) => (
         <Link
+          key={order._id}
           state={{ background: location }}
           className={styles.link}
           to={`/profile/orders/${order._id}`}

@@ -11,7 +11,6 @@ import { useRef, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { Link, useLocation } from "react-router-dom";
 import { TingredientAndUnicID } from "../../services/types/types";
-import { v4 as uuidv4 } from "uuid";
 import { Preloader } from "../Preloader/preloader";
 import { useSelector } from "../../hooks/customUseSelector";
 
@@ -20,16 +19,16 @@ export const BurgerIngredients: FunctionComponent = () => {
   ////////////////////////////////////////////////////////Хуки-селекторы:
   ///Список ингредиентов, перетянутых в конструктор без булок(массив)
   const DraggedElements = useSelector(
-    (store: any) => store.currentBurgerIngredients.ingredientsadded
+    (store) => store.currentBurgerIngredients.ingredientsadded
   );
   ///Список ингредиентов, перетянутых в конструктор без булок(объект)
   const DraggedElementsAndBuns = useSelector(
-    (store: any) => store.currentBurgerIngredients
+    (store) => store.currentBurgerIngredients
   );
   ///Список ингредиентов с API
-  const Ingredients = useSelector((store: any) => store.ingredientList.feed);
+  const Ingredients = useSelector((store) => store.ingredientList.feed);
   ////Стейт из библиотеки для табов
-  const [current, setCurrent] = React.useState("one");
+  const [current, setCurrent] = React.useState<String>("one");
   ////Рефы разметки для скролла
   const bunRef = useRef<HTMLDivElement>(null);
   const sauseRef = useRef<HTMLDivElement>(null);
@@ -55,7 +54,7 @@ export const BurgerIngredients: FunctionComponent = () => {
 
   /////Функция для наполнения счетчика выбранных элементов
   function itemCount(element: TingredientAndUnicID): number {
-    let itemCount = [];
+    let itemCount;
     return (itemCount = DraggedElements.filter(
       (item: TingredientAndUnicID) => item._id === element._id
     ).length);
@@ -71,9 +70,12 @@ export const BurgerIngredients: FunctionComponent = () => {
 
   /////Функция скролла к конкретному блоку в зависимости от стейта.
 
-  const handleTabClick = (section: any, activeState: string) => {
+  const handleTabClick = (
+    section: React.RefObject<HTMLDivElement>,
+    activeState: string
+  ) => {
     setCurrent(activeState);
-    section.current.scrollIntoView({ behavior: "smooth" });
+    section.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   ////Рендер
@@ -117,7 +119,7 @@ export const BurgerIngredients: FunctionComponent = () => {
               return (
                 <Link
                   className={styles.link}
-                  key={uuidv4()}
+                  key={element._id}
                   to={`/ingredients/${element._id}`}
                   state={{ background: location }}
                 >
@@ -173,7 +175,7 @@ export const BurgerIngredients: FunctionComponent = () => {
               return (
                 <Link
                   className={styles.link}
-                  key={uuidv4()}
+                  key={element._id}
                   to={`/ingredients/${element._id}`}
                   state={{ background: location }}
                 >
@@ -229,7 +231,7 @@ export const BurgerIngredients: FunctionComponent = () => {
               return (
                 <Link
                   className={styles.link}
-                  key={uuidv4()}
+                  key={element._id}
                   to={`/ingredients/${element._id}`}
                   state={{ background: location }}
                 >

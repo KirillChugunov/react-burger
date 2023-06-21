@@ -1,24 +1,21 @@
-import { store } from "./../../index";
+import { store } from "../../index";
 import {
   AUTH_FAILED,
   GET_TOKEN_ONLOAD,
   GET_USERINFO,
   GET_USER_ONLOAD,
   LOGIN,
+  LOGIN_FAILED,
   LOGOUT,
   REGISTRATION,
   SET_USERINFO,
-} from "../actions/authentification";
+} from "../actions/authentication";
 import {
   ADD_INGREDIENT,
   DELETE_INGREDIENT,
   RESET_INGREDIENT,
   SORT_ITEMS,
 } from "../actions/currentburgeringredients";
-import {
-  ADD_CURRENT_INGREDIENT,
-  DELETE_CURRENT_INGREDIENT,
-} from "../actions/currentingredient";
 import {
   GET_FEED,
   GET_FEED_FAILED,
@@ -30,23 +27,15 @@ import {
   GET_ORDER_FAILED,
   GET_ORDER_SUCCESS,
 } from "../actions/order";
-import {
-  WS_CONNECTION_CLOSED_AUTH,
-  WS_CONNECTION_ERROR_AUTH,
-  WS_CONNECTION_START_AUTH,
-  WS_CONNECTION_SUCCESS_AUTH,
-  WS_GET_MESSAGE_AUTH,
-  WS_SEND_MESSAGE_AUTH,
-} from "../middleware-auth/wsmiddlewareActions-auth";
 import { Action, ActionCreator } from "redux";
 import { ThunkAction } from "redux-thunk";
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
   WS_CONNECTION_START,
+  WS_CONNECTION_STOP,
   WS_CONNECTION_SUCCESS,
   WS_GET_MESSAGE,
-  WS_SEND_MESSAGE,
 } from "../middleware/wsmiddlewareActions";
 import type {} from "redux-thunk/extend-redux";
 
@@ -56,6 +45,21 @@ export type AppDispatch = typeof store.dispatch;
 export type AppThunk<TReturn = void> = ActionCreator<
   ThunkAction<TReturn, Action, RootState, TApplicationActions>
 >;
+
+export type ArrayObj = {
+  ingredients?: Array<String>;
+};
+
+export type TConfig = {
+  method?: string;
+  headers: THeaders;
+  body?: string;
+};
+
+export type THeaders = {
+  "Content-Type": string;
+  authorization?: string;
+};
 
 export type TOrder = {
   createdAt: string;
@@ -68,23 +72,26 @@ export type TOrder = {
 };
 
 export type Tingredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
   calories: number;
-  price: number;
+  carbohydrates: number;
+  fat: number;
   image: string;
+  image_large: string;
+  image_mobile: string;
+  name: string;
+  price: number;
+  proteins: number;
+  type: string;
+  __v: number;
+  _id: string;
+  unicID: string;
 };
 
 export type TingredientAndUnicID = Tingredient & {
-  unicID: string;
-  index?: number;
+  index: number;
 };
 
-export type TingredientAndCount = Tingredient & {
+export type TingredientAndCount = TingredientAndUnicID & {
   count: number;
 };
 
@@ -95,7 +102,7 @@ export type TTextString = {
 ///////////////Oder
 export interface IGetIds {
   readonly type: typeof GET_IDS;
-  readonly idsArr: any;
+  readonly idsArr: Array<String>;
 }
 
 export interface IGetOrders {
@@ -133,7 +140,7 @@ export interface IAddIngredient {
 
 export interface IDeleteIngredient {
   readonly type: typeof DELETE_INGREDIENT;
-  readonly unicID: TingredientAndUnicID;
+  readonly unicID: string;
 }
 
 export interface ISortItems {
@@ -161,6 +168,7 @@ export interface IGetUserOnLoad {
   readonly type: typeof GET_USER_ONLOAD;
   readonly name: string;
   readonly email: string;
+  readonly loginCheck: boolean;
 }
 export interface ILogin {
   readonly type: typeof LOGIN;
@@ -198,6 +206,10 @@ export interface ISetUserInfo {
   readonly email: string;
 }
 
+export interface ILoginFailed {
+  readonly type: typeof LOGIN_FAILED;
+}
+
 export type TAuthentificationActions =
   | IGetUserOnLoad
   | ILogin
@@ -206,7 +218,8 @@ export type TAuthentificationActions =
   | IRegistration
   | IGetTokenOnLoad
   | IAuthFailed
-  | ISetUserInfo;
+  | ISetUserInfo
+  | ILoginFailed;
 
 export type TAuthentificationState = {
   isLogin: boolean;
@@ -216,25 +229,10 @@ export type TAuthentificationState = {
   };
   accessToken: string;
   refreshToken: string;
-  logginCheck: boolean;
+  loginCheck: boolean;
+  loginFailed: boolean;
 };
 
-//////////////////currentingredient
-
-export interface IAddCurrentIngredient {
-  readonly type: typeof ADD_CURRENT_INGREDIENT;
-  readonly ingredientAdded: TingredientAndUnicID;
-}
-
-export interface IDeleteCurrentIngredient {
-  readonly type: typeof DELETE_CURRENT_INGREDIENT;
-}
-
-export type TCurrentIngredientActions =
-  | IAddCurrentIngredient
-  | IDeleteCurrentIngredient;
-
-export type TCurrentIngredientState = null | object;
 
 ///////////////////////////////////ingredientList
 
@@ -261,49 +259,12 @@ export type TIngredientListState = {
   feed: Array<TingredientAndUnicID>;
 };
 
-///////////////////////////////wsmiddlewareAuth
-export interface IWSConnectionStartAuth {
-  readonly type: typeof WS_CONNECTION_START_AUTH;
-}
-
-export interface IWSConnectionSuccessAuth {
-  readonly type: typeof WS_CONNECTION_SUCCESS_AUTH;
-  readonly payload: any;
-}
-export interface IWSConnectionErrorAuth {
-  readonly type: typeof WS_CONNECTION_ERROR_AUTH;
-  readonly payload: any;
-}
-export interface IWSConnectionClosedAuth {
-  readonly type: typeof WS_CONNECTION_CLOSED_AUTH;
-  readonly payload: any;
-}
-export interface IWSConnectionGetMessageAuth {
-  readonly type: typeof WS_GET_MESSAGE_AUTH;
-  readonly payload: any;
-}
-export interface IWSConnectionSendMessageAuth {
-  readonly type: typeof WS_SEND_MESSAGE_AUTH;
-  readonly payload: any;
-}
-
-export type TwsmiddlewareAuthState = {
-  wsConnected: boolean;
-  messages: Object;
-};
-
-export type TwsmiddlewareAuthActions =
-  | IWSConnectionStartAuth
-  | IWSConnectionSuccessAuth
-  | IWSConnectionErrorAuth
-  | IWSConnectionClosedAuth
-  | IWSConnectionGetMessageAuth
-  | IWSConnectionSendMessageAuth;
-
 ///////////////////////////////wsmiddleware
 export interface IWSConnectionStart {
   readonly type: typeof WS_CONNECTION_START;
+  readonly payload: string;
 }
+
 export interface IWSConnectionSuccess {
   readonly type: typeof WS_CONNECTION_SUCCESS;
   readonly payload: any;
@@ -320,15 +281,14 @@ export interface IWSConnectionGetMessage {
   readonly type: typeof WS_GET_MESSAGE;
   readonly payload: any;
 }
-export interface IWSConnectionSendMessage {
-  readonly type: typeof WS_SEND_MESSAGE;
-  readonly payload: any;
-}
-
 export type TwsmiddlewareState = {
   wsConnected: boolean;
   messages: Object;
 };
+
+export interface TWSConnectionStop {
+  readonly type: typeof WS_CONNECTION_STOP;
+}
 
 export type TwsmiddlewareActions =
   | IWSConnectionStart
@@ -336,13 +296,11 @@ export type TwsmiddlewareActions =
   | IWSConnectionError
   | IWSConnectionClosed
   | IWSConnectionGetMessage
-  | IWSConnectionSendMessage;
+  | TWSConnectionStop;
 
 export type TApplicationActions =
   | TOrderActions
   | TCurrentBurgerIngredientActions
   | TAuthentificationActions
-  | TCurrentIngredientActions
   | TIngredientListActions
-  | TwsmiddlewareAuthActions
   | TwsmiddlewareActions;

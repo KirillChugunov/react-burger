@@ -5,7 +5,7 @@ import {
 } from "../actions/ingredientList";
 import { TIngredientListActions, TIngredientListState } from "../types/types";
 
-const initialState: TIngredientListState = {
+export const initialState: TIngredientListState = {
   feedRequest: false,
   feedFailed: false,
   feed: [],

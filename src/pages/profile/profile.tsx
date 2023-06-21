@@ -1,7 +1,7 @@
 import style from "./profile.module.css";
 import { FunctionComponent } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { sendLogOut } from "../../services/actions/authentification";
+import { sendLogOut } from "../../services/actions/authentication";
 import { deleteCookie } from "../../services/Coockie/deleteCoockie";
 import { useDispatch } from "../../hooks/customDispatch";
 

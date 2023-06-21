@@ -6,6 +6,7 @@ import {
   requestRegistrationNewUser,
   requestUserInfoChange,
 } from "../Api/api";
+import { getCookie } from "../Coockie/getCookie";
 import { setCookie } from "../Coockie/setCookie";
 import { AppDispatch, AppThunk } from "../types/types";
 export const GET_USER_ONLOAD: "GET_USER_ONLOAD" = "GET_USER_ONLOAD";
@@ -16,15 +17,17 @@ export const REGISTRATION: "REGISTRATION" = "REGISTRATION";
 export const GET_TOKEN_ONLOAD: "GET_TOKEN_ONLOAD" = "GET_TOKEN_ONLOAD";
 export const AUTH_FAILED: "AUTH_FAILED" = "AUTH_FAILED";
 export const SET_USERINFO: "SET_USERINFO" = "SET_USERINFO";
+export const LOGIN_FAILED: "LOGIN_FAILED" = "LOGIN_FAILED";
 
 export const authUserOnLoad: AppThunk = (accessToken: string) => {
   return function (dispatch) {
-    checkUserInfo(accessToken)
+    checkUserInfo()
       .then((res) =>
         dispatch({
           type: GET_USER_ONLOAD,
           name: res.user.name,
           email: res.user.email,
+          loginCheck: true,
         })
       )
       .catch(
@@ -44,6 +47,7 @@ export const authUserOnLoad: AppThunk = (accessToken: string) => {
                 type: GET_TOKEN_ONLOAD,
                 accessToken: res.accessToken,
                 refreshToken: res.refreshToken,
+                loginCheck: true,
               }),
               console.log("аксес токен протух, я обновил")
             )
@@ -70,6 +74,7 @@ export const refreshAcsesToken: AppThunk = () => {
           type: GET_TOKEN_ONLOAD,
           accessToken: res.accessToken,
           refreshToken: res.refreshToken,
+          loginCheck: true,
         }),
         console.log("получил аксес токен")
       )
@@ -90,25 +95,34 @@ export const handleRegistration: AppThunk = (
         email: res.user.email,
         accessToken: res.accessToken,
         refreshToken: res.refreshToken,
+        isLogin: true,
+        loginCheck: true,
       })
     );
   };
 };
-export const checkLogin: AppThunk = (email: string, password: string) => {
+export const checkLogin: AppThunk = (
+  email: string,
+  password: string,
+  name: string,
+  accessToken: string,
+  refreshToken: string
+) => {
   return function (dispatch: AppDispatch) {
-    requestLogin(email, password).then((res) => {
-      setCookie("accessToken", res.accessToken, { expires: 12000 });
-      setCookie("refreshToken", res.refreshToken, { expires: 12000 });
-      dispatch({
-        type: LOGIN,
-        name: res.user.name,
-        email: res.user.email,
-        accessToken: res.accessToken,
-        refreshToken: res.refreshToken,
-      });
+    setCookie("accessToken", accessToken, { expires: 12000 });
+    setCookie("refreshToken", refreshToken, { expires: 12000 });
+    dispatch({
+      type: LOGIN,
+      name: name,
+      email: email,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+      isLogin: true,
+      loginCheck: true,
     });
   };
 };
+
 export const getUserInfo: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     checkUserInfo().then((res) =>
@@ -143,6 +157,7 @@ export const sendLogOut: AppThunk = () => {
     requestLogout().then((res) =>
       dispatch({
         type: LOGOUT,
+        loginCheck: true,
       })
     );
   };

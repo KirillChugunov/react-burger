@@ -27,3 +27,7 @@
 .closeIconContainer {
   margin-left: auto;
 }
+
+.closeButton {
+  background-color: rgba(28, 28, 28, 0);
+}

@@ -5,7 +5,7 @@ import { Preloader } from "../Preloader/preloader";
 import { useSelector } from "../../hooks/customUseSelector";
 
 export const OrderDetails: FunctionComponent = () => {
-  const OrderNunber = useSelector((store: any) => store.order.orderNumber);
+  const OrderNunber = useSelector((store) => store.order.orderNumber);
   return OrderNunber ? (
     <div className={`${styles.orderdetails__container}` + " mt-30 mb-30"}>
       <div className="mb-8">

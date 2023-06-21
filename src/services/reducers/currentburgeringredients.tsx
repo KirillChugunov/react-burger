@@ -8,9 +8,10 @@ import {
 import {
   TCurrentBurgerIngredientActions,
   TCurrentBurgerIngredientState,
+  TingredientAndUnicID,
 } from "../types/types";
 
-const initialState: TCurrentBurgerIngredientState = {
+export const initialState: TCurrentBurgerIngredientState = {
   bun: null,
   ingredientsadded: [],
 };
@@ -30,7 +31,7 @@ export const currentBurgerIngredients = (
       return {
         ...state,
         ingredientsadded: state.ingredientsadded.filter(
-          (element: any) => element.unicID !== action.unicID
+          (element: TingredientAndUnicID) => element.unicID !== action.unicID
         ),
       };
 
