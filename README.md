@@ -24,6 +24,7 @@
 4. Redux-tookit
 5. React-routet-dom
 6. Web-socket
+7. TypeScript
 
 **Тестирование проекта**
 1. Cypress тестирование
